@@ -1,7 +1,7 @@
 syntax on 
 
 let mapleader=' '
-let g:user_emmet_leader_key=' '
+let g:user_emmet_leader_key=','
 
 set noerrorbells
 set tabstop=4 softtabstop=4
@@ -26,6 +26,7 @@ set incsearch
 call plug#begin('~/.vim/plugged')
 
 Plug 'caksoylar/vim-mysticaltutor'
+
 Plug 'mattn/emmet-vim'
 
 " On-demand loading
@@ -40,6 +41,6 @@ if executable('rg')
     let g:rg_derive_root='true'
 endif
 
-nnoremap <leader>ev :vsp ~/.vimrc<CR>
-nnoremap <leader>sv :source ~/.vimrc <bar> :doautocmd BufRead<CR>
+nnoremap <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC <bar> :doautocmd BufRead<CR>
 nnoremap <leader>nt :NERDTreeToggle<CR>
