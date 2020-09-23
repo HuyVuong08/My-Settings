@@ -50,6 +50,13 @@ endif
 let mapleader=' '
 let g:user_emmet_leader_key=','
 
+"Shortcuts add new line and escape
+map <S-Enter> o<Esc>
+
+"Shortcuts jump to first and last characters on line 
+map H _
+map L $
+
 "Shortcuts split navigation, saving a keypress
 map <C-h> <C-w>h
 map <C-j> <C-w>j
@@ -65,5 +72,6 @@ nnoremap <leader>nt :NERDTreeToggle<CR>
 
 "Shortcuts all occurrences replacement 
 nnoremap S :%s//g<Left><Left>
+
 
 
