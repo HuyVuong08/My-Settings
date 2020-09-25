@@ -53,9 +53,9 @@ let g:user_emmet_leader_key=','
 "Shortcuts add new line and escape
 map <S-Enter> o<Esc>
 
-"Shortcuts jump to first and last characters on line 
-map H _
-map L $
+"Remaps L and H to jump to next and previous word
+nnoremap H b
+nnoremap L w
 
 "Shortcuts split navigation, saving a keypress
 map <C-h> <C-w>h
