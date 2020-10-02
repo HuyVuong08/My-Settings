@@ -4,6 +4,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'caksoylar/vim-mysticaltutor'
 Plug 'mattn/emmet-vim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } " On-demand loading
+Plug 'chrismccord/bclose.vim'
 call plug#end()
 
 set noerrorbells
@@ -50,28 +51,70 @@ endif
 let mapleader=' '
 let g:user_emmet_leader_key=','
 
+"Remaps l and h to jump to next and previous word
+nnoremap h b
+nnoremap l w
+vnoremap h b
+vnoremap l w
+
+"Remaps L and H to move cursor left and right
+nnoremap H h
+nnoremap L l
+vnoremap H h
+vnoremap L l
+
+"Remaps tab in and out
+nnoremap <Tab> I<Tab><Esc>
+nnoremap <S-Tab> I<BS><Esc>
+
+"Remaps <C-o> to insert line above and to to insert mode
+nnoremap <C-o> O
+
+"Remaps O to insert line above
+nnoremap O O<Esc>
+
+"Shortcuts to split a line
+nnoremap <leader>o i<CR><Esc>
+
 "Shortcuts add new line and escape
-map <S-Enter> o<Esc>
+nnoremap <CR> o<Esc>
 
-"Remaps L and H to jump to next and previous word
-nnoremap H b
-nnoremap L w
+"Shortcuts split navigation
+nnoremap <leader>hh <C-w>h
+nnoremap <leader>jj <C-w>j
+nnoremap <leader>kk <C-w>k
+nnoremap <leader>ll <C-w>l
 
-"Shortcuts split navigation, saving a keypress
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
+"Shortcuts split creation 
+nnoremap <leader>vs :vsp .<CR>
+nnoremap <leader>hs :sp .<CR>
+
+"Shortcuts split resize
+nnoremap <leader>we <C-w>=
+nnoremap <leader>w. <C-w>5>
+nnoremap <leader>w, <C-w>5<
+
+"Shortcuts split arrangement
+nnoremap <leader>mh <C-w>H
+nnoremap <leader>mj <C-w>J
+nnoremap <leader>mk <C-w>K
+nnoremap <leader>ml <C-w>L
+
+"Shortcuts buffers manipulation
+nnoremap <leader>oo :on<CR>
+nnoremap <leader>bb <C-^>
+nnoremap <leader>bf :buffer 
+nnoremap <leader>bc :Bclose<CR>
 
 "Shortcuts VIMRC summoning and sourcing
-nnoremap <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <leader>ev :vsp $MYVIMRC<CR> <C-w>L
 nnoremap <leader>sv :source $MYVIMRC <bar> :doautocmd BufRead<CR>
 
 "Shortcuts Nerd Tree toggle
 nnoremap <leader>nt :NERDTreeToggle<CR>
 
 "Shortcuts all occurrences replacement 
-nnoremap S :%s//g<Left><Left>
+nnoremap S :%s//g<Left><Left> 
 
-
+ 
 
