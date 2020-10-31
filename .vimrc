@@ -1,5 +1,3 @@
-syntax on 
-
 call plug#begin('~/.vim/plugged')
 Plug 'caksoylar/vim-mysticaltutor'
 Plug 'mattn/emmet-vim'
@@ -7,6 +5,7 @@ Plug 'StanAngeloff/php.vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'chrismccord/bclose.vim'
 Plug 'vim-vdebug/vdebug'
+Plug 'vim-scripts/VisIncr'
 call plug#end()
 
 set noerrorbells
@@ -75,20 +74,52 @@ nnoremap <C-o> O
 "Remaps O to insert line above
 nnoremap O O<Esc>
 
-"Remaps delete a word
-nnoremap dl dw
-nnoremap dh db
-
-"Remap delete a character
-nnoremap df dl
-nnoremap ds dh
+"Remap copy a word
+nnoremap yl yw
+nnoremap yh yb
 
 "Remap change a word
 nnoremap cl cw
 nnoremap ch cb
 
+"Remaps delete words
+nnoremap c2l c2w
+nnoremap c3l c3w
+nnoremap c4l c4w
+nnoremap c5l c5w
+nnoremap c2h c2b
+nnoremap c3h c3b
+nnoremap c4h c4b
+nnoremap c5h c5b
+
+"Remaps delete a word
+nnoremap dh db
+nnoremap dl dw 
+
+"Remaps delete words
+nnoremap d2l d2w
+nnoremap d3l d3w
+nnoremap d4l d4w
+nnoremap d5l d5w
+nnoremap d2h d2b
+nnoremap d3h d3b
+nnoremap d4h d4b
+nnoremap d5h d5b
+
 "Remap go to next occurence
-nnoremap ? *
+nnoremap / *
+
+"Remap incremental search
+nnoremap ? /
+
+"Remap go to next and previous block
+nnoremap { }
+nnoremap } {
+vnoremap { }
+vnoremap } {
+
+"Remap redo
+nnoremap U <C-r>
 
 "Shortcuts to split a line
 nnoremap <leader>J i<CR><Esc>
@@ -142,13 +173,17 @@ nnoremap <leader>ee :e .<CR>
 nnoremap <leader>ev :vsp $MYVIMRC<CR> <C-w>L
 nnoremap <leader>sv :source $MYVIMRC <bar> :doautocmd BufRead<CR>
 
+"Shortcuts plugins installation
+nnoremap <leader>pi :PlugInstall<CR>
+
 "Shortcuts terminal calling
 nnoremap <leader>tt <C-z>
 
-"Shortcuts all occurrences replacement 
+"Shortcuts copy and paste block of code to clipboard
+vnoremap <C-c> "+y
+nnoremap <C-v> "+P
+
+"Shortcuts all ocurrences replacement 
 nnoremap S :%s//g<Left><Left>
 
-nnoremap <C-y> "+y
-vnoremap <C-y> "+y
-nnoremap <C-p> "+gP
-vnoremap <C-p> "+gP
+
