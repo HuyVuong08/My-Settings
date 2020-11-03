@@ -55,30 +55,36 @@ let mapleader=' '
 let g:user_emmet_leader_key=','
 
 "Map with ALT key
-"Remap go to last non-space character of displayed line
-execute "set <M-l>=\el"
-nnoremap <M-l> g$
+"Remaps go to last non-space character of displayed line
+execute "set <A-l>=\el"
+nnoremap <A-l> g$
+vnoremap <A-l> g$
 
 "Map with ALT key
-"Remap go to fist non-space character of displayed line
-execute "set <M-h>=\eh"
-nnoremap <M-h> g^
+"Remaps go to fist non-space character of displayed line
+execute "set <A-h>=\eh"
+nnoremap <A-h> g^
+vnoremap <A-h> g^
 
 "Map with ALT key
-"Remap go to next displayed line
-execute "set <M-j>=\ej"
-nnoremap <M-j> j
+"Remaps go to next physical line
+execute "set <A-j>=\ej"
+nnoremap <A-j> j
+vnoremap <A-j> j
 
 "Map with ALT key
-"Remap go to previous displayed line
-execute "set <M-k>=\ek"
-nnoremap <M-k> k
+"Remaps go to previous physical line
+execute "set <A-k>=\ek"
+nnoremap <A-k> k
+vnoremap <A-k> k
 
-"Remap go to next logical line
+"Remaps go to next displayed line
 nnoremap j gj
+vnoremap j gj
 
-"Remap go to previous physical line
+"Remaps go to previous displayed line
 nnoremap k gk
+vnoremap k gk
 
 "Remaps tab in and out
 nnoremap <Tab> I<Tab><Esc>
@@ -102,11 +108,11 @@ nnoremap L l
 vnoremap H h
 vnoremap L l
 
-"Remap copy a word
+"Remaps copy a word
 nnoremap yl yw
 nnoremap yh yb
 
-"Remap change a word
+"Remaps change a word
 nnoremap cl cw
 nnoremap ch cb
 
@@ -134,48 +140,51 @@ nnoremap d3h d3b
 nnoremap d4h d4b
 nnoremap d5h d5b
 
-"Remap go to next occurence
+"Remaps go to next occurence
 nnoremap m *
 
-"Remap go to next and previous block
+"Remaps go to next and previous block
 nnoremap { }
 nnoremap } {
 vnoremap { }
 vnoremap } {
 
-"Remap redo
+"Remaps redo
 nnoremap U <C-r>
+
+"Remaps terminal calling
+nnoremap <leader>tt <C-z>
+
+"Remaps copy and paste block of code to clipboard
+vnoremap <C-c> "+y
+nnoremap <C-v> "+P
+
+"Remaps split navigation
+nnoremap <leader>hh <C-w>h
+nnoremap <leader>jj <C-w>j
+nnoremap <leader>kk <C-w>k
+nnoremap <leader>ll <C-w>l
+
+"Remaps split resize
+nnoremap <leader>se <C-w>=
+nnoremap <leader>sl <C-w>10>
+nnoremap <leader>sh <C-w>10<
+
+"Remaps split arrangement
+nnoremap <leader>mh <C-w>H
+nnoremap <leader>mj <C-w>J
+nnoremap <leader>mk <C-w>K
+nnoremap <leader>ml <C-w>L
+
+"Shortcuts split creation 
+nnoremap <leader>vs :vsp .<CR>
+nnoremap <leader>hs :sp .<CR>
 
 "Shortcuts to split a line
 nnoremap <leader>J i<CR><Esc>
 
 "Shortcuts add new line and escape
 nnoremap <CR> o<Esc>
-
-"Shortcuts beginning and end of line jump
-nnoremap <leader>L A<Esc>
-nnoremap <leader>H I<Esc>
-
-"Shortcuts split navigation
-nnoremap <leader>hh <C-w>h
-nnoremap <leader>jj <C-w>j
-nnoremap <leader>kk <C-w>k
-nnoremap <leader>ll <C-w>l
-
-"Shortcuts split creation 
-nnoremap <leader>vs :vsp .<CR>
-nnoremap <leader>hs :sp .<CR>
-
-"Shortcuts split resize
-nnoremap <leader>se <C-w>=
-nnoremap <leader>sl <C-w>10>
-nnoremap <leader>sh <C-w>10<
-
-"Shortcuts split arrangement
-nnoremap <leader>mh <C-w>H
-nnoremap <leader>mj <C-w>J
-nnoremap <leader>mk <C-w>K
-nnoremap <leader>ml <C-w>L
 
 "Shortcuts buffers manipulation
 nnoremap <leader>bb <C-^>
@@ -201,14 +210,15 @@ nnoremap <leader>sv :source $MYVIMRC <bar> :doautocmd BufRead<CR>
 "Shortcuts plugins installation
 nnoremap <leader>pi :PlugInstall<CR>
 
-"Shortcuts terminal calling
-nnoremap <leader>tt <C-z>
+"Shortcuts auto indent
+nnoremap <leader>== gg=G
 
-"Shortcuts copy and paste block of code to clipboard
-vnoremap <C-c> "+y
-nnoremap <C-v> "+P
-
-"Shortcuts all ocurrences replacement 
+"Shortcuts all occurrences changing in all lines 
 nnoremap S :%s//g<Left><Left>
+
+"Shortcuts all occurrences changing in one line
+nnoremap ss :s//g<Left><Left>
+vnoremap ss :s//g<Left><Left>
+
 
 
