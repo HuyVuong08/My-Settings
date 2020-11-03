@@ -44,13 +44,51 @@ set splitright
 colorscheme mysticaltutor
 set background=dark
 
-if executable('rg')
-    let g:rg_derive_root='true'
-endif
+"Set wrap
+set wrap 
+set linebreak 
+set nolist
+set showbreak=--
 
 "Maps leader key
 let mapleader=' '
 let g:user_emmet_leader_key=','
+
+"Map with ALT key
+"Remap go to last non-space character of displayed line
+execute "set <M-l>=\el"
+nnoremap <M-l> g$
+
+"Map with ALT key
+"Remap go to fist non-space character of displayed line
+execute "set <M-h>=\eh"
+nnoremap <M-h> g^
+
+"Map with ALT key
+"Remap go to next displayed line
+execute "set <M-j>=\ej"
+nnoremap <M-j> j
+
+"Map with ALT key
+"Remap go to previous displayed line
+execute "set <M-k>=\ek"
+nnoremap <M-k> k
+
+"Remap go to next logical line
+nnoremap j gj
+
+"Remap go to previous physical line
+nnoremap k gk
+
+"Remaps tab in and out
+nnoremap <Tab> I<Tab><Esc>
+nnoremap <S-Tab> I<BS><Esc>
+
+"Remaps <C-o> to insert line above and to to insert mode
+nnoremap <C-o> O
+
+"Remaps O to insert line above
+nnoremap O O<Esc>
 
 "Remaps l and h to jump to next and previous word
 nnoremap h b
@@ -64,16 +102,6 @@ nnoremap L l
 vnoremap H h
 vnoremap L l
 
-"Remaps tab in and out
-nnoremap <Tab> I<Tab><Esc>
-nnoremap <S-Tab> I<BS><Esc>
-
-"Remaps <C-o> to insert line above and to to insert mode
-nnoremap <C-o> O
-
-"Remaps O to insert line above
-nnoremap O O<Esc>
-
 "Remap copy a word
 nnoremap yl yw
 nnoremap yh yb
@@ -82,7 +110,7 @@ nnoremap yh yb
 nnoremap cl cw
 nnoremap ch cb
 
-"Remaps delete words
+"Remaps change words
 nnoremap c2l c2w
 nnoremap c3l c3w
 nnoremap c4l c4w
@@ -94,7 +122,7 @@ nnoremap c5h c5b
 
 "Remaps delete a word
 nnoremap dh db
-nnoremap dl dw 
+nnoremap dl dw
 
 "Remaps delete words
 nnoremap d2l d2w
@@ -107,10 +135,7 @@ nnoremap d4h d4b
 nnoremap d5h d5b
 
 "Remap go to next occurence
-nnoremap / *
-
-"Remap incremental search
-nnoremap ? /
+nnoremap m *
 
 "Remap go to next and previous block
 nnoremap { }
