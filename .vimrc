@@ -2,10 +2,11 @@ call plug#begin('~/.vim/plugged')
 Plug 'caksoylar/vim-mysticaltutor'
 Plug 'mattn/emmet-vim'
 Plug 'StanAngeloff/php.vim'
-Plug 'vim-syntastic/syntastic'
 Plug 'chrismccord/bclose.vim'
+Plug 'vim-syntastic/syntastic'
 Plug 'vim-vdebug/vdebug'
 Plug 'vim-scripts/VisIncr'
+Plug 'tpope/vim-surround'
 call plug#end()
 
 set noerrorbells
@@ -219,6 +220,5 @@ nnoremap S :%s//g<Left><Left>
 "Shortcuts all occurrences changing in one line
 nnoremap ss :s//g<Left><Left>
 vnoremap ss :s//g<Left><Left>
-
 
 
