@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        p {
+            margin: 0px;
+            padding: 0px;
+        }
+        a {
+            color:blue;
+        }
+    </style>
+</head>
+<body>
+<p>
+    <b style="color:blue;">Vuong Le Huy (Mr.)</b>
+    <br>
+    <br>
+    <b>Student | Office for International Study Programs</b>
+    <br>Vietnam National University - Bach Khoa University | R.306, A4 Building, Ly Thuong Kiet St., Dist.10, HCMC
+    <br><b>Phone:</b> (+084) 0933.792.267 | <b>Email:</b> <a href="mailto:huy.vuongle123@gmail.com">huy.vuongle123@gmail.com</a> 
+    <br>
+    <br><b>Website:</b> <a href="https://oisp.hcmut.edu.vn/">oisp.hcmut.edu.vn</a>; <a href="https://mba-mci.edu.vn/">mba-mci.edu.vn</a>
+</p>
+</body>
+</html>

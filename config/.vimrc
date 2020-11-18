@@ -7,24 +7,34 @@ Plug 'vim-syntastic/syntastic'
 Plug 'vim-vdebug/vdebug'
 Plug 'vim-scripts/VisIncr'
 Plug 'tpope/vim-surround'
+Plug 'vim-latex/vim-latex'
+Plug 'drmikehenry/vim-fontsize'
 call plug#end()
 
-set noerrorbells
-set number
 set modelines=1
-set hidden
 set showcmd
-set cursorline
 set showmatch
-set nowrap
 set noswapfile
 set nobackup
 set undofile
 set undodir=~/.vim/undodir
 set fileformat=unix
 
-"Sets search rules
+"Disables beeping sounds
+set noerrorbells
+
+"Highlights line which cursor is currently in 
+set cursorline
+
+"Opens new files without having to save current file
+set hidden
+
+"Shows line number
+set number
+
+"Sets non-case-sensitive and increamental search
 set smartcase
+set ignorecase
 set incsearch
 
 "Sets tab size to 4 spaces
@@ -55,7 +65,9 @@ set showbreak=--
 let mapleader=' '
 let g:user_emmet_leader_key=','
 
-"Map with ALT key
+"Remaps Esc
+inoremap <Esc> <Esc><Esc>
+
 "Remaps go to last non-space character of displayed line
 execute "set <A-l>=\el"
 nnoremap <A-l> g$
@@ -91,23 +103,31 @@ vnoremap k gk
 nnoremap <Tab> I<Tab><Esc>
 nnoremap <S-Tab> I<BS><Esc>
 
-"Remaps <C-o> to insert line above and to to insert mode
-nnoremap <C-o> O
+"Map with ALT key
+"Remaps to insert line above and to to insert mode
+execute "set <A-o>=\eo"
+nnoremap <A-o> O
 
 "Remaps O to insert line above
 nnoremap O O<Esc>
 
-"Remaps l and h to jump to next and previous word
+"Remaps l and h to jump to the beginning of next and previous word
 nnoremap h b
-nnoremap l w
 vnoremap h b
+nnoremap l w
 vnoremap l w
 
-"Remaps L and H to move cursor left and right
-nnoremap H h
-nnoremap L l
-vnoremap H h
-vnoremap L l
+"Remaps l and h to jump to the beginning of next and previous word
+nnoremap H ge
+vnoremap H ge
+nnoremap L e
+vnoremap L e
+
+"Remaps L and H to move cursor left and right character
+nnoremap <C-h> h
+vnoremap <C-h> h
+nnoremap <C-l> l
+vnoremap <C-l> l
 
 "Remaps copy a word
 nnoremap yl yw
@@ -141,8 +161,10 @@ nnoremap d3h d3b
 nnoremap d4h d4b
 nnoremap d5h d5b
 
+"Map with ALT key
 "Remaps go to next occurence
-nnoremap m *
+execute "set <A-/>=\e/"
+nnoremap <A-/> *
 
 "Remaps go to next and previous block
 nnoremap { }
@@ -170,12 +192,27 @@ nnoremap <leader>ll <C-w>l
 nnoremap <leader>se <C-w>=
 nnoremap <leader>sl <C-w>10>
 nnoremap <leader>sh <C-w>10<
+nnoremap <leader>sj <C-w>5+
+nnoremap <leader>sk <C-w>5-
 
 "Remaps split arrangement
 nnoremap <leader>mh <C-w>H
 nnoremap <leader>mj <C-w>J
 nnoremap <leader>mk <C-w>K
 nnoremap <leader>ml <C-w>L
+
+"Remaps go to marks
+nnoremap gm `m
+nnoremap g' `'
+nnoremap ga `a
+nnoremap gs `s
+
+"Map with ALT key
+"Remaps scroll downwards and upwards
+execute "set <A-d>=\ed"
+nnoremap <A-d> <C-d> 
+execute "set <A-u>=\eu"
+nnoremap <A-u> <C-u> 
 
 "Shortcuts split creation 
 nnoremap <leader>vs :vsp .<CR>
@@ -197,16 +234,19 @@ nnoremap <leader>bd :bdelete<CR>
 nnoremap <leader>oo :mksession! ~/session.vim<CR>:on<CR> 
 nnoremap <leader>uu :source ~/session.vim<CR>
 
+"Shortcuts open current session in gvim
+nnoremap <leader>gv :mksession! ~/session.vim<CR>:!gvim -S ~/session.vim<CR><CR> 
+
 "Shortcuts file write and quit
 nnoremap <leader>ww :w<CR>
 nnoremap <leader>qq :q<CR>
 
-"Open repository tree
+"Shortcuts repository tree openning 
 nnoremap <leader>ee :e .<CR>
 
 "Shortcuts VIMRC summoning and sourcing
 nnoremap <leader>ev :vsp $MYVIMRC<CR> <C-w>L
-nnoremap <leader>sv :source $MYVIMRC <bar> :doautocmd BufRead<CR>
+nnorema <leader>sv :source $MYVIMRC <bar> :doautocmd BufRead<CR>
 
 "Shortcuts plugins installation
 nnoremap <leader>pi :PlugInstall<CR>
@@ -214,11 +254,14 @@ nnoremap <leader>pi :PlugInstall<CR>
 "Shortcuts auto indent
 nnoremap <leader>== gg=G
 
-"Shortcuts all occurrences changing in all lines 
-nnoremap S :%s//g<Left><Left>
+"Shortcuts all occurrences replacing in all lines 
+nnoremap <leader>ca :%s//gc<Left><Left><Left>
 
-"Shortcuts all occurrences changing in one line
-nnoremap ss :s//g<Left><Left>
-vnoremap ss :s//g<Left><Left>
+"Shortcuts all occurrences replacing in one line
+nnoremap <leader>cl :s//g<Left><Left>
+vnoremap <leader>cl :s//g<Left><Left>
 
+"Shortcuts all occurrences replacing in a block of code
+nnoremap <leader>sb :.,s//g<Left><Left><Left><Left>
+vnoremap <leader>sb :.,s//g<Left><Left><Left><Left>
 
