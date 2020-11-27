@@ -1,7 +1,12 @@
 # bash shell functions
 
 function open () {
-    setsid nautilus $1 &>/dev/null
+    if [ -z  "$1" ]
+        then 
+            setsid nautilus ~/Downloads &>/dev/null
+        else 
+            setsid nautilus $1 &>/dev/null
+    fi
 }
 
 function note () {

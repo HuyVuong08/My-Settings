@@ -68,6 +68,10 @@ let g:user_emmet_leader_key=','
 "Remaps Esc
 inoremap <Esc> <Esc><Esc>
 
+"Map with ALT key
+execute "set <A-v>=\ev"
+vnoremap <A-v> <C-v>
+
 "Remaps go to last non-space character of displayed line
 execute "set <A-l>=\el"
 nnoremap <A-l> g$
@@ -80,16 +84,16 @@ nnoremap <A-h> g^
 vnoremap <A-h> g^
 
 "Map with ALT key
-"Remaps go to next physical line
+"Remaps scroll downwards
 execute "set <A-j>=\ej"
-nnoremap <A-j> j
-vnoremap <A-j> j
+nnoremap <A-j> <C-d>
+vnoremap <A-j> <C-d>
 
 "Map with ALT key
-"Remaps go to previous physical line
+"Remaps scroll upwards
 execute "set <A-k>=\ek"
-nnoremap <A-k> k
-vnoremap <A-k> k
+nnoremap <A-k> <C-u>
+vnoremap <A-k> <C-u>
 
 "Remaps go to next displayed line
 nnoremap j gj
@@ -207,12 +211,6 @@ nnoremap g' `'
 nnoremap ga `a
 nnoremap gs `s
 
-"Map with ALT key
-"Remaps scroll downwards and upwards
-execute "set <A-d>=\ed"
-nnoremap <A-d> <C-d> 
-execute "set <A-u>=\eu"
-nnoremap <A-u> <C-u> 
 
 "Shortcuts split creation 
 nnoremap <leader>vs :vsp .<CR>

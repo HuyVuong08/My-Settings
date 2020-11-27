@@ -1,2 +1,7 @@
-#!/bin/bash
-nautilus $1
+#/bin/bash
+if [ -z  "$1" ]
+    then 
+        nautilus ~/Downloads
+    else
+        nautilus $1
+fi
