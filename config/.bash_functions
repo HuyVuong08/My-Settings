@@ -1,5 +1,14 @@
 # bash shell functions
 
+function svim () {
+    if [ -z  "$1" ]
+        then 
+            sudo -E vim .
+        else 
+            sudo -E vim $1
+    fi
+}
+
 function open () {
     if [ -z  "$1" ]
         then 

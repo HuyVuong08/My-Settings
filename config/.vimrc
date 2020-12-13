@@ -23,7 +23,7 @@ set fileformat=unix
 "Disables beeping sounds
 set noerrorbells
 
-"Highlights line which cursor is currently in 
+"Highlights line which cursor is currently in
 set cursorline
 
 "Opens new files without having to save current file
@@ -38,7 +38,7 @@ set ignorecase
 set incsearch
 
 "Sets tab size to 4 spaces
-set tabstop=4 
+set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 
@@ -56,8 +56,8 @@ colorscheme mysticaltutor
 set background=dark
 
 "Set wrap
-set wrap 
-set linebreak 
+set wrap
+set linebreak
 set nolist
 set showbreak=--
 
@@ -68,14 +68,47 @@ let g:user_emmet_leader_key=','
 "Remaps Esc
 inoremap <Esc> <Esc><Esc>
 
-"Map with ALT key
-execute "set <A-v>=\ev"
-vnoremap <A-v> <C-v>
-
 "Remaps go to last non-space character of displayed line
 execute "set <A-l>=\el"
 nnoremap <A-l> g$
 vnoremap <A-l> g$
+
+"Map with ALT key
+"Shortcuts all lines selecting
+execute "set <A-v>=\ev"
+nnoremap <A-v> vg_
+
+"Map with ALT key
+"Shortcuts all lines selecting
+execute "set <A-a>=\ea"
+nnoremap <A-a> ggVG
+
+"Map with ALT key
+"Shortcuts current session openning in gvim
+execute "set <A-g>=\eg"
+nnoremap <A-g> :mksession! ~/session.vim<CR>:!gvim -S ~/session.vim<CR><CR>
+
+"Map with ALT key
+"Remaps terminal calling
+execute "set <A-t>=\et"
+nnoremap <A-t> <C-z>
+
+"Map with ALT key
+"Shortcuts file write and quit
+execute "set <A-w>=\ew"
+nnoremap <A-w> :w<CR>
+execute "set <A-q>=\eq"
+nnoremap <A-q> :q<CR>
+
+"Map with ALT key
+"Shortcuts repository tree openning
+execute "set <A-e>=\ee"
+nnoremap <A-e> :e .<CR>
+
+"Map with ALT key
+"Remap visual column
+execute "set <A-v>=\ev"
+vnoremap <A-v> <C-v>
 
 "Map with ALT key
 "Remaps go to fist non-space character of displayed line
@@ -179,12 +212,12 @@ vnoremap } {
 "Remaps redo
 nnoremap U <C-r>
 
-"Remaps terminal calling
-nnoremap <leader>tt <C-z>
-
 "Remaps copy and paste block of code to clipboard
 vnoremap <C-c> "+y
 nnoremap <C-v> "+P
+
+"Remaps copy from current possition to the end of line
+nnoremap Y yg_
 
 "Remaps split navigation
 nnoremap <leader>hh <C-w>h
@@ -212,7 +245,7 @@ nnoremap ga `a
 nnoremap gs `s
 
 
-"Shortcuts split creation 
+"Shortcuts split creation
 nnoremap <leader>vs :vsp .<CR>
 nnoremap <leader>hs :sp .<CR>
 
@@ -224,23 +257,13 @@ nnoremap <CR> o<Esc>
 
 "Shortcuts buffers manipulation
 nnoremap <leader>bb <C-^>
-nnoremap <leader>bf :buffer 
+nnoremap <leader>bf :buffer
 nnoremap <leader>bc :Bclose<CR>
 nnoremap <leader>bd :bdelete<CR>
 
 "Shortcuts buffers focus and undo focus
-nnoremap <leader>oo :mksession! ~/session.vim<CR>:on<CR> 
+nnoremap <leader>oo :mksession! ~/session.vim<CR>:on<CR>
 nnoremap <leader>uu :source ~/session.vim<CR>
-
-"Shortcuts open current session in gvim
-nnoremap <leader>gv :mksession! ~/session.vim<CR>:!gvim -S ~/session.vim<CR><CR> 
-
-"Shortcuts file write and quit
-nnoremap <leader>ww :w<CR>
-nnoremap <leader>qq :q<CR>
-
-"Shortcuts repository tree openning 
-nnoremap <leader>ee :e .<CR>
 
 "Shortcuts VIMRC summoning and sourcing
 nnoremap <leader>ev :vsp $MYVIMRC<CR> <C-w>L
@@ -252,7 +275,7 @@ nnoremap <leader>pi :PlugInstall<CR>
 "Shortcuts auto indent
 nnoremap <leader>== gg=G
 
-"Shortcuts all occurrences replacing in all lines 
+"Shortcuts all occurrences replacing in all lines
 nnoremap <leader>ca :%s//gc<Left><Left><Left>
 
 "Shortcuts all occurrences replacing in one line
@@ -263,3 +286,23 @@ vnoremap <leader>cl :s//g<Left><Left>
 nnoremap <leader>sb :.,s//g<Left><Left><Left><Left>
 vnoremap <leader>sb :.,s//g<Left><Left><Left><Left>
 
+"Shortcut function block copy and deletion
+nnoremap yaf ?function<CR>$V%y<CR>
+nnoremap daf ?function<CR>$V%d<CR>
+
+"Shortcut if block copy and deletion
+nnoremap yai ?if<CR>$V%y<CR>
+nnoremap dai ?if<CR>$V%d<CR>
+
+"Shortcut else block copy and deletion
+nnoremap yae ?else<CR>$V%y<CR>
+nnoremap dae ?else<CR>$V%d<CR>
+
+"Automatically delete trailing white spaces before saving a file
+
+"Function to delete trailing white spaces
+function DeleteTrailingWS ()
+    execute "normal@ ma"
+    %s/\s\+$//ge
+    execute "normal! 'a"
+endfunction
