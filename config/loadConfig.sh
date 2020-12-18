@@ -1,24 +1,20 @@
 #!/bin/sh
 function overwriteCopy () {
     #Load .vimrc
-    echo -e "\n"Loading .vimrc
+    echo Loading .vimrc
     cp -v .vimrc ~
-    echo 
 
     #Load .gvimrc
     echo Loading .gvimrc
     cp -v .gvimrc ~
-    echo 
 
     #Load libinput-gestures.conf
     echo Loading libinput-gestures.conf
     cp -v libinput-gestures.conf ~/.config/
-    echo 
 
     #Load .bash_aliases
     echo Loading .bash_aliases
     cp -v .bash_aliases ~
-    echo 
 
     #Load .bash_functions
     echo Loading .bash_functions
@@ -27,24 +23,20 @@ function overwriteCopy () {
 
 function nonOverwriteCopy () {
     #Load .vimrc
-    echo -e "\n"Loading .vimrc
+    echo Loading .vimrc
     cp -vn .vimrc ~
-    echo 
 
     #Load .gvimrc
     echo Loading .gvimrc
     cp -vn .gvimrc ~
-    echo 
 
     #Load libinput-gestures.conf
     echo Loading libinput-gestures.conf
     cp -vn libinput-gestures.conf ~/.config/
-    echo 
 
     #Load .bash_aliases
     echo Loading .bash_aliases
     cp -vn .bash_aliases ~
-    echo 
 
     #Load .bash_functions
     echo Loading .bash_functions
@@ -52,7 +44,7 @@ function nonOverwriteCopy () {
 }
 
 function cancel() {
-    echo -e "Cancelled..."
+    echo "Cancelled..."
 }
 
 while true; do

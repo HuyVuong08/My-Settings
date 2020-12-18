@@ -11,6 +11,9 @@ Plug 'vim-latex/vim-latex'
 Plug 'drmikehenry/vim-fontsize'
 call plug#end()
 
+"Toggling on jumping between if and endif
+runtime macros/matchit.vim
+
 set modelines=1
 set showcmd
 set showmatch
@@ -23,8 +26,9 @@ set fileformat=unix
 "Disables beeping sounds
 set noerrorbells
 
-"Highlights line which cursor is currently in
+"Highlights line and row which cursor is currently in
 set cursorline
+set cursorcolumn
 
 "Opens new files without having to save current file
 set hidden
@@ -240,10 +244,8 @@ nnoremap <leader>ml <C-w>L
 
 "Remaps go to marks
 nnoremap gm `m
-nnoremap g' `'
 nnoremap ga `a
 nnoremap gs `s
-
 
 "Shortcuts split creation
 nnoremap <leader>vs :vsp .<CR>
@@ -257,7 +259,7 @@ nnoremap <CR> o<Esc>
 
 "Shortcuts buffers manipulation
 nnoremap <leader>bb <C-^>
-nnoremap <leader>bf :buffer
+nnoremap <leader>bf :buffer<Space>
 nnoremap <leader>bc :Bclose<CR>
 nnoremap <leader>bd :bdelete<CR>
 
@@ -266,16 +268,16 @@ nnoremap <leader>oo :mksession! ~/session.vim<CR>:on<CR>
 nnoremap <leader>uu :source ~/session.vim<CR>
 
 "Shortcuts VIMRC summoning and sourcing
-nnoremap <leader>ev :vsp $MYVIMRC<CR> <C-w>L
-nnorema <leader>sv :source $MYVIMRC <bar> :doautocmd BufRead<CR>
+nnoremap <leader>ev :vsp $MYVIMRC<CR><c-w>L
+nnoremap <leader>sv :w <bar> :source $MYVIMRC <bar> :doautocmd BufRead<CR>
 
 "Shortcuts plugins installation
 nnoremap <leader>pi :PlugInstall<CR>
 
 "Shortcuts auto indent
-nnoremap <leader>== gg=G
+nnoremap <leader>== gg=G``
 
-"Shortcuts all occurrences replacing in all lines
+"Shortcuts all occurrences replacing
 nnoremap <leader>ca :%s//gc<Left><Left><Left>
 
 "Shortcuts all occurrences replacing in one line
@@ -283,26 +285,140 @@ nnoremap <leader>cl :s//g<Left><Left>
 vnoremap <leader>cl :s//g<Left><Left>
 
 "Shortcuts all occurrences replacing in a block of code
-nnoremap <leader>sb :.,s//g<Left><Left><Left><Left>
-vnoremap <leader>sb :.,s//g<Left><Left><Left><Left>
+nnoremap <leader>cb :.,s//g<Left><Left><Left><Left>
+vnoremap <leader>cb :.,s//g<Left><Left><Left><Left>
 
 "Shortcut function block copy and deletion
-nnoremap yaf ?function<CR>$V%y<CR>
-nnoremap daf ?function<CR>$V%d<CR>
+nnoremap yaf :call FunctionInteract('y')<CR>
+nnoremap daf :call FunctionInteract('d')<CR>
 
-"Shortcut if block copy and deletion
-nnoremap yai ?if<CR>$V%y<CR>
-nnoremap dai ?if<CR>$V%d<CR>
+"Shortcut if else block copy and deletion
+nnoremap yai :call IfElseBlockInteract('y')<CR>
+nnoremap dai :call IfElseBlockInteract('d')<CR>
 
-"Shortcut else block copy and deletion
-nnoremap yae ?else<CR>$V%y<CR>
-nnoremap dae ?else<CR>$V%d<CR>
+"Shortcut while block copy and deletion
+nnoremap yal :call WhileBlockInteract('y')<CR>
+nnoremap dal :call WhileBlockInteract('d')<CR>
+
+"Shortcut switch case block copy and deletion
+nnoremap yac :call SwitchCaseBlockInteract('y')<CR>
+nnoremap dac :call SwitchCaseBlockInteract('d')<CR>
+
+"Shortcut cpp function block copy and deletion
+nnoremap yae :call CppFunctionBlockInteract('y')<CR>
+nnoremap dae :call CppFunctionBlockInteract('d')<CR>
 
 "Automatically delete trailing white spaces before saving a file
+autocmd BufWritePre * :call StripTrailingWhitespace()
+
+"Automatically delete trailing white spaces before saving a file
+autocmd BufWritePre * :call TrimTrailingLines()
 
 "Function to delete trailing white spaces
-function DeleteTrailingWS ()
-    execute "normal@ ma"
-    %s/\s\+$//ge
-    execute "normal! 'a"
+function StripTrailingWhitespace()
+    if !&binary && &filetype != 'diff'
+        normal mz
+        normal Hmy
+        %s/\s\+$//e
+        normal 'yz<CR>
+        normal `z
+    endif
+endfunction
+
+"Function to delete empty lines at the end of file
+function TrimTrailingLines()
+    let lastLine = line('$')
+    let lastNonblankLine = prevnonblank(lastLine)
+    if lastLine > 0 && lastNonblankLine != lastLine
+        silent! execute lastNonblankLine + 1 . ',$delete _'
+    endif
+endfunction
+
+"Function to delete or yank an entire function
+function FunctionInteract(choice)
+    "choice = 'y' for yank an entire function
+    "choice = 'd' for delete an entire function
+    execute search('function','bc')
+    let l:position = line('.')
+    let l:line = getline(l:position)
+    let l:nextline = getline(l:position + 1)
+    let l:array= split(l:line)
+    let l:arrayNext= split(l:nextline)
+    if l:array[-1] == '{'
+        execute 'normal $V%' . a:choice
+    elseif l:arrayNext[-1] == '{'
+        execute 'normal Vj%' . a:choice
+    else
+        execute 'normal V%' . a:choice
+    endif
+endfunction
+
+function IfElseBlockInteract(choice)
+    "choice = 'y' for yank an entire if else block
+    "choice = 'd' for delete an entire if else block
+    execute search('if','bc')
+    let l:position = line('.')
+    let l:line = getline(l:position)
+    let l:nextline = getline(l:position + 1)
+    let l:array= split(l:line)
+    let l:arrayNext= split(l:nextline)
+    if l:array[-1] == '{'
+        execute 'normal $V%' . a:choice
+    elseif l:arrayNext[-1] == '{'
+        execute 'normal Vj%' . a:choice
+    else
+        execute 'normal V%' . a:choice
+    endif
+endfunction
+
+function WhileBlockInteract(choice)
+    "choice = 'y' for yank an entire while block
+    "choice = 'd' for delete an entire while block
+    execute search('while','bc')
+    let l:position = line('.')
+    let l:line = getline(l:position)
+    let l:nextline = getline(l:position + 1)
+    let l:array= split(l:line)
+    let l:arrayNext= split(l:nextline)
+    if l:array[-1] == '{'
+        execute 'normal $V%' . a:choice
+    elseif l:arrayNext[-1] == '{'
+        execute 'normal Vj%' . a:choice
+    else
+        execute 'normal V%' . a:choice
+    endif
+endfunction
+
+function SwitchCaseBlockInteract(choice)
+    "choice = 'y' for yank an entire switch case block
+    "choice = 'd' for delete an entire switch case block
+    execute search('switch','bc')
+    let l:position = line('.')
+    let l:line = getline(l:position)
+    let l:nextline = getline(l:position + 1)
+    let l:array= split(l:line)
+    let l:arrayNext= split(l:nextline)
+    if l:array[-1] == '{'
+        execute 'normal $V%' . a:choice
+    elseif l:arrayNext[-1] == '{'
+        execute 'normal Vj%' . a:choice
+    else
+        execute 'normal V%' . a:choice
+    endif
+endfunction
+
+function CppFunctionBlockInteract(choice)
+    "choice = 'y' for yank an entire cpp function block
+    "choice = 'd' for delete an entire cpp function block
+    execute search('{','bc')
+    let l:position = line('.')
+    let l:line = getline(l:position)
+    let l:prevline = getline(l:position - 1)
+    let l:array= split(l:line)
+    let l:arrayPrev= split(l:prevline)
+    if len(l:array) > 1
+        execute 'normal $V%' . a:choice
+    elseif len(l:array) == 1
+        execute 'normal kVj%' . a:choice
+    endif
 endfunction

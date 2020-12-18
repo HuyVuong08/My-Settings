@@ -1,24 +1,20 @@
 #!/bin/sh
 function overwriteCopy () {
     #Save .vimrc
-    echo -e "\n"Saving .vimrc
+    echo Saving .vimrc
     cp -v ~/.vimrc .
-    echo 
 
     #Save .gvimrc
     echo Saving .gvimrc
     cp -v ~/.gvimrc .
-    echo 
 
     #Save libinput-gestures.conf
     echo Saving libinput-gestures.conf
     cp -v ~/.config/libinput-gestures.conf .
-    echo 
 
     #Save .bash_aliases
     echo Saving .bash_aliases
     cp -v ~/.bash_aliases .
-    echo 
 
     #Save .bash_functions
     echo Saving .bash_functions
@@ -27,52 +23,48 @@ function overwriteCopy () {
 
 function nonOverwriteCopy () {
     #Save .vimrc
-    echo -e "\n"Saving .vimrc
+    echo Saving .vimrc
     cp -vn ~/.vimrc .
     if [ "$result" = "" ]
-        then 
+        then
             echo -e "File already exist.\nAbort..."
     fi
-    echo 
 
     #Save .gvimrc
     echo Saving .gvimrc
     cp -vn ~/.gvimrc .
     if [ "$result" = "" ]
-        then 
+        then
             echo -e "File already exist.\nAbort..."
     fi
-    echo 
 
     #Save libinput-gestures.conf
     echo Saving libinput-gestures.conf
     cp -vn ~/.config/libinput-gestures.conf .
     if [ "$result" = "" ]
-        then 
+        then
             echo -e "File already exist.\nAbort..."
     fi
-    echo 
 
     #Save .bash_aliases
     echo Saving .bash_aliases
     cp -vn ~/.bash_aliases .
     if [ "$result" = "" ]
-        then 
+        then
             echo -e "File already exist.\nAbort..."
     fi
-    echo 
 
     #Save .bash_functions
     echo Saving .bash_functions
     cp -vn ~/.bash_functions .
     if [ "$result" = "" ]
-        then 
+        then
             echo -e "File already exist.\nAbort..."
     fi
 }
 
 function cancel() {
-    echo -e "Cancelled..."
+    echo "Cancelled..."
 }
 
 while true; do
@@ -84,5 +76,3 @@ while true; do
         * ) echo "Please answer yes, no or cancel.";;
     esac
 done
-
-
