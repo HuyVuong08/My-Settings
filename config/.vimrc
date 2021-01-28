@@ -24,7 +24,13 @@ set undodir=~/.vim/undodir
 set fileformat=unix
 
 "Disables beeping sounds
-set noerrorbells
+set noerrorbells visualbell t_vb=
+if has('autocmd')
+  autocmd GUIEnter * set visualbell t_vb=
+endif
+
+"Syntax highlighting for .config files
+autocmd BufRead,BufNewFile *.conf setf dosini
 
 "Highlights line and row which cursor is currently in
 set cursorline
@@ -78,17 +84,17 @@ nnoremap <A-l> g$
 vnoremap <A-l> g$
 
 "Map with ALT key
-"Shortcuts all lines selecting
+"Shortcuts visual to end of line
 execute "set <A-v>=\ev"
 nnoremap <A-v> vg_
 
 "Map with ALT key
-"Shortcuts all lines selecting
+"Shortcuts select all lines
 execute "set <A-a>=\ea"
 nnoremap <A-a> ggVG
 
 "Map with ALT key
-"Shortcuts current session openning in gvim
+"Shortcuts open current session in gvim
 execute "set <A-g>=\eg"
 nnoremap <A-g> :mksession! ~/session.vim<CR>:!gvim -S ~/session.vim<CR><CR>
 
@@ -100,12 +106,12 @@ nnoremap <A-t> <C-z>
 "Map with ALT key
 "Shortcuts file write and quit
 execute "set <A-w>=\ew"
-nnoremap <A-w> :w<CR>
+nnoremap <A-w> ma:w<CR>`a
 execute "set <A-q>=\eq"
 nnoremap <A-q> :q<CR>
 
 "Map with ALT key
-"Shortcuts repository tree openning
+"Shortcuts open repository tree
 execute "set <A-e>=\ee"
 nnoremap <A-e> :e .<CR>
 
@@ -120,17 +126,35 @@ execute "set <A-h>=\eh"
 nnoremap <A-h> g^
 vnoremap <A-h> g^
 
+"Remaps go to next block
 "Map with ALT key
-"Remaps scroll downwards
 execute "set <A-j>=\ej"
-nnoremap <A-j> <C-d>
-vnoremap <A-j> <C-d>
+nnoremap <A-j> }
+vnoremap <A-j> }
+
+"Remaps go to previous block
+"Map with ALT key
+execute "set <A-k>=\ek"
+nnoremap <A-k> {
+vnoremap <A-k> {
 
 "Map with ALT key
+"Remaps insert line above and to to insert mode
+execute "set <A-o>=\eo"
+nnoremap <A-o> O
+
+"Map with ALT key
+"Shortcuts visual column
+execute "set <A-c>=\ec"
+nnoremap <A-c> v<C-v>
+
+"Remaps scroll downwards
+nnoremap { <C-d>
+vnoremap { <C-d>
+
 "Remaps scroll upwards
-execute "set <A-k>=\ek"
-nnoremap <A-k> <C-u>
-vnoremap <A-k> <C-u>
+nnoremap } <C-u>
+vnoremap } <C-u>
 
 "Remaps go to next displayed line
 nnoremap j gj
@@ -143,11 +167,6 @@ vnoremap k gk
 "Remaps tab in and out
 nnoremap <Tab> I<Tab><Esc>
 nnoremap <S-Tab> I<BS><Esc>
-
-"Map with ALT key
-"Remaps to insert line above and to to insert mode
-execute "set <A-o>=\eo"
-nnoremap <A-o> O
 
 "Remaps O to insert line above
 nnoremap O O<Esc>
@@ -207,12 +226,6 @@ nnoremap d5h d5b
 execute "set <A-/>=\e/"
 nnoremap <A-/> *
 
-"Remaps go to next and previous block
-nnoremap { }
-nnoremap } {
-vnoremap { }
-vnoremap } {
-
 "Remaps redo
 nnoremap U <C-r>
 
@@ -222,6 +235,11 @@ nnoremap <C-v> "+P
 
 "Remaps copy from current possition to the end of line
 nnoremap Y yg_
+
+"Remaps go to marks
+nnoremap gm `m
+nnoremap ga `a
+nnoremap gs `s
 
 "Remaps split navigation
 nnoremap <leader>hh <C-w>h
@@ -242,20 +260,9 @@ nnoremap <leader>mj <C-w>J
 nnoremap <leader>mk <C-w>K
 nnoremap <leader>ml <C-w>L
 
-"Remaps go to marks
-nnoremap gm `m
-nnoremap ga `a
-nnoremap gs `s
-
 "Shortcuts split creation
 nnoremap <leader>vs :vsp .<CR>
 nnoremap <leader>hs :sp .<CR>
-
-"Shortcuts to split a line
-nnoremap <leader>J i<CR><Esc>
-
-"Shortcuts add new line and escape
-nnoremap <CR> o<Esc>
 
 "Shortcuts buffers manipulation
 nnoremap <leader>bb <C-^>
@@ -263,9 +270,18 @@ nnoremap <leader>bf :buffer<Space>
 nnoremap <leader>bc :Bclose<CR>
 nnoremap <leader>bd :bdelete<CR>
 
-"Shortcuts buffers focus and undo focus
-nnoremap <leader>oo :mksession! ~/session.vim<CR>:on<CR>
-nnoremap <leader>uu :source ~/session.vim<CR>
+"Shortcuts buffer only
+nnoremap <leader>bo :mksession! ~/session.vim<CR>:only<CR>
+
+"Shortcuts session saving and loading
+nnoremap <leader>ss :mksession! ~/session.vim<CR>
+nnoremap <leader>sl :source ~/session.vim<CR>
+
+"Shortcuts line split
+nnoremap <leader>J i<CR><Esc>
+
+"Shortcuts add new line and escape
+nnoremap <CR> o<Esc>
 
 "Shortcuts VIMRC summoning and sourcing
 nnoremap <leader>ev :vsp $MYVIMRC<CR><c-w>L
@@ -288,25 +304,39 @@ vnoremap <leader>cl :s//g<Left><Left>
 nnoremap <leader>cb :.,s//g<Left><Left><Left><Left>
 vnoremap <leader>cb :.,s//g<Left><Left><Left><Left>
 
-"Shortcut function block copy and deletion
+"Shortcuts copy and delete to the end of paragraph
+nnoremap y{ V}y
+nnoremap d{ V}d
+
+"Shortcuts copy, delete and visual a function block
 nnoremap yaf :call FunctionInteract('y')<CR>
 nnoremap daf :call FunctionInteract('d')<CR>
+nnoremap vaf :call FunctionInteract('')<CR>
 
-"Shortcut if else block copy and deletion
+"Shortcuts copy delete and visual an if else block
 nnoremap yai :call IfElseBlockInteract('y')<CR>
 nnoremap dai :call IfElseBlockInteract('d')<CR>
+nnoremap vai :call IfElseBlockInteract('')<CR>
 
-"Shortcut while block copy and deletion
+"Shortcuts copy delete and visual a while block
 nnoremap yal :call WhileBlockInteract('y')<CR>
 nnoremap dal :call WhileBlockInteract('d')<CR>
+nnoremap val :call WhileBlockInteract('')<CR>
 
-"Shortcut switch case block copy and deletion
+"Shortcuts copy delete and visual a for block
+nnoremap yao :call ForBlockInteract('y')<CR>
+nnoremap dao :call ForBlockInteract('d')<CR>
+nnoremap vao :call ForBlockInteract('')<CR>
+
+"Shortcuts copy delete and visual a switch case block
 nnoremap yac :call SwitchCaseBlockInteract('y')<CR>
 nnoremap dac :call SwitchCaseBlockInteract('d')<CR>
+nnoremap vac :call SwitchCaseBlockInteract('')<CR>
 
-"Shortcut cpp function block copy and deletion
-nnoremap yae :call CppFunctionBlockInteract('y')<CR>
-nnoremap dae :call CppFunctionBlockInteract('d')<CR>
+"Shortcuts copy delete and visual a cpp function block
+autocmd FileType c,cpp nnoremap <buffer> yaf :call CppFunctionBlockInteract('y')<CR>
+autocmd FileType c,cpp nnoremap <buffer> daf :call CppFunctionBlockInteract('d')<CR>
+autocmd FileType c,cpp nnoremap <buffer> vaf :call CppFunctionBlockInteract('')<CR>
 
 "Automatically delete trailing white spaces before saving a file
 autocmd BufWritePre * :call StripTrailingWhitespace()
@@ -336,9 +366,10 @@ endfunction
 
 "Function to delete or yank an entire function
 function FunctionInteract(choice)
-    "choice = 'y' for yank an entire function
-    "choice = 'd' for delete an entire function
-    execute search('function','bc')
+    "choice = 'y' for yanking an entire function
+    "choice = 'd' for deleting an entire function
+    "choice = '' for choosing' for deleting an entire function
+    call search('function.*(.*)','bc')
     let l:position = line('.')
     let l:line = getline(l:position)
     let l:nextline = getline(l:position + 1)
@@ -354,9 +385,10 @@ function FunctionInteract(choice)
 endfunction
 
 function IfElseBlockInteract(choice)
-    "choice = 'y' for yank an entire if else block
-    "choice = 'd' for delete an entire if else block
-    execute search('if','bc')
+    "choice = 'y' for yanking an entire if else block
+    "choice = 'd' for deleting an entire if else block
+    "choice = '' for choosing' for deleting an entire if else block
+    call search('if','bc')
     let l:position = line('.')
     let l:line = getline(l:position)
     let l:nextline = getline(l:position + 1)
@@ -372,9 +404,10 @@ function IfElseBlockInteract(choice)
 endfunction
 
 function WhileBlockInteract(choice)
-    "choice = 'y' for yank an entire while block
-    "choice = 'd' for delete an entire while block
-    execute search('while','bc')
+    "choice = 'y' for yanking an entire while block
+    "choice = 'd' for deleting an entire while block
+    "choice = '' for choosing' for deleting an entire while block
+    call search('while','bc')
     let l:position = line('.')
     let l:line = getline(l:position)
     let l:nextline = getline(l:position + 1)
@@ -389,10 +422,32 @@ function WhileBlockInteract(choice)
     endif
 endfunction
 
+function ForBlockInteract(choice)
+    "choice = 'y' for yanking an entire for block
+    "choice = 'd' for deleting an entire for block
+    "choice = '' for choosing' for deleting an entire for block
+    call search('for','bc')
+    let l:position = line('.')
+    let l:line = getline(l:position)
+    let l:nextline = getline(l:position + 1)
+    let l:array= split(l:line)
+    let l:arrayNext= split(l:nextline)
+    if stridx(l:line,'{') != -1 "If the { character in the same line with keyword 'for'
+        execute 'normal f{V%' . a:choice
+    elseif stridx(l:arrayNext[0],'{') == 0 "If first non-blank character is {
+        normal mz
+        call search('{','c',line('.')+1)
+        execute 'normal %V`z' . a:choice
+    else "If there is no { character in the language syntax
+        execute 'normal V%' . a:choice
+    endif
+endfunction
+
 function SwitchCaseBlockInteract(choice)
-    "choice = 'y' for yank an entire switch case block
-    "choice = 'd' for delete an entire switch case block
-    execute search('switch','bc')
+    "choice = 'y' for yanking an entire switch case block
+    "choice = 'd' for deleting an entire switch case block
+    "choice = '' for choosing an entire switch case block
+    call search('switch.*(.*)','bc')
     let l:position = line('.')
     let l:line = getline(l:position)
     let l:nextline = getline(l:position + 1)
@@ -408,17 +463,20 @@ function SwitchCaseBlockInteract(choice)
 endfunction
 
 function CppFunctionBlockInteract(choice)
-    "choice = 'y' for yank an entire cpp function block
-    "choice = 'd' for delete an entire cpp function block
-    execute search('{','bc')
-    let l:position = line('.')
-    let l:line = getline(l:position)
-    let l:prevline = getline(l:position - 1)
-    let l:array= split(l:line)
-    let l:arrayPrev= split(l:prevline)
-    if len(l:array) > 1
-        execute 'normal $V%' . a:choice
-    elseif len(l:array) == 1
-        execute 'normal kVj%' . a:choice
+    "choice = 'y' for yanking an entire c/pp function block
+    "choice = 'd' for deleting an entire c/pp function block
+    "choice = '' for choosing an entire c/pp function block
+    while 1
+        call search('{','bc')
+        if search('if','bc',line('.')-1) == 0 && search('else','bc',line('.')-1) == 0 && search('while','bc',line('.')-1) == 0 && search('for','bc',line('.')-1) == 0 && search('switch','bc',line('.')-1) == 0
+            break
+        endif
+    endwhile
+    let l:line = getline('.')
+    let l:array = split(l:line)
+    if stridx(l:array[0],'{') == 0 "If first non-blank character is {
+        execute 'normal mzkV`z%' . a:choice
+    else
+        execute 'normal V%' . a:choice
     endif
 endfunction
