@@ -390,11 +390,11 @@ function FunctionInteract(choice)
     let l:array= split(l:line)
     let l:arrayNext= split(l:nextline)
     if l:array[-1] == '{'
-        execute 'normal $V%' . a:choice
+        execute 'normal! $V%' . a:choice
     elseif l:arrayNext[-1] == '{'
-        execute 'normal Vj%' . a:choice
+        execute 'normal! Vj%' . a:choice
     else
-        execute 'normal V%' . a:choice
+        execute 'normal! V%' . a:choice
     endif
 endfunction
 
@@ -408,15 +408,15 @@ function IfElseBlockInteract(choice)
             break
         endif
     endwhile
-    normal mz
+    normal! mz
     while 1
         call search('{','c')
-        normal %
+        normal! %
         if search('else','c',line('.') + 1) == 0
             break
         endif
     endwhile
-    execute 'normal V`z' . a:choice
+    execute 'normal! V`z' . a:choice
 endfunction
 
 function WhileBlockInteract(choice)
@@ -424,9 +424,9 @@ function WhileBlockInteract(choice)
     "choice = 'd' for deleting a while block
     "choice = '' for selecting a while block
     call search('while.*(.*)','bc')
-    normal mz
+    normal! mz
     call search('{','c')
-    execute 'normal %V`z' . a:choice
+    execute 'normal! %V`z' . a:choice
 endfunction
 
 function ForBlockInteract(choice)
@@ -434,9 +434,9 @@ function ForBlockInteract(choice)
     "choice = 'd' for deleting a for block
     "choice = '' for selecting a for block
     call search('for.*(.*)','bc')
-    normal mz
+    normal! mz
     call search('{','c')
-    execute 'normal %V`z' . a:choice
+    execute 'normal! %V`z' . a:choice
 endfunction
 
 function SwitchCaseBlockInteract(choice)
@@ -444,9 +444,9 @@ function SwitchCaseBlockInteract(choice)
     "choice = 'd' for deleting a switch case block
     "choice = '' for selecting a switch case block
     call search('switch.*(.*)','bc')
-    normal mz
+    normal! mz
     call search('{','c')
-    execute 'normal %V`z' . a:choice
+    execute 'normal! %V`z' . a:choice
 endfunction
 
 function CppFunctionBlockInteract(choice)
@@ -462,8 +462,8 @@ function CppFunctionBlockInteract(choice)
     let l:line = getline('.')
     let l:array = split(l:line)
     if stridx(l:array[0],'{') == 0 "If first non-blank character is {
-        execute 'normal mzkV`z%' . a:choice
+        execute 'normal! mzkV`z%' . a:choice
     else
-        execute 'normal V%' . a:choice
+        execute 'normal! V%' . a:choice
     endif
 endfunction
