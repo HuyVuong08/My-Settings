@@ -271,11 +271,11 @@ nnoremap <leader>bc :Bclose<CR>
 nnoremap <leader>bd :bdelete<CR>
 
 "Shortcuts buffer only
-nnoremap <leader>bo :mksession! ~/session.vim<CR>:only<CR>
+nnoremap <leader>ob :mksession! ~/session.vim<CR>:only<CR>
 
 "Shortcuts session saving and loading
 nnoremap <leader>ss :mksession! ~/session.vim<CR>
-nnoremap <leader>sl :source ~/session.vim<CR>
+nnoremap <leader>ls :source ~/session.vim<CR>
 
 "Shortcuts line split
 nnoremap <leader>J i<CR><Esc>
@@ -308,32 +308,32 @@ vnoremap <leader>cb :.,s//g<Left><Left><Left><Left>
 nnoremap y{ V}y
 nnoremap d{ V}d
 
-"Shortcuts copy, delete and visual a function block
+"Shortcuts copy, delete and select a function block
 nnoremap yaf :call FunctionInteract('y')<CR>
 nnoremap daf :call FunctionInteract('d')<CR>
 nnoremap vaf :call FunctionInteract('')<CR>
 
-"Shortcuts copy delete and visual an if else block
+"Shortcuts copy, delete and select an if else block
 nnoremap yai :call IfElseBlockInteract('y')<CR>
 nnoremap dai :call IfElseBlockInteract('d')<CR>
 nnoremap vai :call IfElseBlockInteract('')<CR>
 
-"Shortcuts copy delete and visual a while block
+"Shortcuts copy, delete and select a while block
 nnoremap yal :call WhileBlockInteract('y')<CR>
 nnoremap dal :call WhileBlockInteract('d')<CR>
 nnoremap val :call WhileBlockInteract('')<CR>
 
-"Shortcuts copy delete and visual a for block
+"Shortcuts copy, delete and select a for block
 nnoremap yao :call ForBlockInteract('y')<CR>
 nnoremap dao :call ForBlockInteract('d')<CR>
 nnoremap vao :call ForBlockInteract('')<CR>
 
-"Shortcuts copy delete and visual a switch case block
+"Shortcuts copy, delete and select a switch case block
 nnoremap yac :call SwitchCaseBlockInteract('y')<CR>
 nnoremap dac :call SwitchCaseBlockInteract('d')<CR>
 nnoremap vac :call SwitchCaseBlockInteract('')<CR>
 
-"Shortcuts copy delete and visual a cpp function block
+"Shortcuts copy, delete and select a c/cpp function block
 autocmd FileType c,cpp nnoremap <buffer> yaf :call CppFunctionBlockInteract('y')<CR>
 autocmd FileType c,cpp nnoremap <buffer> daf :call CppFunctionBlockInteract('d')<CR>
 autocmd FileType c,cpp nnoremap <buffer> vaf :call CppFunctionBlockInteract('')<CR>
@@ -388,7 +388,7 @@ function IfElseBlockInteract(choice)
     "choice = 'y' for yanking an entire if else block
     "choice = 'd' for deleting an entire if else block
     "choice = '' for choosing' for deleting an entire if else block
-    call search('if','bc')
+    call search('if.*(.*)','bc')
     let l:position = line('.')
     let l:line = getline(l:position)
     let l:nextline = getline(l:position + 1)
@@ -407,18 +407,18 @@ function WhileBlockInteract(choice)
     "choice = 'y' for yanking an entire while block
     "choice = 'd' for deleting an entire while block
     "choice = '' for choosing' for deleting an entire while block
-    call search('while','bc')
+    call search('while.*(.*)','bc')
     let l:position = line('.')
     let l:line = getline(l:position)
     let l:nextline = getline(l:position + 1)
-    let l:array= split(l:line)
     let l:arrayNext= split(l:nextline)
-    if l:array[-1] == '{'
-        execute 'normal $V%' . a:choice
-    elseif l:arrayNext[-1] == '{'
-        execute 'normal Vj%' . a:choice
-    else
-        execute 'normal V%' . a:choice
+    if stridx(l:line,'{') != -1 "If the { character in the same line with keyword 'for'
+        execute 'normal f{V%' . a:choice
+    else "else first non-blank character is {
+        echom l:arrayNext[0]
+        normal mz
+        call search('{','c',line('.')+1)
+        execute 'normal %V`z' . a:choice
     endif
 endfunction
 
@@ -426,11 +426,10 @@ function ForBlockInteract(choice)
     "choice = 'y' for yanking an entire for block
     "choice = 'd' for deleting an entire for block
     "choice = '' for choosing' for deleting an entire for block
-    call search('for','bc')
+    call search('for.*(.*)','bc')
     let l:position = line('.')
     let l:line = getline(l:position)
     let l:nextline = getline(l:position + 1)
-    let l:array= split(l:line)
     let l:arrayNext= split(l:nextline)
     if stridx(l:line,'{') != -1 "If the { character in the same line with keyword 'for'
         execute 'normal f{V%' . a:choice
@@ -438,8 +437,6 @@ function ForBlockInteract(choice)
         normal mz
         call search('{','c',line('.')+1)
         execute 'normal %V`z' . a:choice
-    else "If there is no { character in the language syntax
-        execute 'normal V%' . a:choice
     endif
 endfunction
 
