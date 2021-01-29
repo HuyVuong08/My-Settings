@@ -324,9 +324,9 @@ nnoremap y{ V}y
 nnoremap d{ V}d
 
 "Shortcuts copy, delete and select a function block
-nnoremap yaf :call FunctionInteract('y')<CR>
-nnoremap daf :call FunctionInteract('d')<CR>
-nnoremap vaf :call FunctionInteract('')<CR>
+nnoremap yaf :call FunctionBlockInteract('y')<CR>
+nnoremap daf :call FunctionBlockInteract('d')<CR>
+nnoremap vaf :call FunctionBlockInteract('')<CR>
 
 "Shortcuts copy, delete and select an if else block
 nnoremap yai :call IfElseBlockInteract('y')<CR>
@@ -379,22 +379,17 @@ function TrimTrailingLines()
     endif
 endfunction
 
-function FunctionInteract(choice)
+function FunctionBlockInteract(choice)
     "choice = 'y' for yanking a function block
     "choice = 'd' for deleting a function block
     "choice = '' for selecting a function block
     call search('function.*(.*)','bc')
-    let l:position = line('.')
-    let l:line = getline(l:position)
-    let l:nextline = getline(l:position + 1)
-    let l:array= split(l:line)
-    let l:arrayNext= split(l:nextline)
-    if l:array[-1] == '{'
-        execute 'normal! $V%' . a:choice
-    elseif l:arrayNext[-1] == '{'
-        execute 'normal! Vj%' . a:choice
+    normal! mz
+    if search('{','c',line('.') + 1) != 0
+        execute 'normal! %V`z' . a:choice
     else
-        execute 'normal! V%' . a:choice
+        call search('endfunc','c')
+        execute 'normal! V`z' . a:choice
     endif
 endfunction
 
