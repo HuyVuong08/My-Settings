@@ -148,6 +148,24 @@ nnoremap <A-o> O
 execute "set <A-c>=\ec"
 nnoremap <A-c> v<C-v>
 
+"Map with ALT key
+"Remaps manual page openning
+execute "set <A-i>=\ei"
+nnoremap <A-i> K
+
+"Map with ALT key
+"Remaps manual page openning
+execute "set <A-i>=\ei"
+nnoremap <A-i> K
+
+"Remaps line merge and split
+nnoremap <leader>mm J
+nnoremap <leader>um i<CR><ESC>
+
+"Remaps vertical line scroll
+nnoremap J <C-e>
+nnoremap K <C-y>
+
 "Remaps scroll downwards
 nnoremap { <C-d>
 vnoremap { <C-d>
@@ -277,9 +295,6 @@ nnoremap <leader>ob :mksession! ~/session.vim<CR>:only<CR>
 nnoremap <leader>ss :mksession! ~/session.vim<CR>
 nnoremap <leader>ls :source ~/session.vim<CR>
 
-"Shortcuts line split
-nnoremap <leader>J i<CR><Esc>
-
 "Shortcuts add new line and escape
 nnoremap <CR> o<Esc>
 
@@ -364,11 +379,10 @@ function TrimTrailingLines()
     endif
 endfunction
 
-"Function to delete or yank an entire function
 function FunctionInteract(choice)
-    "choice = 'y' for yanking an entire function
-    "choice = 'd' for deleting an entire function
-    "choice = '' for choosing' for deleting an entire function
+    "choice = 'y' for yanking a function block
+    "choice = 'd' for deleting a function block
+    "choice = '' for selecting a function block
     call search('function.*(.*)','bc')
     let l:position = line('.')
     let l:line = getline(l:position)
@@ -385,84 +399,60 @@ function FunctionInteract(choice)
 endfunction
 
 function IfElseBlockInteract(choice)
-    "choice = 'y' for yanking an entire if else block
-    "choice = 'd' for deleting an entire if else block
-    "choice = '' for choosing' for deleting an entire if else block
-    call search('if.*(.*)','bc')
-    let l:position = line('.')
-    let l:line = getline(l:position)
-    let l:nextline = getline(l:position + 1)
-    let l:array= split(l:line)
-    let l:arrayNext= split(l:nextline)
-    if l:array[-1] == '{'
-        execute 'normal $V%' . a:choice
-    elseif l:arrayNext[-1] == '{'
-        execute 'normal Vj%' . a:choice
-    else
-        execute 'normal V%' . a:choice
-    endif
+    "choice = 'y' for yanking an if else block
+    "choice = 'd' for deleting an if else block
+    "choice = '' for selecting an if else block
+    while 1
+        call search('if.*(.*)','bc')
+        if search('else','bc',line('.')) == 0
+            break
+        endif
+    endwhile
+    normal mz
+    while 1
+        call search('{','c')
+        normal %
+        if search('else','c',line('.') + 1) == 0
+            break
+        endif
+    endwhile
+    execute 'normal V`z' . a:choice
 endfunction
 
 function WhileBlockInteract(choice)
-    "choice = 'y' for yanking an entire while block
-    "choice = 'd' for deleting an entire while block
-    "choice = '' for choosing' for deleting an entire while block
+    "choice = 'y' for yanking a while block
+    "choice = 'd' for deleting a while block
+    "choice = '' for selecting a while block
     call search('while.*(.*)','bc')
-    let l:position = line('.')
-    let l:line = getline(l:position)
-    let l:nextline = getline(l:position + 1)
-    let l:arrayNext= split(l:nextline)
-    if stridx(l:line,'{') != -1 "If the { character in the same line with keyword 'for'
-        execute 'normal f{V%' . a:choice
-    else "else first non-blank character is {
-        echom l:arrayNext[0]
-        normal mz
-        call search('{','c',line('.')+1)
-        execute 'normal %V`z' . a:choice
-    endif
+    normal mz
+    call search('{','c')
+    execute 'normal %V`z' . a:choice
 endfunction
 
 function ForBlockInteract(choice)
-    "choice = 'y' for yanking an entire for block
-    "choice = 'd' for deleting an entire for block
-    "choice = '' for choosing' for deleting an entire for block
+    "choice = 'y' for yanking a for block
+    "choice = 'd' for deleting a for block
+    "choice = '' for selecting a for block
     call search('for.*(.*)','bc')
-    let l:position = line('.')
-    let l:line = getline(l:position)
-    let l:nextline = getline(l:position + 1)
-    let l:arrayNext= split(l:nextline)
-    if stridx(l:line,'{') != -1 "If the { character in the same line with keyword 'for'
-        execute 'normal f{V%' . a:choice
-    elseif stridx(l:arrayNext[0],'{') == 0 "If first non-blank character is {
-        normal mz
-        call search('{','c',line('.')+1)
-        execute 'normal %V`z' . a:choice
-    endif
+    normal mz
+    call search('{','c')
+    execute 'normal %V`z' . a:choice
 endfunction
 
 function SwitchCaseBlockInteract(choice)
-    "choice = 'y' for yanking an entire switch case block
-    "choice = 'd' for deleting an entire switch case block
-    "choice = '' for choosing an entire switch case block
+    "choice = 'y' for yanking a switch case block
+    "choice = 'd' for deleting a switch case block
+    "choice = '' for selecting a switch case block
     call search('switch.*(.*)','bc')
-    let l:position = line('.')
-    let l:line = getline(l:position)
-    let l:nextline = getline(l:position + 1)
-    let l:array= split(l:line)
-    let l:arrayNext= split(l:nextline)
-    if l:array[-1] == '{'
-        execute 'normal $V%' . a:choice
-    elseif l:arrayNext[-1] == '{'
-        execute 'normal Vj%' . a:choice
-    else
-        execute 'normal V%' . a:choice
-    endif
+    normal mz
+    call search('{','c')
+    execute 'normal %V`z' . a:choice
 endfunction
 
 function CppFunctionBlockInteract(choice)
-    "choice = 'y' for yanking an entire c/pp function block
-    "choice = 'd' for deleting an entire c/pp function block
-    "choice = '' for choosing an entire c/pp function block
+    "choice = 'y' for yanking a c/pp function block
+    "choice = 'd' for deleting a c/pp function block
+    "choice = '' for selecting a c/pp function block
     while 1
         call search('{','bc')
         if search('if','bc',line('.')-1) == 0 && search('else','bc',line('.')-1) == 0 && search('while','bc',line('.')-1) == 0 && search('for','bc',line('.')-1) == 0 && search('switch','bc',line('.')-1) == 0
