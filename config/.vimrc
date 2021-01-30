@@ -9,6 +9,7 @@ Plug 'vim-scripts/VisIncr'
 Plug 'tpope/vim-surround'
 Plug 'vim-latex/vim-latex'
 Plug 'drmikehenry/vim-fontsize'
+Plug 'ycm-core/YouCompleteMe'
 call plug#end()
 
 "Toggling on jumping between if and endif
@@ -26,7 +27,7 @@ set fileformat=unix
 "Disables beeping sounds
 set noerrorbells visualbell t_vb=
 if has('autocmd')
-  autocmd GUIEnter * set visualbell t_vb=
+    autocmd GUIEnter * set visualbell t_vb=
 endif
 
 "Syntax highlighting for .config files
@@ -362,11 +363,11 @@ autocmd BufWritePre * :call TrimTrailingLines()
 "Function to delete trailing white spaces
 function StripTrailingWhitespace()
     if !&binary && &filetype != 'diff'
-        normal mz
-        normal Hmy
+        normal! mz
+        normal! Hmy
         %s/\s\+$//e
-        normal 'yz<CR>
-        normal `z
+        normal! 'yz<CR>
+        normal! `z
     endif
 endfunction
 
@@ -449,16 +450,27 @@ function CppFunctionBlockInteract(choice)
     "choice = 'd' for deleting a c/pp function block
     "choice = '' for selecting a c/pp function block
     while 1
+        "Go backward to the function's curly braces '{'. Skip '{' of blocks such as if, esle, while, for, switch
         call search('{','bc')
         if search('if','bc',line('.')-1) == 0 && search('else','bc',line('.')-1) == 0 && search('while','bc',line('.')-1) == 0 && search('for','bc',line('.')-1) == 0 && search('switch','bc',line('.')-1) == 0
             break
         endif
     endwhile
-    let l:line = getline('.')
-    let l:array = split(l:line)
-    if stridx(l:array[0],'{') == 0 "If first non-blank character is {
-        execute 'normal! mzkV`z%' . a:choice
-    else
+    normal! %mz%
+    let l:posOfFuncName = line('.')
+    if stridx(split(getline('.'))[0],'{') "Curly brace '{' in the same line with function name
         execute 'normal! V%' . a:choice
+        return
     endif
+    while 1
+        "Go backward line by line to the funciton name. Skip commented or blank lines
+        let l:posOfFuncName -= 1
+        if len(split(getline(l:posOfFuncName))) == 0
+            let l:posOfFuncName -= 1
+        endif
+        if stridx(split(getline(l:posOfFuncName))[0],'//') != 0
+            break
+        endif
+    endwhile
+    execute 'normal! ' . l:posOfFuncName . 'ggV`z'
 endfunction
