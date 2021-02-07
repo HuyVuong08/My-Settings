@@ -1,19 +1,47 @@
 call plug#begin('~/.vim/plugged')
+"Plugin color scheme
 Plug 'caksoylar/vim-mysticaltutor'
+"Plugin html files editing
 Plug 'mattn/emmet-vim'
 Plug 'StanAngeloff/php.vim'
+"Plugin closing buffer without closing window
 Plug 'chrismccord/bclose.vim'
-Plug 'vim-syntastic/syntastic'
+"Plug 'vim-syntastic/syntastic'
 Plug 'vim-vdebug/vdebug'
+"Plugin increamental search
 Plug 'vim-scripts/VisIncr'
+"Plugin surrounding tags and brackets editing
 Plug 'tpope/vim-surround'
+"Plugin latex editing
 Plug 'vim-latex/vim-latex'
+"Plugin fontsize changing
 Plug 'drmikehenry/vim-fontsize'
+"Plugin auto complete
 Plug 'ycm-core/YouCompleteMe'
+"Plugin syntax checking
+Plug 'dense-analysis/ale'
+"Plugin code structure pane
+Plug 'preservim/tagbar'
+"Plugin project files finder
+Plug 'ctrlpvim/ctrlp.vim'
+"Plugin file system explorer
+"Plug 'preservim/nerdtree'
+"Plugin word search in all files
+Plug 'mileszs/ack.vim'
+"Plugin session managing
+Plug 'xolox/vim-session'
+Plug 'xolox/vim-misc'
+"Plugin git support in vim
+Plug 'tpope/vim-fugitive'
+"Plugin show added, removed or modified lines in git diff
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 "Toggling on jumping between if and endif
 runtime macros/matchit.vim
+
+"Debugger
+packadd termdebug
 
 set modelines=1
 set showcmd
@@ -75,6 +103,18 @@ set showbreak=--
 "Maps leader key
 let mapleader=' '
 let g:user_emmet_leader_key=','
+
+"Session management
+let g:session_directory = "~/.vim/session"
+let g:session_autoload = "no"
+let g:session_autosave = "no"
+let g:session_command_aliases = 1
+
+"Shortcuts session management
+nnoremap <leader>ss :SaveSession<space>
+nnoremap <leader>os :OpenSession<space>
+nnoremap <leader>ds :DeleteSession<CR>
+nnoremap <leader>cs :CloseSession<CR>
 
 "Remaps Esc
 inoremap <Esc> <Esc><Esc>
@@ -142,7 +182,7 @@ vnoremap <A-k> {
 "Map with ALT key
 "Remaps insert line above and to to insert mode
 execute "set <A-o>=\eo"
-nnoremap <A-o> O
+nnoremap <A-o> o<ESC>
 
 "Map with ALT key
 "Shortcuts visual column
@@ -188,7 +228,7 @@ nnoremap <Tab> I<Tab><Esc>
 nnoremap <S-Tab> I<BS><Esc>
 
 "Remaps O to insert line above
-nnoremap O O<Esc>
+nnoremap <C-o> O<Esc>
 
 "Remaps l and h to jump to the beginning of next and previous word
 nnoremap h b
@@ -289,15 +329,9 @@ nnoremap <leader>bf :buffer<Space>
 nnoremap <leader>bc :Bclose<CR>
 nnoremap <leader>bd :bdelete<CR>
 
-"Shortcuts buffer only
-nnoremap <leader>ob :mksession! ~/session.vim<CR>:only<CR>
-
-"Shortcuts session saving and loading
-nnoremap <leader>ss :mksession! ~/session.vim<CR>
-nnoremap <leader>ls :source ~/session.vim<CR>
-
-"Shortcuts add new line and escape
-nnoremap <CR> o<Esc>
+"Shortcuts buffer only and undo
+nnoremap <leader>bo :mksession! ~/session.vim<CR>:only<CR>
+nnoremap <leader>bu :source ~/session.vim<CR>
 
 "Shortcuts VIMRC summoning and sourcing
 nnoremap <leader>ev :vsp $MYVIMRC<CR><c-w>L
@@ -349,6 +383,10 @@ nnoremap yac :call SwitchCaseBlockInteract('y')<CR>
 nnoremap dac :call SwitchCaseBlockInteract('d')<CR>
 nnoremap vac :call SwitchCaseBlockInteract('')<CR>
 
+"Shortduts fold management
+nnoremap <leader>fs :set foldmethod=syntax<CR>
+nnoremap <leader>fi :set foldmethod=indent<CR>
+
 "Shortcuts copy, delete and select a c/cpp function block
 autocmd FileType c,cpp nnoremap <buffer> yaf :call CppFunctionBlockInteract('y')<CR>
 autocmd FileType c,cpp nnoremap <buffer> daf :call CppFunctionBlockInteract('d')<CR>
@@ -359,6 +397,12 @@ autocmd BufWritePre * :call StripTrailingWhitespace()
 
 "Automatically delete trailing white spaces before saving a file
 autocmd BufWritePre * :call TrimTrailingLines()
+
+"Automatically insert skeleton when create new .cpp files
+autocmd BufNewFile *.cpp 0r ~/.vim/templates/skeleton.cpp
+
+"Automatically change directory to new openned file
+autocmd BufEnter * silent! :lcd%:p:h
 
 "Function to delete trailing white spaces
 function StripTrailingWhitespace()
@@ -380,6 +424,7 @@ function TrimTrailingLines()
     endif
 endfunction
 
+"Function to interact block of codes
 function FunctionBlockInteract(choice)
     "choice = 'y' for yanking a function block
     "choice = 'd' for deleting a function block
@@ -394,6 +439,7 @@ function FunctionBlockInteract(choice)
     endif
 endfunction
 
+"Function to interact block of codes
 function IfElseBlockInteract(choice)
     "choice = 'y' for yanking an if else block
     "choice = 'd' for deleting an if else block
@@ -415,6 +461,7 @@ function IfElseBlockInteract(choice)
     execute 'normal! V`z' . a:choice
 endfunction
 
+"Function to interact block of codes
 function WhileBlockInteract(choice)
     "choice = 'y' for yanking a while block
     "choice = 'd' for deleting a while block
@@ -425,6 +472,7 @@ function WhileBlockInteract(choice)
     execute 'normal! %V`z' . a:choice
 endfunction
 
+"Function to interact block of codes
 function ForBlockInteract(choice)
     "choice = 'y' for yanking a for block
     "choice = 'd' for deleting a for block
@@ -435,6 +483,7 @@ function ForBlockInteract(choice)
     execute 'normal! %V`z' . a:choice
 endfunction
 
+"Function to interact block of codes
 function SwitchCaseBlockInteract(choice)
     "choice = 'y' for yanking a switch case block
     "choice = 'd' for deleting a switch case block
@@ -445,6 +494,7 @@ function SwitchCaseBlockInteract(choice)
     execute 'normal! %V`z' . a:choice
 endfunction
 
+"Function to interact block of codes
 function CppFunctionBlockInteract(choice)
     "choice = 'y' for yanking a c/pp function block
     "choice = 'd' for deleting a c/pp function block
