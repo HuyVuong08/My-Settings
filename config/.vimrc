@@ -1,31 +1,48 @@
 call plug#begin('~/.vim/plugged')
 "Plugin color scheme
 Plug 'caksoylar/vim-mysticaltutor'
-"Plugin html files editing
-Plug 'mattn/emmet-vim'
-Plug 'StanAngeloff/php.vim'
-"Plugin closing buffer without closing window
-Plug 'chrismccord/bclose.vim'
-"Plug 'vim-syntastic/syntastic'
-Plug 'vim-vdebug/vdebug'
-"Plugin increamental search
-Plug 'vim-scripts/VisIncr'
 "Plugin surrounding tags and brackets editing
 Plug 'tpope/vim-surround'
+"Plugin closing buffer without closing window
+Plug 'chrismccord/bclose.vim'
+"Plugin increamental search
+Plug 'vim-scripts/VisIncr'
+"Plugin auto close character
+Plug 'Townk/vim-autoclose'
+
+"Plugin html files editing
+"Plug 'mattn/emmet-vim'
+""Plugin php programming
+"Plug 'StanAngeloff/php.vim'
+""Plugin php and python debugger
+"Plug 'vim-vdebug/vdebug'
+""Plugin file system explorer
+"Plug 'preservim/nerdtree'
+""Plugin commentary support
+"Plug 'preservim/nerdcommenter'
+""Plugin snipets
+"Plug 'SirVer/ultisnips'
+""Plugin tab button configuration for code completion
+"Plug 'ervandew/supertab'
+""Plugin code completion for c/cpp
+"Plug 'xavierd/clang_complete'
+""Plugin syntax checking (replaced by ale)
+"Plug 'vim-syntastic/syntastic'
+"Plugin syntax checking
+
+Plug 'dense-analysis/ale'
 "Plugin latex editing
 Plug 'vim-latex/vim-latex'
+"Plugin latex live preview
+Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 "Plugin fontsize changing
 Plug 'drmikehenry/vim-fontsize'
 "Plugin auto complete
 Plug 'ycm-core/YouCompleteMe'
-"Plugin syntax checking
-Plug 'dense-analysis/ale'
 "Plugin code structure pane
 Plug 'preservim/tagbar'
 "Plugin project files finder
 Plug 'ctrlpvim/ctrlp.vim'
-"Plugin file system explorer
-"Plug 'preservim/nerdtree'
 "Plugin word search in all files
 Plug 'mileszs/ack.vim'
 "Plugin session managing
@@ -35,6 +52,10 @@ Plug 'xolox/vim-misc'
 Plug 'tpope/vim-fugitive'
 "Plugin show added, removed or modified lines in git diff
 Plug 'airblade/vim-gitgutter'
+"Plugin c/cpp template insertion
+Plug 'WolfgangMehner/c-support'
+"Plugin sublime text multiple cursors
+Plug 'terryma/vim-multiple-cursors'
 call plug#end()
 
 "Toggling on jumping between if and endif
@@ -42,6 +63,11 @@ runtime macros/matchit.vim
 
 "Debugger
 packadd termdebug
+
+"Latex live preview setup
+autocmd Filetype tex setl updatetime=1
+let g:livepreview_previewer = 'vprerex'
+let g:Tex_DefaultTargetFormat='pdf'
 
 set modelines=1
 set showcmd
