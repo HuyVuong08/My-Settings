@@ -1,24 +1,24 @@
 #!/bin/sh
-function overwriteCopy () {
+overwriteCopy () {
     #Save terminal-run-dialog-app
     echo -e "\n"Saving terminal-run-dialog-app
-    sudo cp -v /usr/bin/terminal . 
-    echo 
+    sudo cp -v /usr/bin/terminal .
+    echo
 
     #Save safari-run-dialog-app
     echo Saving safari-run-dialog-app
-    sudo cp -v /usr/bin/safari . 
-    echo 
+    sudo cp -v /usr/bin/safari .
+    echo
 
     #Save open-run-dialog-app
     echo Saving open-run-dialog-app
     sudo cp -v /usr/bin/open .
-    echo 
+    echo
 
     #Save note-run-dialog-app
     echo Saving note-run-dialog-app
-    sudo cp -v /usr/bin/note . 
-    echo 
+    sudo cp -v /usr/bin/note .
+    echo
 
     #Save mail-run-dialog-app
     echo Saving mail-run-dialog-app
@@ -27,51 +27,51 @@ function overwriteCopy () {
 
     #Save settings-run-dialog-app
     echo Saving settings-run-dialog-app
-    sudo cp -v /usr/bin/settings . 
+    sudo cp -v /usr/bin/settings .
  }
 
-function nonOverwriteCopy () {
+nonOverwriteCopy () {
     #Save terminal-run-dialog-app
     echo -e "\n"Saving terminal-run-dialog-app
-    result=$(sudo cp -vn /usr/bin/terminal .)    
+    result=$(sudo cp -vn /usr/bin/terminal .)
     if [ "$result" = "" ]
-        then 
+        then
             echo -e "File already exist.\nAbort..."
     fi
-    echo 
+    echo
 
     #Save safari-run-dialog-app
     echo Saving safari-run-dialog-app
     result=$(sudo cp -vn /usr/bin/safari .)
     if [ "$result" = "" ]
-        then 
+        then
             echo -e "File already exist.\nAbort..."
     fi
-    echo 
+    echo
 
     #Save open-run-dialog-app
     echo Saving open-run-dialog-app
     result= $(sudo cp -vn /usr/bin/open .)
     if [ "$result" = "" ]
-        then 
+        then
             echo -e "File already exist.\nAbort..."
     fi
-    echo 
+    echo
 
     #Save note-run-dialog-app
     echo Saving note-run-dialog-app
     result= $(sudo cp -vn /usr/bin/note .)
     if [ "$result" = "" ]
-        then 
+        then
             echo -e "File already exist.\nAbort..."
     fi
-    echo 
+    echo
 
     #Save mail-run-dialog-app
     echo Saving mail-run-dialog-app
     result= $(sudo cp -vn /usr/bin/mail .)
     if [ "$result" = "" ]
-        then 
+        then
             echo -e "File already exist.\nAbort..."
     fi
     echo
@@ -80,12 +80,12 @@ function nonOverwriteCopy () {
     echo Saving settings-run-dialog-app
     result= $(sudo cp -vn /usr/bin/settings .)
     if [ "$result" = "" ]
-        then 
+        then
             echo -e "File already exist.\nAbort..."
     fi
  }
 
-function cancel() {
+cancel() {
     echo -e "Cancelled..."
 }
 

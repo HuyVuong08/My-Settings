@@ -117,7 +117,7 @@ set splitbelow
 set splitright
 
 "Sets color scheme
-colorscheme mysticaltutor
+silent! colorscheme mysticaltutor
 set background=dark
 
 "Set wrap

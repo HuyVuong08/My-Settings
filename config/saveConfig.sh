@@ -1,5 +1,5 @@
-#!/bin/sh
-function overwriteCopy () {
+#!/bin/bash
+overwriteCopy () {
     #Save .vimrc
     echo Saving .vimrc
     cp -v ~/.vimrc .
@@ -19,51 +19,63 @@ function overwriteCopy () {
     #Save .bash_functions
     echo Saving .bash_functions
     cp -v ~/.bash_functions .
+
+    #Save ~/.config/autostart/plank.desktop
+    echo Saving .config/autostart/plank.desktop
+    cp -v ~/.config/autostart/plank.desktop .
 }
 
-function nonOverwriteCopy () {
+nonOverwriteCopy () {
     #Save .vimrc
     echo Saving .vimrc
-    cp -vn ~/.vimrc .
+    result=$(cp -vn ~/.vimrc .)
     if [ "$result" = "" ]
         then
-            echo -e "File already exist.\nAbort..."
+            echo -e "File already exist. Abort..."
     fi
 
     #Save .gvimrc
     echo Saving .gvimrc
-    cp -vn ~/.gvimrc .
+    result=$(cp -vn ~/.gvimrc .)
     if [ "$result" = "" ]
         then
-            echo -e "File already exist.\nAbort..."
+            echo -e "File already exist. Abort..."
     fi
 
     #Save libinput-gestures.conf
     echo Saving libinput-gestures.conf
-    cp -vn ~/.config/libinput-gestures.conf .
+    result=$(cp -vn ~/.config/libinput-gestures.conf .)
     if [ "$result" = "" ]
         then
-            echo -e "File already exist.\nAbort..."
+            echo -e "File already exist. Abort..."
     fi
 
     #Save .bash_aliases
     echo Saving .bash_aliases
-    cp -vn ~/.bash_aliases .
+    result=$(cp -vn ~/.bash_aliases .)
     if [ "$result" = "" ]
         then
-            echo -e "File already exist.\nAbort..."
+            echo -e "File already exist. Abort..."
     fi
 
     #Save .bash_functions
     echo Saving .bash_functions
-    cp -vn ~/.bash_functions .
+    result=$(cp -vn ~/.bash_functions .)
     if [ "$result" = "" ]
         then
-            echo -e "File already exist.\nAbort..."
+            echo -e "File already exist. Abort..."
+    fi
+
+    #Save ~/.config/autostart/plank.desktop
+    echo Saving .config/autostart/plank.desktop
+    result=$(cp -vn ~/.config/autostart/plank.desktop .)
+    if [ "$result" = "" ]
+        then
+            echo -e "File already exist. Abort..."
     fi
 }
 
-function cancel() {
+cancel() {
     echo "Cancelled..."
 }
 

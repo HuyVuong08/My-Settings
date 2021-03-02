@@ -1,5 +1,5 @@
-#!/bin/sh
-function overwriteCopy () {
+#!/bin/bash
+overwriteCopy () {
     #Load .vimrc
     echo Loading .vimrc
     cp -v .vimrc ~
@@ -14,36 +14,68 @@ function overwriteCopy () {
 
     #Load .bash_aliases
     echo Loading .bash_aliases
-    cp -v .bash_aliases ~
+    cp -v .bash_aliases ~ && source ~/.bash_aliases
 
     #Load .bash_functions
     echo Loading .bash_functions
-    cp -v .bash_functions ~
+    cp -v .bash_functions ~ && source ~/.bash_functions
+
+    #Loading plank.desktop to ~/.config/autostart
+    echo Loading plank.desktop to ~/.config/autostart
+    cp -v plank.desktop ~/.config/autostart
 }
 
-function nonOverwriteCopy () {
+nonOverwriteCopy () {
     #Load .vimrc
     echo Loading .vimrc
-    cp -vn .vimrc ~
+    result=$(cp -vn .vimrc ~)
+    if [ "$result" = "" ]
+        then
+            echo -e "File already exist. Abort..."
+    fi
 
     #Load .gvimrc
     echo Loading .gvimrc
-    cp -vn .gvimrc ~
+    result=$(cp -vn .gvimrc ~)
+    if [ "$result" = "" ]
+        then
+            echo -e "File already exist. Abort..."
+    fi
 
     #Load libinput-gestures.conf
     echo Loading libinput-gestures.conf
-    cp -vn libinput-gestures.conf ~/.config/
+    result=$(cp -vn libinput-gestures.conf ~/.config/)
+    if [ "$result" = "" ]
+        then
+            echo -e "File already exist. Abort..."
+    fi
 
     #Load .bash_aliases
     echo Loading .bash_aliases
-    cp -vn .bash_aliases ~
+    result=$(cp -vn .bash_aliases ~ && source ~/.bash_aliases)
+    if [ "$result" = "" ]
+        then
+            echo -e "File already exist. Abort..."
+    fi
 
     #Load .bash_functions
     echo Loading .bash_functions
-    cp -vn .bash_functions ~
+    result=$(cp -vn .bash_functions ~ && source ~/.bash_functions)
+    if [ "$result" = "" ]
+        then
+            echo -e "File already exist. Abort..."
+    fi
+
+    #Loading plank.desktop to ~/.config/autostart
+    echo Loading plank.desktop to ~/.config/autostart
+    result=$(cp -vn plank.desktop ~/.config/autostart)
+    if [ "$result" = "" ]
+        then
+            echo -e "File already exist. Abort..."
+    fi
 }
 
-function cancel() {
+cancel() {
     echo "Cancelled..."
 }
 
