@@ -64,11 +64,6 @@ sudo apt-get install -y gnome-shell-extensions
 
 #-------------------------------------------
 
-#Install Plank Dock
-sudo apt-get install -y plank
-
-#-------------------------------------------
-
 #Install TeamViewer
 cd ~
 wget https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
