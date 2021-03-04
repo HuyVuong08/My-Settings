@@ -79,6 +79,9 @@ sudo apt-get install -y curl
 #Install Vim
 sudo apt-get install -y vim
 
+#Install Vim GTK3 for copying to clipboard from vim
+sudo apt-get install -y vim-gtk3
+
 #Install Vim Plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
