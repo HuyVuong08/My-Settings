@@ -10,7 +10,7 @@ overwriteCopy () {
 
     #Load libinput-gestures.conf
     echo Loading libinput-gestures.conf
-    cp -v libinput-gestures.conf ~/.config/
+    cp -v libinput-gestures.conf ~/.config/ && libinput-gestures-setup restart
 
     #Load .bash_aliases
     echo Loading .bash_aliases
