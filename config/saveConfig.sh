@@ -19,10 +19,6 @@ overwriteCopy () {
     #Save .bash_functions
     echo Saving .bash_functions
     cp -v ~/.bash_functions .
-
-    #Save ~/.config/autostart/plank.desktop
-    echo Saving .config/autostart/plank.desktop
-    cp -v ~/.config/autostart/plank.desktop .
 }
 
 nonOverwriteCopy () {
@@ -61,14 +57,6 @@ nonOverwriteCopy () {
     #Save .bash_functions
     echo Saving .bash_functions
     result=$(cp -vn ~/.bash_functions .)
-    if [ "$result" = "" ]
-        then
-            echo -e "File already exist. Abort..."
-    fi
-
-    #Save ~/.config/autostart/plank.desktop
-    echo Saving .config/autostart/plank.desktop
-    result=$(cp -vn ~/.config/autostart/plank.desktop .)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."

@@ -1,5 +1,6 @@
 #!/bin/bash
-overwriteCopy () {
+
+OverwriteCopy () {
     #Load .vimrc
     echo Loading .vimrc
     cp -v .vimrc ~
@@ -19,10 +20,6 @@ overwriteCopy () {
     #Load .bash_functions
     echo Loading .bash_functions
     cp -v .bash_functions ~ && source ~/.bash_functions
-
-    #Loading plank.desktop to ~/.config/autostart
-    echo Loading plank.desktop to ~/.config/autostart
-    cp -v plank.desktop ~/.config/autostart
 }
 
 nonOverwriteCopy () {
@@ -66,25 +63,50 @@ nonOverwriteCopy () {
             echo -e "File already exist. Abort..."
     fi
 
-    #Loading plank.desktop to ~/.config/autostart
-    echo Loading plank.desktop to ~/.config/autostart
-    result=$(cp -vn plank.desktop ~/.config/autostart)
-    if [ "$result" = "" ]
-        then
-            echo -e "File already exist. Abort..."
-    fi
 }
 
 cancel() {
     echo "Cancelled..."
 }
 
-while true; do
-    read -p "Do you wish to overwrite existing configurations?[Yes][No][Cancel]" yn
-    case $yn in
-        [Yy]* ) overwriteCopy; break;;
-        [Nn]* ) nonOverwriteCopy; break;;
-        [Cc]* ) cancel; exit;;
-        * ) echo "Please answer yes, no or cancel.";;
+usage() {
+  printf "%s\n" "Usage: $0 [OPTIONS...]"
+  printf "\n%s\n" "OPTIONS:"
+  printf "  %-15s%s\n" "-y, --yes" "Overwrite existing files in destination"
+  printf "  %-15s%s\n" "-n, --no" "Do not overwrite existing files in destination"
+  printf "  %-15s%s\n" "-h, --help" "Show this help"
+}
+
+if [[ $# -eq 0 ]]; then
+    while true; do
+        read -p "Do you wish to overwrite existing configurations?[Yes][No][Cancel]" yn
+        case $yn in
+            [Yy]* ) OverwriteCopy; break;;
+            [Nn]* ) nonOverwriteCopy; break;;
+            [Cc]* ) cancel; exit;;
+            * ) echo "Please answer yes, no or cancel.";;
+        esac
+    done
+fi
+
+while [[ $# -gt 0 ]]; do
+    case "${1}" in
+        -y|--yes)
+            OverwriteCopy
+            shift 1
+            ;;
+        -n|--no)
+            nonOverwriteCopy
+            shift 1
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        *)
+            echo "ERROR: Unrecognized installation option '$1'."
+            echo "Try '$0 --help' for more information."
+            exit 1
+            ;;
     esac
 done

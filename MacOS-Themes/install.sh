@@ -1,11 +1,13 @@
 #!/bin/bash
 
 ##Update
+#
 #sudo apt-get update -y
 #
 ##-------------------------------------------
 #
-##Install Curl
+## Install Curl
+#
 #sudo apt-get install -y curl
 #
 ##-------------------------------------------
@@ -16,9 +18,25 @@
 #
 ##-------------------------------------------
 #
+## Install Gnome Tweak Tool
+#echo "Installing Gnome Tweak Tool ..."
+#sudo apt-get install -y gnome-tweak-tool
+#
+##-------------------------------------------
+#
+## Install Shell Extensions
+#echo "Installing Shell Extensions ..."
+#sudo apt-get install -y gnome-shell-extensions
+#
+##-------------------------------------------
+#
 ##Install Plank Dock
 #
 #sudo apt-get install -y plank
+#
+##Launch Plank Dock On Startup
+#
+#ln -s /usr/share/applications/plank.desktop $HOME/.config/autostart/plank.desktop
 #
 #-------------------------------------------
 #
@@ -159,4 +177,4 @@
 
 #-------------------------------------------
 
-#Install Plymouth theme
+#Install Plymouth Theme

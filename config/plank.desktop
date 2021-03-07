@@ -1,5 +1,6 @@
 [Desktop Entry]
 Type=Application
+Categories=Utility
 Exec=plank
 Hidden=false
 NoDisplay=false
