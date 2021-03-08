@@ -5,8 +5,7 @@ WORKDIR="$(pwd)"
 
 # Define signal handler and its variable
 allowAbort=true;
-myInterruptHandler()
-{
+myInterruptHandler() {
     if $allowAbort; then
         exit 1;
     fi;
@@ -16,8 +15,7 @@ myInterruptHandler()
 trap myInterruptHandler SIGINT;
 
 # Wrapper
-wrapInterruptable()
-{
+wrapInterruptable() {
     # disable the abortability of the script
     allowAbort=false;
     # run the passed arguments 1:1
@@ -165,7 +163,7 @@ setup() {
     sudo apt-get install -y ack-grep
 }
 
-echo "This process might takes a long time and should not be interupted. Aure you sure to proceed? [Yes][No]"
+echo "Installing my configurations ..."
 
 # Call Setup Procedure
 wrapInterruptable setup

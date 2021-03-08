@@ -1,68 +1,119 @@
 #!/bin/bash
 
-while true; do
-    read -p "Do you wish to install latex suite?[Yes][No]" yn
-    case $yn in
-        [Yy]* ) latex=TRUE; break;;
-        [Nn]* ) latex=FALSE; break;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
+# Save working directory
+WORKDIR="$(pwd)"
 
-while true; do
-    read -p "Do you wish to install Paint?[Yes][No]" yn
-    case $yn in
-        [Yy]* ) paint=TRUE; break;;
-        [Nn]* ) paint=FALSE; break;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
+# Define signal handler and its variable
+allowAbort=true;
+myInterruptHandler() {
+    if $allowAbort; then
+        exit 1;
+    fi;
+}
 
-while true; do
-    read -p "Do you wish to install Sreen Recorder?[Yes][No]" yn
-    case $yn in
-        [Yy]* ) recorder=TRUE; break;;
-        [Nn]* ) recorder=FALSE; break;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
+# Register signal handler
+trap myInterruptHandler SIGINT;
 
-while true; do
-    read -p "Do you wish to rename Firefox to Safari?[Yes][No]" yn
-    case $yn in
-        [Yy]* ) safari=TRUE; break;;
-        [Nn]* ) safari=FALSE; break;;
-        * ) echo "Please answer yes or no.";;
-    esac
-done
+# Wrapper
+wrapInterruptable() {
+    # disable the abortability of the script
+    allowAbort=false;
+    # run the passed arguments 1:1
+    "$@";
+    # save the returned value
+    local ret=$?;
+    # make the script abortable again
+    allowAbort=true;
+    # and return
+    return "$ret";
+}
 
-##Install config
-#cd config
-#./install.sh
-#cd ..
+# Setup procedure
+setup () {
 
-#Install Frequently Used Apps
+    while true; do
+        read -p "Do you wish to install latex suite?[Yes][No]" yn
+        case $yn in
+            [Yy]* ) latex=TRUE; break;;
+            [Nn]* ) latex=FALSE; break;;
+            * ) echo "Please choose yes or no.";;
+        esac
+    done
 
-if [ $latex = "TRUE" ]
-then
-    echo latex
-fi
+    while true; do
+        read -p "Do you wish to install Paint?[Yes][No]" yn
+        case $yn in
+            [Yy]* ) paint=TRUE; break;;
+            [Nn]* ) paint=FALSE; break;;
+            * ) echo "Please choose yes or no.";;
+        esac
+    done
 
-if [ $paint = "TRUE" ]
-then
-    echo paint
-fi
+    while true; do
+        read -p "Do you wish to install Sreen Recorder?[Yes][No]" yn
+        case $yn in
+            [Yy]* ) recorder=TRUE; break;;
+            [Nn]* ) recorder=FALSE; break;;
+            * ) echo "Please choose yes or no.";;
+        esac
+    done
 
-if [ $recorder = "TRUE" ]
-then
-    echo recorder
-fi
+    while true; do
+        read -p "Do you wish to rename Firefox to Safari?[Yes][No]" yn
+        case $yn in
+            [Yy]* ) safari=TRUE; break;;
+            [Nn]* ) safari=FALSE; break;;
+            * ) echo "Please choose yes or no.";;
+        esac
+    done
 
-if [ $safari = "TRUE" ]
-then
-    echo safari
-fi
+    while true; do
+        read -p "This process might takes a long time and should not be interupted. Aure you sure to proceed?[Yes][No]" yn
+        case $yn in
+            [Yy]* ) break;;
+            [Nn]* ) exit 1;;
+            * ) echo "Please choose yes or no.";;
+        esac
+    done
 
-#Install Renamed Apps
+    #-------------------------------------------
 
-#Install Run Diablog Apps
+    ## Install config
+    #cd $WORKDIR/config
+    #./install.sh
+    #cd $WORKDIR
+
+    #-------------------------------------------
+
+    # Install Frequently Used Apps
+
+    if [ $latex = "TRUE" ]
+    then
+        echo latex
+
+    fi
+
+    if [ $paint = "TRUE" ]
+    then
+        echo paint
+    fi
+
+    if [ $recorder = "TRUE" ]
+    then
+        echo recorder
+    fi
+
+    if [ $safari = "TRUE" ]
+    then
+        echo safari
+    fi
+
+    # Install Renamed Apps
+
+    #-------------------------------------------
+
+    # Install Run Diablog Apps
+}
+
+# Call Setup Procedure
+wrapInterruptable setup
