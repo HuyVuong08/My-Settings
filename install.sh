@@ -1,10 +1,15 @@
 #!/bin/bash
 
+if [[ $EUID -eq 0 ]]; then
+  echo "This script should NOT be run as root" 1>&2
+  exit 1
+fi
+
 # Save working directory
 WORKDIR="$(pwd)"
 
 while true; do
-    read -p "Do you wish to install latex suite?[Yes][No]" yn
+    read -p "Do you wish to install Latex Suite?[Yes][No]" yn
     case $yn in
         [Yy]* ) latex=TRUE; break;;
         [Nn]* ) latex=FALSE; break;;
@@ -13,7 +18,7 @@ while true; do
 done
 
 while true; do
-    read -p "Do you wish to install Paint?[Yes][No]" yn
+    read -p "Do you wish to install Paint for screenshot editing?[Yes][No]" yn
     case $yn in
         [Yy]* ) paint=TRUE; break;;
         [Nn]* ) paint=FALSE; break;;
@@ -61,18 +66,20 @@ done
 
 if [ $latex = "TRUE" ]
 then
-    echo latex
-
+    cd $WORKDIR/Frequently-Used-Apps
+    ./latex-install.sh
 fi
 
 if [ $paint = "TRUE" ]
 then
-    echo paint
+    cd $WORKDIR/Frequently-Used-Apps
+    ./paint-install.sh
 fi
 
 if [ $recorder = "TRUE" ]
 then
-    echo recorder
+    cd $WORKDIR/Frequently-Used-Apps
+    ./screen-recorder-install.sh
 fi
 
 if [ $safari = "TRUE" ]

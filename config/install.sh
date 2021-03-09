@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ $EUID -eq 0 ]]; then
+  echo "This script should NOT be run as root" 1>&2
+  exit 1
+fi
+
 # Save Working Directory
 WORKDIR="$(pwd)"
 
@@ -123,6 +128,7 @@ vim -c -y "source $MYVIMRC" -c qa
 vim -c "PlugInstall" -c qa
 
 # Install YouCompleteMe
+echo "Installing YouCompleteMe ..."
 sudo apt-get install -y build-essential cmake vim-nox python3-dev
 sudo apt-get install -y mono-complete golang nodejs default-jdk npm
 cd $HOME/.vim/plugged/YouCompleteMe
@@ -131,7 +137,9 @@ python3 install.py --all
 cd $WORKDIR
 
 # Install Exuberant Ctags
+echo "Installing Exuberant-ctags ..."
 sudo apt-get install -y exuberant-ctags
 
 # Install Ack-Grep
+echo "Installing Ack-grep ..."
 sudo apt-get install -y ack-grep

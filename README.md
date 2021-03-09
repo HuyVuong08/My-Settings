@@ -1,3 +1,3 @@
 # My Settings
 
-My Fusuma and VimRC setup
+My Configuration, Touch pad gestures, macOS theme, VimRC setup and some more frequently used applications
