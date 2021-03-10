@@ -45,7 +45,8 @@ while true; do
 done
 
 while true; do
-    read -p "This process might takes a long time and should not be interupted. Aure you sure to proceed?[Yes][No]" yn
+    echo "This process might take long and should not be interupted."
+    read -p "Are you sure to proceed?[Yes][No]" yn
     case $yn in
         [Yy]* ) break;;
         [Nn]* ) exit 1;;
@@ -57,7 +58,7 @@ done
 
 ## Install config
 #cd $WORKDIR/config
-#./install.sh
+#./install.sh -y
 #cd $WORKDIR
 
 #-------------------------------------------
