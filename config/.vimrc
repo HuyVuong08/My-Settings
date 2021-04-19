@@ -18,8 +18,6 @@ Plug 'Townk/vim-autoclose'
 "Plug 'vim-vdebug/vdebug'
 ""Plugin file system explorer
 "Plug 'preservim/nerdtree'
-""Plugin commentary support
-"Plug 'preservim/nerdcommenter'
 ""Plugin snipets
 "Plug 'SirVer/ultisnips'
 ""Plugin tab button configuration for code completion
@@ -28,9 +26,11 @@ Plug 'Townk/vim-autoclose'
 "Plug 'xavierd/clang_complete'
 ""Plugin syntax checking (replaced by ale)
 "Plug 'vim-syntastic/syntastic'
-"Plugin syntax checking
 
+"Plugin syntax checking
 Plug 'dense-analysis/ale'
+"Plugin commentary support
+Plug 'preservim/nerdcommenter'
 "Plugin latex editing
 Plug 'vim-latex/vim-latex'
 "Plugin latex live preview
@@ -138,9 +138,9 @@ let g:session_command_aliases = 1
 
 "Shortcuts session management
 nnoremap <leader>ss :SaveSession<space>
-nnoremap <leader>os :OpenSession<space>
-nnoremap <leader>ds :DeleteSession<CR>
-nnoremap <leader>cs :CloseSession<CR>
+nnoremap <leader>so :OpenSession<space>
+nnoremap <leader>sd :DeleteSession<CR>
+nnoremap <leader>sc :CloseSession<CR>
 
 "Remaps Esc
 inoremap <Esc> <Esc><Esc>
@@ -370,15 +370,14 @@ nnoremap <leader>pi :PlugInstall<CR>
 nnoremap <leader>== gg=G``
 
 "Shortcuts all occurrences replacing
-nnoremap <leader>ca :%s//gc<Left><Left><Left>
+nnoremap <leader>ra :%s//gc<Left><Left><Left>
 
 "Shortcuts all occurrences replacing in one line
-nnoremap <leader>cl :s//g<Left><Left>
-vnoremap <leader>cl :s//g<Left><Left>
+nnoremap <leader>rl :s//g<Left><Left>
 
 "Shortcuts all occurrences replacing in a block of code
-nnoremap <leader>cb :.,s//g<Left><Left><Left><Left>
-vnoremap <leader>cb :.,s//g<Left><Left><Left><Left>
+nnoremap <leader>rb :.,s//g<Left><Left><Left><Left>
+vnoremap <leader>rb :.,s//g<Left><Left><Left><Left>
 
 "Shortcuts copy and delete to the end of paragraph
 nnoremap y{ V}y

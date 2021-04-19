@@ -15,11 +15,15 @@ OverwriteCopy () {
 
     #Load .bash_aliases
     echo Loading .bash_aliases
-    cp -v .bash_aliases ~ && source ~/.bash_aliases
+    cp -v .bash_aliases ~ && source ~/.bashrc
 
     #Load .bash_functions
     echo Loading .bash_functions
-    cp -v .bash_functions ~ && source ~/.bash_functions
+    cp -v .bash_functions ~ && source ~/.bashrc
+
+    if ! grep "~/.bash_functions" "$HOME/.bashrc"; then
+        echo -e "\nif [ -f ~/.bash_functions ]; then\n    . ~/.bash_functions\nfi" >> $HOME/.bashrc
+    fi
 }
 
 nonOverwriteCopy () {
@@ -49,7 +53,7 @@ nonOverwriteCopy () {
 
     #Load .bash_aliases
     echo Loading .bash_aliases
-    result=$(cp -vn .bash_aliases ~ && source ~/.bash_aliases)
+    result=$(cp -vn .bash_aliases ~ && source ~/.bashrc)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -57,7 +61,7 @@ nonOverwriteCopy () {
 
     #Load .bash_functions
     echo Loading .bash_functions
-    result=$(cp -vn .bash_functions ~ && source ~/.bash_functions)
+    result=$(cp -vn .bash_functions ~ && source ~/.bashrc)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."

@@ -2,23 +2,23 @@
 
 function svim () {
     if [ -z  "$1" ]
-        then 
+        then
             sudo -E vim .
-        else 
+        else
             sudo -E vim $1
     fi
 }
 
 function open () {
     if [ -z  "$1" ]
-        then 
+        then
             setsid nautilus ~/Downloads &>/dev/null
-        else 
+        else
             setsid nautilus $1 &>/dev/null
     fi
 }
 
-function note () {
+function notes () {
     setsid gedit $1 &>/dev/null
 }
 
@@ -33,4 +33,3 @@ function safari () {
 function mail () {
     setsid thunderbird $1 &>/dev/null
 }
-
