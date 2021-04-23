@@ -36,6 +36,15 @@ while true; do
 done
 
 while true; do
+    read -p "Do you wish to install HDSentinel?[Yes][No]" yn
+    case $yn in
+        [Yy]* ) hdsentinel=TRUE; break;;
+        [Nn]* ) hdsentinel=FALSE; break;;
+        * ) echo "Please choose yes or no.";;
+    esac
+done
+
+while true; do
     read -p "Do you wish to rename Firefox to Safari?[Yes][No]" yn
     case $yn in
         [Yy]* ) safari=TRUE; break;;
@@ -81,6 +90,12 @@ if [ $recorder = "TRUE" ]
 then
     cd $WORKDIR/Frequently-Used-Apps
     ./screen-recorder-install.sh
+fi
+
+if [ $hdsentinel = "TRUE" ]
+then
+    cd $WORKDIR/Frequently-Used-Apps
+    ./hdsentinel-install.sh
 fi
 
 if [ $safari = "TRUE" ]

@@ -21,6 +21,12 @@ setup() {
 
     #-------------------------------------------
 
+    # Make Ubuntu use local time
+    timedatectl set-local-rtc 1 --adjust-system-clock
+    timedatectl
+
+    #-------------------------------------------
+
     # Install xdotool and libinput-tools
     echo "Installing xdotool and libinput-tools for macOS like touch pad guesture ..."
     sudo apt-get install -y libinput-tools xdotool
