@@ -16,8 +16,8 @@ Plug 'Townk/vim-autoclose'
 "Plug 'StanAngeloff/php.vim'
 ""Plugin php and python debugger
 "Plug 'vim-vdebug/vdebug'
-""Plugin file system explorer
-"Plug 'preservim/nerdtree'
+"Plugin file system explorer
+Plug 'preservim/nerdtree'
 ""Plugin snipets
 "Plug 'SirVer/ultisnips'
 ""Plugin tab button configuration for code completion
@@ -117,7 +117,7 @@ set splitbelow
 set splitright
 
 "Sets color scheme
-silent! colorscheme mysticaltutor
+colorscheme mysticaltutor
 set background=dark
 
 "Set wrap
@@ -143,7 +143,7 @@ nnoremap <leader>sd :DeleteSession<CR>
 nnoremap <leader>sc :CloseSession<CR>
 
 "Remaps Esc
-inoremap <Esc> <Esc><Esc>
+inoremap <Esc> <Esc><Esc><Esc>
 
 "Remaps go to last non-space character of displayed line
 execute "set <A-l>=\el"

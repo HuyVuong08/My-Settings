@@ -36,7 +36,7 @@ while true; do
 done
 
 while true; do
-    read -p "Do you wish to install HDSentinel?[Yes][No]" yn
+    read -p "Do you wish to install Hardisk Sentinel?[Yes][No]" yn
     case $yn in
         [Yy]* ) hdsentinel=TRUE; break;;
         [Nn]* ) hdsentinel=FALSE; break;;
@@ -45,10 +45,28 @@ while true; do
 done
 
 while true; do
-    read -p "Do you wish to rename Firefox to Safari?[Yes][No]" yn
+    read -p "Do you wish to install Flameshot?[Yes][No]" yn
     case $yn in
-        [Yy]* ) safari=TRUE; break;;
-        [Nn]* ) safari=FALSE; break;;
+        [Yy]* ) flameshot=TRUE; break;;
+        [Nn]* ) flameshot=FALSE; break;;
+        * ) echo "Please choose yes or no.";;
+    esac
+done
+
+while true; do
+    read -p "Do you wish to install macOS Themes?[Yes][No]" yn
+    case $yn in
+        [Yy]* ) macOSTheme=TRUE; break;;
+        [Nn]* ) macOSTheme=FALSE; break;;
+        * ) echo "Please choose yes or no.";;
+    esac
+done
+
+while true; do
+    read -p "Do you wish to install macOS exclusive applications?[Yes][No]" yn
+    case $yn in
+        [Yy]* ) macOSApp=TRUE; break;;
+        [Nn]* ) macOSApp=FALSE; break;;
         * ) echo "Please choose yes or no.";;
     esac
 done
@@ -98,9 +116,22 @@ then
     ./hdsentinel-install.sh
 fi
 
-if [ $safari = "TRUE" ]
+if [ $flameshot = "TRUE" ]
 then
-    echo safari
+    cd $WORKDIR/Frequently-Used-Apps
+    ./flameshot-install.sh
+fi
+
+if [ $macOSTheme = "TRUE" ]
+then
+    cd $WORKDIR/MacOS-Themes
+    ./install.sh
+fi
+
+if [ $macOSApp = "TRUE" ]
+then
+    cd $WORKDIR/MacOS-Themes/MacOS-Exclusive-Apps
+    ./install.sh
 fi
 
 # Install Renamed Apps

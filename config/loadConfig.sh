@@ -13,6 +13,11 @@ OverwriteCopy () {
     echo Loading libinput-gestures.conf
     cp -v libinput-gestures.conf ~/.config/ && libinput-gestures-setup restart
 
+    if ! grep -Fxq "    . ~/.bash_functions" ~/.bashrc
+    then
+        echo -e "\nif [ -f ~/.bash_functions ]; then\n    . ~/.bash_functions\nfi" >> $HOME/.bashrc
+    fi
+
     #Load .bash_aliases
     echo Loading .bash_aliases
     cp -v .bash_aliases ~ && source ~/.bashrc
@@ -21,8 +26,13 @@ OverwriteCopy () {
     echo Loading .bash_functions
     cp -v .bash_functions ~ && source ~/.bashrc
 
-    if ! grep "~/.bash_functions" "$HOME/.bashrc"; then
-        echo -e "\nif [ -f ~/.bash_functions ]; then\n    . ~/.bash_functions\nfi" >> $HOME/.bashrc
+    #Load battery-status.sh
+    sudo mkdir -p /opt/scripts/
+    sudo cp -v battery-status.sh /opt/scripts
+    sudo chmod +x /opt/scripts/battery-status.sh
+    if ! grep -Fxq "sh /opt/scripts/battery-status.sh &" /etc/profile
+    then
+         echo -e "\nsh /opt/scripts/battery-status.sh &" | sudo tee --append /etc/profile >> /dev/null
     fi
 }
 
