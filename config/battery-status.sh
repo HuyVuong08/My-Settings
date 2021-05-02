@@ -9,7 +9,7 @@
               paplay /usr/share/sounds/freedesktop/stereo/suspend-error.oga
            fi
        else
-           if [ $battery_level -le 30 ]; then
+           if [ $battery_level -le 40 ]; then
               notify-send --urgency=CRITICAL "Low Battery Level: ${battery_level}%" "Please plug in the charging cable."
               paplay /usr/share/sounds/freedesktop/stereo/suspend-error.oga
            fi

@@ -47,6 +47,11 @@ WORKDIR="$(pwd)"
 ## Launch Plank Dock on Startup
 #ln -s /usr/share/applications/plank.desktop $HOME/.config/autostart/plank.desktop
 #
+## Install Plank Dock themes
+#echo 'Installing MacOS Big Sur Plank Dock Themes ...'
+#sudo mkdir -p /usr/share/plank/themes/macOS-BigSur/
+#sudo cp -v $WORKDIR/BigSur-Dock/dock.theme /usr/share/plank/themes/macOS-BigSur/
+#
 ##-------------------------------------------
 #
 ## Install imagemagick
@@ -68,26 +73,6 @@ WORKDIR="$(pwd)"
 #sudo apt-get install -y optipng
 #sudo apt-get install -y inkscape
 #sudo apt-get install -y libglib2.0-dev-bin
-#
-#-------------------------------------------
-#
-## Install Plank Dock themes
-#echo 'Installing MacOS Big Sur Plank Dock Themes ...'
-#
-#git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git
-#cd $WORKDIR/WhiteSur-gtk-theme
-#sudo ./install.sh --opacity 'standard' --panel 85
-#
-## Install Dark themes
-#sudo rm /usr/share/plank/themes/macOS-BigSur-dark/*
-#sudo mkdir -p /usr/share/plank/themes/macOS-BigSur-dark && sudo mv $WORKDIR/WhiteSur-gtk-theme/src/other/plank/theme-dark/* $_
-#
-## Install Light themes
-#sudo rm /usr/share/plank/themes/macOS-BigSur-light/*
-#sudo mkdir -p /usr/share/plank/themes/macOS-BigSur-light && sudo mv $WORKDIR/WhiteSur-gtk-theme/src/other/plank/theme-light/* $_
-#
-## Remove WhiteSur-gtk-theme folder
-#rm -rf WhiteSur-gtk-theme
 #
 ##-------------------------------------------
 #
@@ -122,15 +107,15 @@ WORKDIR="$(pwd)"
 #mv WhiteSur-gtk-theme/src/other/firefox/chrome $HOME/.mozilla/firefox/*.default-release
 #
 ##-------------------------------------------
-#
-## Install Albert Spotlight theme
-#echo 'Installing MacOS Big Sur Albert Spotlight ...'
-#curl https://build.opensuse.org/projects/home:manuelschneid3r/public_key | sudo apt-key add -
-#echo 'deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_20.04/ /' | sudo tee /etc/apt/sources.list.d/home:manuelschneid3r.list
-#sudo wget -nv https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_20.04/Release.key -O "/etc/apt/trusted.gpg.d/home:manuelschneid3r.asc"
-#sudo apt update
-#sudo apt install albert
-#
+
+# Install Albert Spotlight theme
+echo 'Installing MacOS Big Sur Albert Spotlight ...'
+curl https://build.opensuse.org/projects/home:manuelschneid3r/public_key | sudo apt-key add -
+echo 'deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_20.04/ /' | sudo tee /etc/apt/sources.list.d/home:manuelschneid3r.list
+sudo wget -nv https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_20.04/Release.key -O "/etc/apt/trusted.gpg.d/home:manuelschneid3r.asc"
+sudo apt-get -y update
+sudo apt-get install -y albert
+
 ##-------------------------------------------
 #
 ## Config blank screen and locking mechanism
