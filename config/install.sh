@@ -6,13 +6,13 @@ setup() {
     WORKDIR="$(pwd)"
 
     # Update
-    echo "Updating..."
+    echo Updating...
     sudo apt-get -y update
 
     #-------------------------------------------
 
     # Install git
-    echo "Installing git..."
+    echo Installing git...
     sudo apt-get install -y git
 
     # Set your global user name and email
@@ -22,13 +22,23 @@ setup() {
     #-------------------------------------------
 
     # Make Ubuntu use local time
+    echo Making Ubuntu use local time...
     timedatectl set-local-rtc 1 --adjust-system-clock
     timedatectl
 
     #-------------------------------------------
 
+    # Disable error sound in Terminal
+    echo Making Ubuntu use local time...
+    if ! grep -Fxq "bind 'set bell-style none'" $HOME/.bashrc
+    then
+        echo -e "bind 'set bell-style none'" >> $HOME/.bashrc
+    fi
+
+    #-------------------------------------------
+
     # Install xdotool and libinput-tools
-    echo "Installing xdotool and libinput-tools for macOS like touch pad guesture..."
+    echo Installing xdotool and libinput-tools for macOS like touch pad guesture...
     sudo apt-get install -y libinput-tools xdotool
 
     # Add your user to the input group
@@ -57,7 +67,7 @@ setup() {
     #-------------------------------------------
 
     # Install ibus-unikey
-    echo "Installing ibus-unikey for Vietnamese language typing..."
+    echo Installing ibus-unikey for Vietnamese language typing...
     sudo apt-get install -y ibus-unikey
 
     # Resstart ibus
@@ -66,13 +76,13 @@ setup() {
     #-------------------------------------------
 
     # Install mdless
-    echo "Installing mdless for mark down files viewing..."
+    echo Installing mdless for mark down files viewing...
     sudo gem install mdless
 
     #-------------------------------------------
 
     # Install  Battery Status
-    echo "Installing Battery Status for battery charging level limiter..."
+    echo Installing Battery Status for battery charging level limiter...
     sudo mkdir -p /opt/scripts/
     sudo cp -v battery-status.sh /opt/scripts
     sudo chmod +x /opt/scripts/battery-status.sh
@@ -84,7 +94,7 @@ setup() {
     #-------------------------------------------
 
     # Install TeamViewer
-    echo "Installing TeamViewer..."
+    echo Installing TeamViewer...
     cd $HOME
     rm teamviewer_amd64.deb
     wget https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
@@ -94,7 +104,7 @@ setup() {
     #-------------------------------------------
 
     # Install Unusedpkg
-    echo "Installing Unusedpkg..."
+    echo Installing Unusedpkg...
     cd $HOME
     curl https://codeload.github.com/epinna/Unusedpkg/zip/master -o 'unusedpkg.zip'
     unzip -o unusedpkg.zip && rm unusedpkg.zip
@@ -105,13 +115,13 @@ setup() {
     #-------------------------------------------
 
     # Install Curl
-    echo "Installing Curl..."
+    echo Installing Curl...
     sudo apt-get install -y curl
 
     #-------------------------------------------
 
     # Install Vim and Necessary Packages
-    echo "Installing Vim and Necessary Packages..."
+    echo Installing Vim and Necessary Packages...
 
     # Install Vim
     sudo apt-get install -y vim
@@ -125,13 +135,13 @@ setup() {
     #-------------------------------------------
 
     # Load Configuration Files
-    echo "Loading Configuration Files..."
+    echo Loading Configuration Files...
     ./loadConfig.sh -y
 
     #-------------------------------------------
 
     # Install Vim Setups and Pluggins
-    echo "Installing Vim Setups and Pluggins..."
+    echo Installing Vim Setups and Pluggins...
 
     # Remove Existing YouCompleteMe Before Re-install It
     sudo rm -rf $HOME/.vim/plugged/YouCompleteMe
@@ -143,7 +153,7 @@ setup() {
     vim -c "PlugInstall" -c qa
 
     # Install YouCompleteMe
-    echo "Installing YouCompleteMe..."
+    echo Installing YouCompleteMe...
     sudo apt-get install -y build-essential cmake vim-nox python3-dev
     sudo apt-get install -y mono-complete golang nodejs default-jdk npm
     cd $HOME/.vim/plugged/YouCompleteMe
@@ -152,11 +162,11 @@ setup() {
     cd $WORKDIR
 
     # Install Exuberant Ctags
-    echo "Installing Exuberant-ctags..."
+    echo Installing Exuberant-ctags...
     sudo apt-get install -y exuberant-ctags
 
     # Install Ack-Grep
-    echo "Installing Ack-grep..."
+    echo Installing Ack-grep...
     sudo apt-get install -y ack-grep
 }
 

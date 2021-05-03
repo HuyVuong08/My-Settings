@@ -3,28 +3,27 @@
 OverwriteCopy () {
     #Load .vimrc
     echo Loading .vimrc...
-    cp -v .vimrc ~
+    cp -v .vimrc $HOME
 
     #Load .gvimrc
     echo Loading .gvimrc...
-    cp -v .gvimrc ~
+    cp -v .gvimrc $HOME
 
     #Load libinput-gestures.conf
     echo Loading libinput-gestures.conf...
-    cp -v libinput-gestures.conf ~/.config/ && libinput-gestures-setup restart
-
-    if ! grep -Fxq "    . ~/.bash_functions" ~/.bashrc
-    then
-        echo -e "\nif [ -f ~/.bash_functions ]; then\n    . ~/.bash_functions\nfi" >> $HOME/.bashrc
-    fi
+    cp -v libinput-gestures.conf $HOME/.config/ && libinput-gestures-setup restart
 
     #Load .bash_aliases
     echo Loading .bash_aliases...
-    cp -v .bash_aliases ~ && source ~/.bashrc
+    cp -v .bash_aliases $HOME && source $HOME/.bashrc
 
     #Load .bash_functions
     echo Loading .bash_functions...
-    cp -v .bash_functions ~ && source ~/.bashrc
+    cp -v .bash_functions $HOME && source $HOME/.bashrc
+    if ! grep -Fxq "    . ~/.bash_functions" $HOME/.bashrc
+    then
+        echo -e "\nif [ -f ~/.bash_functions ]; then\n    . ~/.bash_functions\nfi" >> $HOME/.bashrc
+    fi
 
     #Load battery-status.sh
     echo Loading battery-status.sh...
@@ -44,13 +43,13 @@ OverwriteCopy () {
     #Load Albert settings
     echo Loading Albert settings...
     sudo cp -v ../MacOS-Themes/BigSur-Spotlight/BigSur_White.qss /usr/share/albert/org.albert.frontend.widgetboxmodel/themes/
-    cp -v ../MacOS-Themes/BigSur-Spotlight/albert.conf ~/.config/albert/
+    cp -v ../MacOS-Themes/BigSur-Spotlight/albert.conf $HOME/.config/albert/
 }
 
 nonOverwriteCopy () {
     #Load .vimrc
     echo Loading .vimrc...
-    result=$(cp -vn .vimrc ~)
+    result=$(cp -vn .vimrc $HOME)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -58,7 +57,7 @@ nonOverwriteCopy () {
 
     #Load .gvimrc
     echo Loading .gvimrc...
-    result=$(cp -vn .gvimrc ~)
+    result=$(cp -vn .gvimrc $HOME)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -66,7 +65,7 @@ nonOverwriteCopy () {
 
     #Load libinput-gestures.conf
     echo Loading libinput-gestures.conf...
-    result=$(cp -vn libinput-gestures.conf ~/.config/)
+    result=$(cp -vn libinput-gestures.conf $HOME/.config/)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -74,7 +73,7 @@ nonOverwriteCopy () {
 
     #Load .bash_aliases
     echo Loading .bash_aliases...
-    result=$(cp -vn .bash_aliases ~ && source ~/.bashrc)
+    result=$(cp -vn .bash_aliases $HOME && source $HOME/.bashrc)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -82,10 +81,15 @@ nonOverwriteCopy () {
 
     #Load .bash_functions
     echo Loading .bash_functions...
-    result=$(cp -vn .bash_functions ~ && source ~/.bashrc)
+    result=$(cp -vn .bash_functions $HOME && source $HOME/.bashrc)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
+    else
+        if ! grep -Fxq "    . ~/.bash_functions" $HOME/.bashrc
+        then
+            echo -e "\nif [ -f ~/.bash_functions ]; then\n    . ~/.bash_functions\nfi" >> $HOME/.bashrc
+        fi
     fi
 
     #Load battery-status.sh
@@ -119,7 +123,7 @@ nonOverwriteCopy () {
         then
             echo -e "File already exist. Abort..."
     fi
-    result=$(cp -vn ../MacOS-Themes/BigSur-Spotlight/albert.conf ~/.config/albert/)
+    result=$(cp -vn ../MacOS-Themes/BigSur-Spotlight/albert.conf $HOME/.config/albert/)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
