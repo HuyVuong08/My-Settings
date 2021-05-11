@@ -121,6 +121,9 @@ WORKDIR="$(pwd)"
 #sudo cp -v ../MacOS-Themes/BigSur-Spotlight/BigSur_White.qss /usr/share/albert/org.albert.frontend.widgetboxmodel/themes/
 #cp -v ../MacOS-Themes/BigSur-Spotlight/albert.conf ~/.config/albert/
 #
+## Launch Albert on Startup
+#ln -s /usr/share/applications/albert.desktop $HOME/.config/autostart/albert.desktop
+#
 ##-------------------------------------------
 #
 ## Config blank screen and locking mechanism
