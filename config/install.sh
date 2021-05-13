@@ -11,13 +11,19 @@ setup() {
 
     #-------------------------------------------
 
-    # Install git
+    # Install Git
     echo Installing git...
     sudo apt-get install -y git
 
     # Set your global user name and email
     git config --global user.name "HuyVuong08"
     git config --global user.email "huy.vuongle123@gmail.com"
+
+    #-------------------------------------------
+
+    # Installing Gparted
+    echo Installing Gparted...
+    sudo apt-get install -y gparted
 
     #-------------------------------------------
 
@@ -56,8 +62,8 @@ setup() {
     libinput-gestures-setup autostart
 
     # Install UI tool
-    sudo apt-get install python3
-    sudo apt-get install python3-setuptools
+    sudo apt-get install -y python3
+    sudo apt-get install -y python3-setuptools
     cd $HOME
     git clone https://gitlab.com/cunidev/gestures
     cd gestures
@@ -77,7 +83,7 @@ setup() {
 
     # Install mdless
     echo Installing mdless for mark down files viewing...
-    sudo gem install mdless
+    sudo gem install -y mdless
 
     #-------------------------------------------
 
