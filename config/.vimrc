@@ -369,15 +369,21 @@ nnoremap <leader>pi :PlugInstall<CR>
 "Shortcuts auto indent
 nnoremap <leader>== gg=G``
 
-"Shortcuts all occurrences replacing
+"Shortcuts merge blocks
+nnoremap <leader>mb :5,8del <bar> let l=split(@","/n") <bar> ,s/$/\=remove(l,0)/g
+
+"Shortcuts replace all occurrences
 nnoremap <leader>ra :%s//gc<Left><Left><Left>
 
-"Shortcuts all occurrences replacing in one line
+"Shortcuts replace all occurrences in one line
 nnoremap <leader>rl :s//g<Left><Left>
 
-"Shortcuts all occurrences replacing in a block of code
+"Shortcuts replace all occurrences in a block of code
 nnoremap <leader>rb :.,s//g<Left><Left><Left><Left>
 vnoremap <leader>rb :.,s//g<Left><Left><Left><Left>
+
+"Shortcuts replace with pattern
+nnoremap <leader>rp :s/Copyright \zs2007\ze All Rights Reserved/2008/
 
 "Shortcuts copy and delete to the end of paragraph
 nnoremap y{ V}y
