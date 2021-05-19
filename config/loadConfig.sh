@@ -148,7 +148,7 @@ if [[ $# -eq 0 ]]; then
         case $yn in
             [Yy]* ) OverwriteCopy; break;;
             [Nn]* ) nonOverwriteCopy; break;;
-            [Cc]* ) cancel; exit;;
+            [Cc]* ) cancel; exit 1;;
             * ) echo "Please answer yes, no or cancel.";;
         esac
     done
