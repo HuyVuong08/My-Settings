@@ -1,4 +1,5 @@
 #!/bin/bash
+
 overwriteCopy () {
     #Save .vimrc
     echo Saving .vimrc...
