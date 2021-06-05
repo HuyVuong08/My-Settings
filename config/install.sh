@@ -11,6 +11,16 @@ setup() {
 
     #-------------------------------------------
 
+    # Create a 8GB Swapfile
+    echo Creating a 8GB Swapfile...
+    sudo swapoff /swapfile
+    sudo dd if=/dev/zero of=/swapfile count=8 bs=1G
+    sudo mkswap /swapfile
+    sudo chmod 600 /swapfile
+    sudo swapon /swapfile
+
+    #-------------------------------------------
+
     # Install Git
     echo Installing git...
     sudo apt-get install -y git
@@ -94,7 +104,7 @@ setup() {
     sudo chmod +x /opt/scripts/battery-status.sh
     if ! grep -Fxq "sh /opt/scripts/battery-status.sh &" /etc/profile
     then
-         echo -e "\nsh /opt/scripts/battery-status.sh &" | sudo tee --append /etc/profile >> /dev/null
+        echo -e "\nsh /opt/scripts/battery-status.sh &" | sudo tee --append /etc/profile >> /dev/null
     fi
 
     #-------------------------------------------
@@ -181,15 +191,15 @@ quit() {
 }
 
 usage() {
-  printf "%s\n" "Usage: $0 [OPTIONS...]"
-  printf "\n%s\n" "OPTIONS:"
-  printf "  %-15s%s\n" "-y, --yes" "Assume \"yes\" as answer to all prompts"
-  printf "  %-15s%s\n" "-h, --help" "Show this help"
+    printf "%s\n" "Usage: $0 [OPTIONS...]"
+    printf "\n%s\n" "OPTIONS:"
+    printf "  %-15s%s\n" "-y, --yes" "Assume \"yes\" as answer to all prompts"
+    printf "  %-15s%s\n" "-h, --help" "Show this help"
 }
 
 if [[ $EUID -eq 0 ]]; then
-  echo "This script should NOT be run as root" 1>&2
-  exit 1
+    echo "This script should NOT be run as root" 1>&2
+    exit 1
 fi
 
 if [[ $# -eq 0 ]]; then

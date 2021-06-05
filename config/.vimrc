@@ -117,7 +117,7 @@ set splitbelow
 set splitright
 
 "Sets color scheme
-colorscheme mysticaltutor
+silent! colorscheme mysticaltutor
 set background=dark
 
 "Set wrap
@@ -423,6 +423,9 @@ autocmd FileType c,cpp nnoremap <buffer> yaf :call CppFunctionBlockInteract('y')
 autocmd FileType c,cpp nnoremap <buffer> daf :call CppFunctionBlockInteract('d')<CR>
 autocmd FileType c,cpp nnoremap <buffer> vaf :call CppFunctionBlockInteract('')<CR>
 
+"Automatically set syntax highlighting when open shell scripts
+autocmd FileType sh :set syn=sh
+
 "Automatically delete trailing white spaces before saving a file
 autocmd BufWritePre * :call StripTrailingWhitespace()
 
@@ -553,5 +556,5 @@ function CppFunctionBlockInteract(choice)
             break
         endif
     endwhile
-    execute 'normal! ' . l:posOfFuncName . 'ggV`z'
+    execute 'normal! ' . l:posOfFuncName . 'ggV`z' . a:choice
 endfunction

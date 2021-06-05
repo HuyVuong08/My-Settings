@@ -1,8 +1,8 @@
 #!/bin/bash
 
 if [[ $EUID -eq 0 ]]; then
-  echo "This script should NOT be run as root" 1>&2
-  exit 1
+    echo "This script should NOT be run as root" 1>&2
+    exit 1
 fi
 
 # Save Working Directory
@@ -39,19 +39,19 @@ WORKDIR="$(pwd)"
 #sudo apt-get install -y gnome-shell-extensions
 #
 ##-------------------------------------------
-
-# Install Plank Dock
-echo "Installing Plank Dock ..."
-sudo apt-get install -y plank
-
-# Launch Plank Dock on Startup
-ln -s /usr/share/applications/plank.desktop $HOME/.config/autostart/plank.desktop
-
-# Install Plank Dock themes
-echo 'Installing MacOS Big Sur Plank Dock Themes ...'
-sudo mkdir -p /usr/share/plank/themes/macOS-BigSur/
-sudo cp -v $WORKDIR/BigSur-Dock/dock.theme /usr/share/plank/themes/macOS-BigSur/
-
+#
+## Install Plank Dock
+#echo "Installing Plank Dock ..."
+#sudo apt-get install -y plank
+#
+## Launch Plank Dock on Startup
+#ln -s /usr/share/applications/plank.desktop $HOME/.config/autostart/plank.desktop
+#
+## Install Plank Dock themes
+#echo 'Installing MacOS Big Sur Plank Dock Themes ...'
+#sudo mkdir -p /usr/share/plank/themes/macOS-BigSur/
+#sudo cp -v $WORKDIR/BigSur-Dock/dock.theme /usr/share/plank/themes/macOS-BigSur/
+#
 ##-------------------------------------------
 #
 ## Install imagemagick
@@ -144,76 +144,136 @@ sudo cp -v $WORKDIR/BigSur-Dock/dock.theme /usr/share/plank/themes/macOS-BigSur/
 #sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 #
 ##-------------------------------------------
-#
-## Install Wallpaper
-#echo 'Downloading MacOS BigSur Wallpaper ...'
-#(
-# mkdir -p $HOME/Pictures/macOS-BigSur-Wallpaper && cd "$_"
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/06/Appearance.png --output 'BigSur-Color-Light.jpg'
-# echo 'Download complete: Wallpaper BigSur-Color-Light.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Peak-2-dragged.jpg --output 'BigSur-Peak.jpg'
-# echo 'Download complete: Wallpaper BigSur-Peak.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Valley-2-dragged.jpg --output 'BigSur-Valley.jpg'
-# echo 'Download complete: Wallpaper BigSur-Valley.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Dome-2-dragged.jpg --output 'BigSur-Dome.jpg'
-# echo 'Download complete: Wallpaper BigSur-Dome.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Tree-2-dragged.jpg --output 'BigSur-Tree.jpg'
-# echo 'Download complete: Wallpaper BigSur-Tree.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Beach-7-dragged.jpg --output 'BigSur-Beach.jpg'
-# echo 'Download complete: Wallpaper BigSur-Beach.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Cliffs-6-dragged.jpg --output 'BigSur-Cliffs.jpg'
-# echo 'Download complete: Wallpaper BigSur-Cliffs.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Desert-6-dragged.jpg --output 'BigSur-Desert.jpg'
-# echo 'Download complete: Wallpaper BigSur-Desert.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Lake-7-dragged.jpg --output 'BigSur-Lake.jpg'
-# echo 'Download complete: Wallpaper BigSur-Lake.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Iridescence-Dark.png --output 'BigSur-Iridescence-Dark.jpg'
-# echo 'Download complete: Wallpaper BigSur-Iridescence.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Big-Sur-Road.png --output 'BigSur-Road.jpg'
-# echo 'Download complete: Wallpaper BigSur-Road.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/09/1652.Noodles_Blue_Dark-820w-1180h@2xipad.png --output 'BigSur-Noodles-Blue-Dark.jpg'
-# echo 'Download complete: Wallpaper BigSur-Noodles-Blue-Dark.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/09/1612.Noodles_Green_Dark-820w-1180h@2xipad.png --output 'BigSur-Noodles-Green-Dark.jpg'
-# echo 'Download complete: Wallpaper BigSur-Noodles-Green-Dark.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/09/1622.Noodles_Pink_Dark-820w-1180h@2xipad.png --output 'BigSur-Noodles-Pink-Dark.jpg'
-# echo 'Download complete: Wallpaper BigSur-Noodles-Pink-Dark.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/09/1632.Noodles_Silver_Dark-820w-1180h@2xipad.png --output 'BigSur-Noodles-Silver-Dark.jpg'
-# echo 'Download complete: Wallpaper BigSur-Noodles-Silver-Dark.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/09/1642.Noodles_Gray_Dark-820w-1180h@2xipad.png --output 'BigSur-Noodles-Gray-Dark.jpg'
-# echo 'Download complete: Wallpaper BigSur-Noodles-Gray-Dark.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/06/Safari_Background_1NE45_Blue.jpg --output 'BigSur-Safari-Blue.jpg'
-# echo 'Download complete: Wallpaper BigSur-Safari-Blue.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/06/Safari_Background_2NE45_Pink.jpg --output 'BigSur-Safari-Pink.jpg'
-# echo 'Download complete: Wallpaper BigSur-Safari-Pink.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/06/Safari_Background_3NE45_Orange.jpg --output 'BigSur-Safari-Orange.jpg'
-# echo 'Download complete: Wallpaper BigSur-Safari-Orange.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Big-Sur-Night-Grasses.png --output 'BigSur-Night-Grasses.jpg'
-# echo 'Download complete: Wallpaper BigSur-Night-Grasses.jpg'
-# echo '-------------------------------------------------------------------------------'
-# curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Big-Sur-Night-Succulents.png --output 'BigSur-Night-Succulents.jpg'
-# echo 'Download complete: Wallpaper BigSur-Night-Succulents.jpg'
-# echo '-------------------------------------------------------------------------------'
-#)
-#
+
+# Install Wallpaper
+echo 'Downloading MacOS BigSur Wallpaper ...'
+(
+mkdir -p $HOME/Pictures/macOS-BigSur-Wallpaper && cd "$_"
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/06/Appearance.png --output 'BigSur-Color-Light.jpg'
+echo 'Download complete: Wallpaper BigSur-Color-Light.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Peak-1-dragged.jpg --output 'BigSur-Peak-1.jpg'
+echo 'Download complete: Wallpaper BigSur-Peak-1.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Peak-2-dragged.jpg --output 'BigSur-Peak-2.jpg'
+echo 'Download complete: Wallpaper BigSur-Peak-2.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Valley-1-dragged.jpg --output 'BigSur-Valley-1.jpg'
+echo 'Download complete: Wallpaper BigSur-Valley-1.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Valley-2-dragged.jpg --output 'BigSur-Valley-2.jpg'
+echo 'Download complete: Wallpaper BigSur-Valley-2.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Dome-1-dragged.jpg --output 'BigSur-Dome-1.jpg'
+echo 'Download complete: Wallpaper BigSur-Dome-1.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Dome-2-dragged.jpg --output 'BigSur-Dome-2.jpg'
+echo 'Download complete: Wallpaper BigSur-Dome-2.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Tree-1-dragged.jpg --output 'BigSur-Tree-1.jpg'
+echo 'Download complete: Wallpaper BigSur-Tree-1.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Tree-2-dragged.jpg --output 'BigSur-Tree-2.jpg'
+echo 'Download complete: Wallpaper BigSur-Tree-2.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Beach-1-dragged.jpg --output 'BigSur-Beach-1.jpg'
+echo 'Download complete: Wallpaper BigSur-Beach-1.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Beach-5-dragged.jpg --output 'BigSur-Beach-5.jpg'
+echo 'Download complete: Wallpaper BigSur-Beach-5.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Beach-7-dragged.jpg --output 'BigSur-Beach-7.jpg'
+echo 'Download complete: Wallpaper BigSur-Beach-7.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Cliffs-1-dragged.jpg --output 'BigSur-Cliffs-1.jpg'
+echo 'Download complete: Wallpaper BigSur-Cliffs-1.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Cliffs-5-dragged.jpg --output 'BigSur-Cliffs-5.jpg'
+echo 'Download complete: Wallpaper BigSur-Cliffs-5.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Cliffs-6-dragged.jpg --output 'BigSur-Cliffs-6.jpg'
+echo 'Download complete: Wallpaper BigSur-Cliffs-6.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Desert-1-dragged.jpg --output 'BigSur-Desert-1.jpg'
+echo 'Download complete: Wallpaper BigSur-Desert-1.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Desert-5-dragged.jpg --output 'BigSur-Desert-5.jpg'
+echo 'Download complete: Wallpaper BigSur-Desert-5.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Desert-6-dragged.jpg --output 'BigSur-Desert-6.jpg'
+echo 'Download complete: Wallpaper BigSur-Desert-6.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Lake-1-dragged.jpg --output 'BigSur-Lake-1.jpg'
+echo 'Download complete: Wallpaper BigSur-Lake-1.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Lake-5-dragged.jpg --output 'BigSur-Lake-5.jpg'
+echo 'Download complete: Wallpaper BigSur-Lake-5.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Lake-6-dragged.jpg --output 'BigSur-Lake-6.jpg'
+echo 'Download complete: Wallpaper BigSur-Lake-6.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Lake-7-dragged.jpg --output 'BigSur-Lake-7.jpg'
+echo 'Download complete: Wallpaper BigSur-Lake-7.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Lake-8-dragged.jpg --output 'BigSur-Lake-8.jpg'
+echo 'Download complete: Wallpaper BigSur-Lake-8https://9to5mac.com/wp-content/uploads/sites/6/2020/10/The-Lake-8-dragged.jpg.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Iridescence-Light.jpg --output 'BigSur-Iridescence-Light.jpg'
+echo 'Download complete: Wallpaper BigSur-Iridescence-Light.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Iridescence-Dark.png --output 'BigSur-Iridescence-Dark.jpg'
+echo 'Download complete: Wallpaper BigSur-Iridescence-Dark.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Big-Sur-Road.png --output 'BigSur-Road.jpg'
+echo 'Download complete: Wallpaper BigSur-Road.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/09/1651.Noodles_Blue_Light-820w-1180h@2xipad.png --output 'BigSur-Noodles-Blue-Light.jpg'
+echo 'Download complete: Wallpaper BigSur-Noodles-Blue-Light.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/09/1652.Noodles_Blue_Dark-820w-1180h@2xipad.png --output 'BigSur-Noodles-Blue-Dark.jpg'
+echo 'Download complete: Wallpaper BigSur-Noodles-Blue-Dark.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/09/1611.Noodles_Green_Light-820w-1180h@2xipad.png --output 'BigSur-Noodles-Green-Light.jpg'
+echo 'Download complete: Wallpaper BigSur-Noodles-Green-Light.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/09/1612.Noodles_Green_Dark-820w-1180h@2xipad.png --output 'BigSur-Noodles-Green-Dark.jpg'
+echo 'Download complete: Wallpaper BigSur-Noodles-Green-Dark.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/09/1621.Noodles_Pink_Light-820w-1180h@2xipad.png --output 'BigSur-Noodles-Pink-Light.jpg'
+echo 'Download complete: Wallpaper BigSur-Noodles-Pink-Light.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/09/1622.Noodles_Pink_Dark-820w-1180h@2xipad.png --output 'BigSur-Noodles-Pink-Dark.jpg'
+echo 'Download complete: Wallpaper BigSur-Noodles-Pink-Dark.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/09/1631.Noodles_Silver_Light-820w-1180h@2xipad.png --output 'BigSur-Noodles-Silver-Light.jpg'
+echo 'Download complete: Wallpaper BigSur-Noodles-Silver-Light.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/09/1632.Noodles_Silver_Dark-820w-1180h@2xipad.png --output 'BigSur-Noodles-Silver-Dark.jpg'
+echo 'Download complete: Wallpaper BigSur-Noodles-Silver-Dark.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/09/1641.Noodles_Gray_Light-820w-1180h@2xipad.png --output 'BigSur-Noodles-Gray-Light.jpg'
+echo 'Download complete: Wallpaper BigSur-Noodles-Gray-Light.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/09/1642.Noodles_Gray_Dark-820w-1180h@2xipad.png --output 'BigSur-Noodles-Gray-Dark.jpg'
+echo 'Download complete: Wallpaper BigSur-Noodles-Gray-Dark.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/06/Safari_Background_1NE45_Blue.jpg --output 'BigSur-Safari-Blue.jpg'
+echo 'Download complete: Wallpaper BigSur-Safari-Blue.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/06/Safari_Background_2NE45_Pink.jpg --output 'BigSur-Safari-Pink.jpg'
+echo 'Download complete: Wallpaper BigSur-Safari-Pink.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/06/Safari_Background_3NE45_Orange.jpg --output 'BigSur-Safari-Orange.jpg'
+echo 'Download complete: Wallpaper BigSur-Safari-Orange.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Big-Sur-Night-Grasses.png --output 'BigSur-Night-Grasses.jpg'
+echo 'Download complete: Wallpaper BigSur-Night-Grasses.jpg'
+echo '-------------------------------------------------------------------------------'
+curl https://9to5mac.com/wp-content/uploads/sites/6/2020/10/Big-Sur-Night-Succulents.png --output 'BigSur-Night-Succulents.jpg'
+echo 'Download complete: Wallpaper BigSur-Night-Succulents.jpg'
+echo '-------------------------------------------------------------------------------'
+)
+
 ##-------------------------------------------
 #
 ## Install Plymouth theme
