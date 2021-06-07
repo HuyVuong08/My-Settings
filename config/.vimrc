@@ -1,6 +1,8 @@
 call plug#begin('~/.vim/plugged')
 "Plugin color scheme
-Plug 'caksoylar/vim-mysticaltutor'
+Plug 'rakr/vim-one'
+"Plugin status line theme
+Plug 'vim-airline/vim-airline'
 "Plugin surrounding tags and brackets editing
 Plug 'tpope/vim-surround'
 "Plugin closing buffer without closing window
@@ -9,6 +11,8 @@ Plug 'chrismccord/bclose.vim'
 Plug 'vim-scripts/VisIncr'
 "Plugin auto close character
 Plug 'Townk/vim-autoclose'
+"Plugin color display from color code
+Plug 'RRethy/vim-hexokinase'
 
 "Plugin html files editing
 "Plug 'mattn/emmet-vim'
@@ -117,8 +121,13 @@ set splitbelow
 set splitright
 
 "Sets color scheme
-silent! colorscheme mysticaltutor
+let g:one_allow_italics = 1
 set background=dark
+silent! colorscheme one
+set termguicolors
+
+"Hexokinase color code to color
+let g:Hexokinase_highlighters = [ 'backgroundfull' ]
 
 "Set wrap
 set wrap
