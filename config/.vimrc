@@ -13,6 +13,8 @@ Plug 'vim-scripts/VisIncr'
 Plug 'Townk/vim-autoclose'
 "Plugin color display from color code
 Plug 'RRethy/vim-hexokinase'
+"Plugin indent line indication
+Plug 'Yggdroot/indentLine'
 
 "Plugin html files editing
 "Plug 'mattn/emmet-vim'
@@ -61,6 +63,11 @@ Plug 'WolfgangMehner/c-support'
 "Plugin sublime text multiple cursors
 Plug 'terryma/vim-multiple-cursors'
 call plug#end()
+
+"Indent line indication configuration
+let g:indentLine_setColors = 0
+let g:indentLine_defaultGroup = 'SpecialKey'
+let g:indentLine_char = '▏'
 
 "Toggling on jumping between if and endif
 runtime macros/matchit.vim
@@ -115,6 +122,8 @@ set shiftwidth=4
 set autoindent
 set expandtab
 set smartindent
+set listchars=tab:\|\
+set list
 
 "Sets split directions
 set splitbelow
