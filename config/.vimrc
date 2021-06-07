@@ -11,10 +11,14 @@ Plug 'chrismccord/bclose.vim'
 Plug 'vim-scripts/VisIncr'
 "Plugin auto close character
 Plug 'Townk/vim-autoclose'
-"Plugin color display from color code
+"Plugin display color from color code
 Plug 'RRethy/vim-hexokinase'
 "Plugin indent line indication
 Plug 'Yggdroot/indentLine'
+"Plugin high light all occurences
+Plug 'lfv89/vim-interestingwords'
+"Plugin high light all occurences under the cursor
+Plug 'dominikduda/vim_current_word'
 
 "Plugin html files editing
 "Plug 'mattn/emmet-vim'
@@ -68,6 +72,10 @@ call plug#end()
 let g:indentLine_setColors = 0
 let g:indentLine_defaultGroup = 'SpecialKey'
 let g:indentLine_char = '▏'
+
+"Current word under cursor configuration
+autocmd Filetype * highlight! link CurrentWordTwins Search
+autocmd Filetype * highlight! link CurrentWord PMenuSel
 
 "Toggling on jumping between if and endif
 runtime macros/matchit.vim
