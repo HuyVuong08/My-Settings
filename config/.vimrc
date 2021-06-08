@@ -15,9 +15,9 @@ Plug 'Townk/vim-autoclose'
 Plug 'RRethy/vim-hexokinase'
 "Plugin indent line indication
 Plug 'Yggdroot/indentLine'
-"Plugin high light all occurences
+"Plugin highlight all occurences
 Plug 'lfv89/vim-interestingwords'
-"Plugin high light all occurences under the cursor
+"Plugin highlight all occurences under the cursor
 Plug 'dominikduda/vim_current_word'
 
 "Plugin html files editing
@@ -68,14 +68,23 @@ Plug 'WolfgangMehner/c-support'
 Plug 'terryma/vim-multiple-cursors'
 call plug#end()
 
+"Sets color scheme
+set termguicolors
+set background=dark
+let g:one_allow_italics = 1
+silent! colorscheme one
+
+"Auto higlight current word under cursor color configuration
+highlight link CurrentWordTwins Search
+highlight link CurrentWord PMenuSel
+
+"Hexokinase color code to color
+let g:Hexokinase_highlighters = [ 'backgroundfull' ]
+
 "Indent line indication configuration
 let g:indentLine_setColors = 0
 let g:indentLine_defaultGroup = 'SpecialKey'
 let g:indentLine_char = '▏'
-
-"Current word under cursor configuration
-autocmd Filetype * highlight! link CurrentWordTwins Search
-autocmd Filetype * highlight! link CurrentWord PMenuSel
 
 "Toggling on jumping between if and endif
 runtime macros/matchit.vim
@@ -136,15 +145,6 @@ set list
 "Sets split directions
 set splitbelow
 set splitright
-
-"Sets color scheme
-let g:one_allow_italics = 1
-set background=dark
-silent! colorscheme one
-set termguicolors
-
-"Hexokinase color code to color
-let g:Hexokinase_highlighters = [ 'backgroundfull' ]
 
 "Set wrap
 set wrap

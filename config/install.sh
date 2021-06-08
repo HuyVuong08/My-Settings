@@ -6,13 +6,13 @@ setup() {
     WORKDIR="$(pwd)"
 
     # Update
-    echo Updating...
+    echo Updating ...
     sudo apt-get -y update
 
     #-------------------------------------------
 
     # Create a 8GB Swapfile
-    echo Creating a 8GB Swapfile...
+    echo Creating a 8GB Swapfile ...
     sudo swapoff /swapfile
     sudo dd if=/dev/zero of=/swapfile count=8 bs=1G
     sudo mkswap /swapfile
@@ -22,30 +22,30 @@ setup() {
     #-------------------------------------------
 
     # Install Git
-    echo Installing git...
+    echo Installing Git ...
     sudo apt-get install -y git
 
-    # Set your global user name and email
+    # Set Global User Name and Email
     git config --global user.name "HuyVuong08"
     git config --global user.email "huy.vuongle123@gmail.com"
 
     #-------------------------------------------
 
     # Installing Gparted
-    echo Installing Gparted...
+    echo Installing Gparted ...
     sudo apt-get install -y gparted
 
     #-------------------------------------------
 
-    # Make Ubuntu use local time
-    echo Making Ubuntu use local time...
+    # Let Ubuntu Use Local Time
+    echo Making Ubuntu Use Local Time ...
     timedatectl set-local-rtc 1 --adjust-system-clock
     timedatectl
 
     #-------------------------------------------
 
-    # Disable error sound in Terminal
-    echo Making Ubuntu use local time...
+    # Disable Error Sound in Terminal
+    echo Disabling Error Sound in Terminal ...
     if ! grep -Fxq "bind 'set bell-style none'" $HOME/.bashrc
     then
         echo -e "bind 'set bell-style none'" >> $HOME/.bashrc
@@ -53,25 +53,25 @@ setup() {
 
     #-------------------------------------------
 
-    # Install xdotool and libinput-tools
-    echo Installing xdotool and libinput-tools for macOS like touch pad guesture...
+    # Install Xdotool and Libinput-Tools
+    echo Installing Xdotool and Libinput-Tools for MacOS-like Touch Pad Guesture ...
     sudo apt-get install -y libinput-tools xdotool
 
-    # Add your user to the input group
+    # Add User to the Input Group
     sudo gpasswd -a $USER input
 
-    # Install libinput gestures
+    # Install Libinput Gestures
     cd $HOME
     git clone https://github.com/bulletmark/libinput-gestures.git
     cd libinput-gestures
     sudo make install
     sudo ./libinput-gestures-setup install
 
-    # Start the software and allow it to run at startup.
+    # Start the Software and Allow It to Run at Startup.
     libinput-gestures-setup start
     libinput-gestures-setup autostart
 
-    # Install UI tool
+    # Install UI Tool
     sudo apt-get install -y python3
     sudo apt-get install -y python3-setuptools
     cd $HOME
@@ -82,23 +82,23 @@ setup() {
 
     #-------------------------------------------
 
-    # Install ibus-unikey
-    echo Installing ibus-unikey for Vietnamese language typing...
+    # Install Ibus-Unikey
+    echo Installing Ibus-Unikey for Vietnamese Language Typing ...
     sudo apt-get install -y ibus-unikey
 
-    # Resstart ibus
+    # Resstart Ibus
     ibus restart
 
     #-------------------------------------------
 
-    # Install mdless
-    echo Installing mdless for mark down files viewing...
+    # Install Mdless
+    echo Installing Mdless for Mark Down Files Viewing ...
     sudo gem install -y mdless
 
     #-------------------------------------------
 
     # Install  Battery Status
-    echo Installing Battery Status for battery charging level limiter...
+    echo Installing Battery Status for Battery Charging Level Limiter ...
     sudo mkdir -p /opt/scripts/
     sudo cp -v battery-status.sh /opt/scripts
     sudo chmod +x /opt/scripts/battery-status.sh
@@ -110,7 +110,7 @@ setup() {
     #-------------------------------------------
 
     # Install TeamViewer
-    echo Installing TeamViewer...
+    echo Installing TeamViewer ...
     cd $HOME
     rm teamviewer_amd64.deb
     wget https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
@@ -120,7 +120,7 @@ setup() {
     #-------------------------------------------
 
     # Install Unusedpkg
-    echo Installing Unusedpkg...
+    echo Installing Unusedpkg ...
     cd $HOME
     curl https://codeload.github.com/epinna/Unusedpkg/zip/master -o 'unusedpkg.zip'
     unzip -o unusedpkg.zip && rm unusedpkg.zip
@@ -131,13 +131,13 @@ setup() {
     #-------------------------------------------
 
     # Install Curl
-    echo Installing Curl...
+    echo Installing Curl ...
     sudo apt-get install -y curl
 
     #-------------------------------------------
 
     # Install Vim and Necessary Packages
-    echo Installing Vim and Necessary Packages...
+    echo Installing Vim and Necessary Packages ...
 
     # Install Vim
     sudo apt-get install -y vim
@@ -145,21 +145,24 @@ setup() {
     # Install Vim GTK3 for copying to clipboard from vim
     sudo apt-get install -y vim-gtk3
 
-    # Install Vim Plug
+    #-------------------------------------------
+
+    # Install Vim Plug Plugin Manager
+    echo Installing Vim Plug Plugin Manager ...
     curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
     #-------------------------------------------
 
     # Load Configuration Files
-    echo Loading Configuration Files...
+    echo Loading Configuration Files ...
     ./loadConfig.sh -y
 
     #-------------------------------------------
 
     # Install Vim Setups and Pluggins
-    echo Installing Vim Setups and Pluggins...
+    echo Installing Vim Setups and Pluggins ...
 
-    # Remove Existing YouCompleteMe Before Re-install It
+    # Remove Existing YouCompleteMe if any Before Re-install It
     sudo rm -rf $HOME/.vim/plugged/YouCompleteMe
 
     # Source .vimrc
@@ -169,7 +172,7 @@ setup() {
     vim -c "PlugInstall" -c qa
 
     # Install YouCompleteMe
-    echo Installing YouCompleteMe...
+    echo Installing YouCompleteMe ...
     sudo apt-get install -y build-essential cmake vim-nox python3-dev
     sudo apt-get install -y mono-complete golang nodejs default-jdk npm
     cd $HOME/.vim/plugged/YouCompleteMe
@@ -178,16 +181,16 @@ setup() {
     cd $WORKDIR
 
     # Install Exuberant Ctags
-    echo Installing Exuberant-ctags...
+    echo Installing Exuberant-ctags ...
     sudo apt-get install -y exuberant-ctags
 
     # Install Ack-Grep
-    echo Installing Ack-grep...
+    echo Installing Ack-grep ...
     sudo apt-get install -y ack-grep
 }
 
 quit() {
-    echo "Quit..."
+    echo "Quit ..."
 }
 
 usage() {
