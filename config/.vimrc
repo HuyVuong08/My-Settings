@@ -440,9 +440,19 @@ nnoremap yac :call SwitchCaseBlockInteract('y')<CR>
 nnoremap dac :call SwitchCaseBlockInteract('d')<CR>
 nnoremap vac :call SwitchCaseBlockInteract('')<CR>
 
-"Shortduts fold management
+"Shortduts fold rule
 nnoremap <leader>fs :set foldmethod=syntax<CR>
 nnoremap <leader>fi :set foldmethod=indent<CR>
+
+"Shortcuts fold enable toggle
+nnoremap <leader>fe :set nofoldenable!<CR>
+
+"Shortcuts fold open and close
+nnoremap <leader>fo za
+
+"Shortcuts fold open and close all
+nnoremap <leader>fa zM
+nnoremap <leader>fu zR
 
 "Shortcuts copy, delete and select a c/cpp function block
 autocmd FileType c,cpp nnoremap <buffer> yaf :call CppFunctionBlockInteract('y')<CR>
