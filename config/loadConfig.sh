@@ -1,25 +1,27 @@
 #!/bin/bash
 
+WORKDIR="$(dirname "$(readlink -f "$0")")"
+
 OverwriteCopy () {
     #Load .vimrc
     echo Loading .vimrc...
-    cp -v .vimrc $HOME
+    cp -v $WORKDIR/.vimrc $HOME
 
     #Load .gvimrc
     echo Loading .gvimrc...
-    cp -v .gvimrc $HOME
+    cp -v $WORKDIR/.gvimrc $HOME
 
     #Load libinput-gestures.conf
     echo Loading libinput-gestures.conf...
-    cp -v libinput-gestures.conf $HOME/.config/ && libinput-gestures-setup restart
+    cp -v $WORKDIR/libinput-gestures.conf $HOME/.config/ && libinput-gestures-setup restart
 
     #Load .bash_aliases
     echo Loading .bash_aliases...
-    cp -v .bash_aliases $HOME && source $HOME/.bashrc
+    cp -v $WORKDIR/.bash_aliases $HOME && source $HOME/.bashrc
 
     #Load .bash_functions
     echo Loading .bash_functions...
-    cp -v .bash_functions $HOME && source $HOME/.bashrc
+    cp -v $WORKDIR/.bash_functions $HOME && source $HOME/.bashrc
     if ! grep -Fxq "    . ~/.bash_functions" $HOME/.bashrc
     then
         echo -e "\nif [ -f ~/.bash_functions ]; then\n    . ~/.bash_functions\nfi" >> $HOME/.bashrc
@@ -28,7 +30,7 @@ OverwriteCopy () {
     #Load battery-status.sh
     echo Loading battery-status.sh...
     sudo mkdir -p /opt/scripts/
-    sudo cp -v battery-status.sh /opt/scripts
+    sudo cp -v $WORKDIR/battery-status.sh /opt/scripts
     sudo chmod +x /opt/scripts/battery-status.sh
     if ! grep -Fxq "sh /opt/scripts/battery-status.sh &" /etc/profile
     then
@@ -38,18 +40,18 @@ OverwriteCopy () {
     #Load macOS-BigSur Dock Theme
     echo Loading macOS-BigSur Dock Theme...
     sudo mkdir -p /usr/share/plank/themes/macOS-BigSur/
-    sudo cp -v ../MacOS-Themes/BigSur-Dock/dock.theme /usr/share/plank/themes/macOS-BigSur/
+    sudo cp -v $WORKDIR/../MacOS-Themes/BigSur-Dock/dock.theme /usr/share/plank/themes/macOS-BigSur/
 
     #Load Albert settings
     echo Loading Albert settings...
-    sudo cp -v ../MacOS-Themes/BigSur-Spotlight/BigSur_White.qss /usr/share/albert/org.albert.frontend.widgetboxmodel/themes/
-    cp -v ../MacOS-Themes/BigSur-Spotlight/albert.conf $HOME/.config/albert/
+    sudo cp -v $WORKDIR/../MacOS-Themes/BigSur-Spotlight/BigSur_White.qss /usr/share/albert/org.albert.frontend.widgetboxmodel/themes/
+    cp -v $WORKDIR/../MacOS-Themes/BigSur-Spotlight/albert.conf $HOME/.config/albert/
 }
 
 nonOverwriteCopy () {
     #Load .vimrc
     echo Loading .vimrc...
-    result=$(cp -vn .vimrc $HOME)
+    result=$(cp -vn $WORKDIR/.vimrc $HOME)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -57,7 +59,7 @@ nonOverwriteCopy () {
 
     #Load .gvimrc
     echo Loading .gvimrc...
-    result=$(cp -vn .gvimrc $HOME)
+    result=$(cp -vn $WORKDIR/.gvimrc $HOME)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -65,7 +67,7 @@ nonOverwriteCopy () {
 
     #Load libinput-gestures.conf
     echo Loading libinput-gestures.conf...
-    result=$(cp -vn libinput-gestures.conf $HOME/.config/)
+    result=$(cp -vn $WORKDIR/libinput-gestures.conf $HOME/.config/)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -73,7 +75,7 @@ nonOverwriteCopy () {
 
     #Load .bash_aliases
     echo Loading .bash_aliases...
-    result=$(cp -vn .bash_aliases $HOME && source $HOME/.bashrc)
+    result=$(cp -vn $WORKDIR/.bash_aliases $HOME && source $HOME/.bashrc)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -81,7 +83,7 @@ nonOverwriteCopy () {
 
     #Load .bash_functions
     echo Loading .bash_functions...
-    result=$(cp -vn .bash_functions $HOME && source $HOME/.bashrc)
+    result=$(cp -vn $WORKDIR/.bash_functions $HOME && source $HOME/.bashrc)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -95,7 +97,7 @@ nonOverwriteCopy () {
     #Load battery-status.sh
     sudo mkdir -p /opt/scripts/
     echo Loading .bash_functions...
-    result=$(sudo cp -vn battery-status.sh /opt/scripts)
+    result=$(sudo cp -vn $WORKDIR/battery-status.sh /opt/scripts)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -110,7 +112,7 @@ nonOverwriteCopy () {
     #Load macOS-BigSur Dock Theme
     echo Loading macOS-BigSur Dock Theme...
     sudo mkdir -p /usr/share/plank/themes/macOS-BigSur/
-    result=$(sudo cp -vn ../MacOS-Themes/BigSur-Dock/dock.theme /usr/share/plank/themes/macOS-BigSur/)
+    result=$(sudo cp -vn $WORKDIR/../MacOS-Themes/BigSur-Dock/dock.theme /usr/share/plank/themes/macOS-BigSur/)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -118,12 +120,12 @@ nonOverwriteCopy () {
 
     #Load Albert settings
     echo Loading Albert settings...
-    result=$(sudo cp -vn ../MacOS-Themes/BigSur-Spotlight/BigSur_White.qss /usr/share/albert/org.albert.frontend.widgetboxmodel/themes/)
+    result=$(sudo cp -vn $WORKDIR/../MacOS-Themes/BigSur-Spotlight/BigSur_White.qss /usr/share/albert/org.albert.frontend.widgetboxmodel/themes/)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
     fi
-    result=$(cp -vn ../MacOS-Themes/BigSur-Spotlight/albert.conf $HOME/.config/albert/)
+    result=$(cp -vn $WORKDIR/../MacOS-Themes/BigSur-Spotlight/albert.conf $HOME/.config/albert/)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."

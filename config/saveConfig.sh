@@ -1,43 +1,45 @@
 #!/bin/bash
 
+WORKDIR="$(dirname "$(readlink -f "$0")")"
+
 overwriteCopy () {
     #Save .vimrc
     echo Saving .vimrc...
-    cp -v ~/.vimrc .
+    cp -v $HOME/.vimrc $WORKDIR
 
     #Save .gvimrc
     echo Saving .gvimrc...
-    cp -v ~/.gvimrc .
+    cp -v $HOME/.gvimrc $WORKDIR
 
     #Save libinput-gestures.conf
     echo Saving libinput-gestures.conf...
-    cp -v ~/.config/libinput-gestures.conf .
+    cp -v $HOME/.config/libinput-gestures.conf $WORKDIR
 
     #Save .bash_aliases
     echo Saving .bash_aliases...
-    cp -v ~/.bash_aliases .
+    cp -v $HOME/.bash_aliases $WORKDIR
 
     #Save .bash_functions
     echo Saving .bash_functions...
-    cp -v ~/.bash_functions .
+    cp -v $HOME/.bash_functions $WORKDIR
 
     #Save battery-status.sh
     echo Saving battery-status.sh...
-    sudo cp -v /opt/scripts/battery-status.sh .
+    sudo cp -v /opt/scripts/battery-status.sh $WORKDIR
 
     #Save macOS-BigSur Dock Theme
     echo Saving macOS-BigSur Dock Theme...
-    sudo cp -v /usr/share/plank/themes/macOS-BigSur/dock.theme ../MacOS-Themes/BigSur-Dock
+    sudo cp -v /usr/share/plank/themes/macOS-BigSur/dock.theme $WORKDIR/../MacOS-Themes/BigSur-Dock
 
     #Save Albert settings
     echo Saving Albert settings...
-    cp -v ~/.config/albert/albert.conf ../MacOS-Themes/BigSur-Spotlight/
+    cp -v $HOME/.config/albert/albert.conf $WORKDIR/../MacOS-Themes/BigSur-Spotlight/
 }
 
 nonOverwriteCopy () {
     #Save .vimrc
     echo Saving .vimrc...
-    result=$(cp -vn ~/.vimrc .)
+    result=$(cp -vn ~/.vimrc $WORKDIR)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -45,7 +47,7 @@ nonOverwriteCopy () {
 
     #Save .gvimrc
     echo Saving .gvimrc...
-    result=$(cp -vn ~/.gvimrc .)
+    result=$(cp -vn $HOME/.gvimrc $WORKDIR)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -53,7 +55,7 @@ nonOverwriteCopy () {
 
     #Save libinput-gestures.conf
     echo Saving libinput-gestures.conf...
-    result=$(cp -vn ~/.config/libinput-gestures.conf .)
+    result=$(cp -vn $HOME/.config/libinput-gestures.conf $WORKDIR)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -61,7 +63,7 @@ nonOverwriteCopy () {
 
     #Save .bash_aliases
     echo Saving .bash_aliases...
-    result=$(cp -vn ~/.bash_aliases .)
+    result=$(cp -vn $HOME/.bash_aliases $WORKDIR)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -69,7 +71,7 @@ nonOverwriteCopy () {
 
     #Save .bash_functions
     echo Saving .bash_functions...
-    result=$(cp -vn ~/.bash_functions .)
+    result=$(cp -vn $HOME/.bash_functions $WORKDIR)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -77,7 +79,7 @@ nonOverwriteCopy () {
 
     #Save battery-status.sh
     echo Saving battery-status.sh...
-    result=$(sudo cp -vn /opt/scripts/battery-status.sh .)
+    result=$(sudo cp -vn /opt/scripts/battery-status.sh $WORKDIR)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -85,7 +87,7 @@ nonOverwriteCopy () {
 
     #Save macOS-BigSur Dock Theme
     echo Saving macOS-BigSur Dock Theme...
-    result=$(sudo cp -vn /usr/share/plank/themes/macOS-BigSur/dock.theme ../MacOS-Themes/BigSur-Dock)
+    result=$(sudo cp -vn /usr/share/plank/themes/macOS-BigSur/dock.theme $WORKDIR/../MacOS-Themes/BigSur-Dock)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
@@ -93,7 +95,7 @@ nonOverwriteCopy () {
 
     #Save Albert settings
     echo Saving Albert settings...
-    result=$(cp -vn ~/.config/albert/albert.conf ../MacOS-Themes/BigSur-Spotlight/)
+    result=$(cp -vn $HOME/.config/albert/albert.conf $WORKDIR/../MacOS-Themes/BigSur-Spotlight/)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."

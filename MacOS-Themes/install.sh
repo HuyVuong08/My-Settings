@@ -8,142 +8,142 @@ fi
 # Save Working Directory
 WORKDIR="$(pwd)"
 
-##Update
-#echo "Updating ..."
-#sudo apt-get -y update
-#
-#echo "Installing macOS theme ..."
-#
-##-------------------------------------------
-#
-## Install Curl
-#echo "Installing Curl ..."
-#sudo apt-get install -y curl
-#
-##-------------------------------------------
-#
-## Install Git
-#echo "Installing Git ..."
-#sudo apt-get install -y git
-#
-##-------------------------------------------
-#
-## Install Gnome Tweak Tool
-#echo "Installing Gnome Tweak Tool ..."
-#sudo apt-get install -y gnome-tweak-tool
-#
-##-------------------------------------------
-#
-## Install Shell Extensions
-#echo "Installing Shell Extensions ..."
-#sudo apt-get install -y gnome-shell-extensions
-#
-##-------------------------------------------
-#
-## Install Plank Dock
-#echo "Installing Plank Dock ..."
-#sudo apt-get install -y plank
-#
-## Launch Plank Dock on Startup
-#ln -s /usr/share/applications/plank.desktop $HOME/.config/autostart/plank.desktop
-#
-## Install Plank Dock themes
-#echo 'Installing MacOS Big Sur Plank Dock Themes ...'
-#sudo mkdir -p /usr/share/plank/themes/macOS-BigSur/
-#sudo cp -v $WORKDIR/BigSur-Dock/dock.theme /usr/share/plank/themes/macOS-BigSur/
-#
-##-------------------------------------------
-#
-## Install imagemagick
-#echo "Installing ImageMagick ..."
-#sudo apt-get install imagemagick
-#
-##-------------------------------------------
-#
-## Install icnsutils
-#echo "Installing icnsutils"
-#sudo apt-get install icnsutils
-#
-##-------------------------------------------
-## Install Requirements and Dependencies
-#echo 'Installing Requirements and Dependencies ...'
-#sudo apt-get install -y gtk2-engines-murrine
-#sudo apt-get install -y gtk2-engines-pixbuf
-#sudo apt-get install -y sassc
-#sudo apt-get install -y optipng
-#sudo apt-get install -y inkscape
-#sudo apt-get install -y libglib2.0-dev-bin
-#
-##-------------------------------------------
-#
-## Install GTK themes
-#echo 'Installing MacOS Big Sur GTK Themes ...'
-#git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git
-#cd $WORKDIR/WhiteSur-gtk-theme
-#sudo ./install.sh --dest '/usr/share/themes/' --opacity 'standard'
-#sudo ./install.sh --dest '/usr/share/themes/' --opacity 'standard' --nautilus-use-colors
-#sudo ./install.sh --gdm --color 'light'
-#cd $WORKDIR
-#
-## Remove WhiteSur-gtk-theme folder
-#rm -rf WhiteSur-gtk-theme
-#
-##-------------------------------------------
-#
-## Install Icon themes
-#echo 'Installing MacOS Big Sur Icon Themes ...'
-#git clone https://github.com/vinceliuice/WhiteSur-icon-theme.git
-#cd $WORKDIR/WhiteSur-icon-theme
-#sudo ./install.sh -d '/usr/share/icons/'
-#cd $WORKDIR
-#
-## Remove WhiteSur-icon-theme folder
-#rm -rf WhiteSur-icon-theme
-#
-##-------------------------------------------
-#
-## Install Firefox themes
-#echo 'Installing MacOS Big Sur Firefox Themes ...'
-#mv WhiteSur-gtk-theme/src/other/firefox/chrome $HOME/.mozilla/firefox/*.default-release
-#
-##-------------------------------------------
-#
-## Install Albert with MacOS Big Sur Spotlight theme
-#echo 'Installing MacOS Big Sur Albert Spotlight ...'
-#curl https://build.opensuse.org/projects/home:manuelschneid3r/public_key | sudo apt-key add -
-#echo 'deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_20.04/ /' | sudo tee /etc/apt/sources.list.d/home:manuelschneid3r.list
-#sudo wget -nv https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_20.04/Release.key -O "/etc/apt/trusted.gpg.d/home:manuelschneid3r.asc"
-#sudo apt-get -y update
-#sudo apt-get install -y albert
-#
-##Load Albert settings
-#echo Loading Albert settings...
-#sudo cp -v ../MacOS-Themes/BigSur-Spotlight/BigSur_White.qss /usr/share/albert/org.albert.frontend.widgetboxmodel/themes/
-#cp -v ../MacOS-Themes/BigSur-Spotlight/albert.conf ~/.config/albert/
-#
-## Launch Albert on Startup
-#ln -s /usr/share/applications/albert.desktop $HOME/.config/autostart/albert.desktop
-#
-##-------------------------------------------
-#
-## Config blank screen and locking mechanism
-#gsettings set org.gnome.desktop.session idle-delay $((5*60))
-#gsettings set org.gnome.desktop.screensaver lock-enabled true
-#gsettings set org.gnome.desktop.screensaver lock-delay 2
-#
-##-------------------------------------------
-#
-## Config lid closing to lock
-#
-#sudo sed -i '/#HandleLidSwitch=/s/suspend/lock/' /etc/systemd/logind.conf
-#sudo sed -i '/HandleLidSwitch=/s/^#//g' /etc/systemd/logind.conf
-#
-##-------------------------------------------
-#
-## Disable sleep, suspend, hibernate and hybird features
-#sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
-#
-##-------------------------------------------
+#Update
+echo "Updating ..."
+sudo apt-get -y update
+
+echo "Installing macOS theme ..."
+
+#-------------------------------------------
+
+# Install Curl
+echo "Installing Curl ..."
+sudo apt-get install -y curl
+
+#-------------------------------------------
+
+# Install Git
+echo "Installing Git ..."
+sudo apt-get install -y git
+
+#-------------------------------------------
+
+# Install Gnome Tweak Tool
+echo "Installing Gnome Tweak Tool ..."
+sudo apt-get install -y gnome-tweak-tool
+
+#-------------------------------------------
+
+# Install Shell Extensions
+echo "Installing Shell Extensions ..."
+sudo apt-get install -y gnome-shell-extensions
+
+#-------------------------------------------
+
+# Install Plank Dock
+echo "Installing Plank Dock ..."
+sudo apt-get install -y plank
+
+# Launch Plank Dock on Startup
+ln -s /usr/share/applications/plank.desktop $HOME/.config/autostart/plank.desktop
+
+# Install Plank Dock themes
+echo 'Installing MacOS Big Sur Plank Dock Themes ...'
+sudo mkdir -p /usr/share/plank/themes/macOS-BigSur/
+sudo cp -v $WORKDIR/BigSur-Dock/dock.theme /usr/share/plank/themes/macOS-BigSur/
+
+#-------------------------------------------
+
+# Install imagemagick
+echo "Installing ImageMagick ..."
+sudo apt-get install -y imagemagick
+
+#-------------------------------------------
+
+# Install icnsutils
+echo "Installing icnsutils"
+sudo apt-get install -y icnsutils
+
+#-------------------------------------------
+# Install Requirements and Dependencies
+echo 'Installing Requirements and Dependencies ...'
+sudo apt-get install -y gtk2-engines-murrine
+sudo apt-get install -y gtk2-engines-pixbuf
+sudo apt-get install -y sassc
+sudo apt-get install -y optipng
+sudo apt-get install -y inkscape
+sudo apt-get install -y libglib2.0-dev-bin
+
+#-------------------------------------------
+
+# Install GTK themes
+echo 'Installing MacOS Big Sur GTK Themes ...'
+git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git
+cd $WORKDIR/WhiteSur-gtk-theme
+sudo ./install.sh --dest '/usr/share/themes/' --opacity 'normal'
+sudo ./install.sh --dest '/usr/share/themes/' --opacity 'normal' --nautilus-use-colors
+sudo ./install.sh --gdm --color 'light'
+cd $WORKDIR
+
+# Remove WhiteSur-gtk-theme folder
+rm -rf WhiteSur-gtk-theme
+
+#-------------------------------------------
+
+# Install Icon themes
+echo 'Installing MacOS Big Sur Icon Themes ...'
+git clone https://github.com/vinceliuice/WhiteSur-icon-theme.git
+cd $WORKDIR/WhiteSur-icon-theme
+sudo ./install.sh -d '/usr/share/icons/'
+cd $WORKDIR
+
+# Remove WhiteSur-icon-theme folder
+rm -rf WhiteSur-icon-theme
+
+#-------------------------------------------
+
+# Install Firefox themes
+echo 'Installing MacOS Big Sur Firefox Themes ...'
+mv WhiteSur-gtk-theme/src/other/firefox/chrome $HOME/.mozilla/firefox/*.default-release
+
+#-------------------------------------------
+
+# Install Albert with MacOS Big Sur Spotlight theme
+echo 'Installing MacOS Big Sur Albert Spotlight ...'
+curl https://build.opensuse.org/projects/home:manuelschneid3r/public_key | sudo apt-key add -
+echo 'deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_20.04/ /' | sudo tee /etc/apt/sources.list.d/home:manuelschneid3r.list
+sudo wget -nv https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_20.04/Release.key -O "/etc/apt/trusted.gpg.d/home:manuelschneid3r.asc"
+sudo apt-get -y update
+sudo apt-get install -y albert
+
+#Load Albert settings
+echo Loading Albert settings...
+sudo cp -v ../MacOS-Themes/BigSur-Spotlight/BigSur_White.qss /usr/share/albert/org.albert.frontend.widgetboxmodel/themes/
+cp -v ../MacOS-Themes/BigSur-Spotlight/albert.conf ~/.config/albert/
+
+# Launch Albert on Startup
+ln -s /usr/share/applications/albert.desktop $HOME/.config/autostart/albert.desktop
+
+#-------------------------------------------
+
+# Config blank screen and locking mechanism
+gsettings set org.gnome.desktop.session idle-delay $((5*60))
+gsettings set org.gnome.desktop.screensaver lock-enabled true
+gsettings set org.gnome.desktop.screensaver lock-delay 2
+
+#-------------------------------------------
+
+# Config lid closing to lock
+
+sudo sed -i '/#HandleLidSwitch=/s/suspend/lock/' /etc/systemd/logind.conf
+sudo sed -i '/HandleLidSwitch=/s/^#//g' /etc/systemd/logind.conf
+
+#-------------------------------------------
+
+# Disable sleep, suspend, hibernate and hybird features
+sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+
+#-------------------------------------------
 
 # Install Wallpaper
 echo 'Downloading MacOS BigSur Wallpaper ...'
@@ -274,19 +274,19 @@ echo 'Download complete: Wallpaper BigSur-Night-Succulents.jpg'
 echo '-------------------------------------------------------------------------------'
 )
 
-##-------------------------------------------
-#
-## Install Plymouth theme
-#
-##-------------------------------------------
-#
-## Install Launch Pad
-#echo "Installing macOS Launch Pad ..."
-#sudo apt-get install -y xdotool
-#curl https://raw.githubusercontent.com/milan102/Ubuntu-Launchpad/master/launchpad-1.0.deb --output 'launchpad-1.0.deb'
-#sudo apt-get install -y ./launchpad-1.0.deb
-#rm launchpad-1.0.deb
-#
+#-------------------------------------------
+
+# Install Plymouth theme
+
+#-------------------------------------------
+
+# Install Launch Pad
+echo "Installing macOS Launch Pad ..."
+sudo apt-get install -y xdotool
+curl https://raw.githubusercontent.com/milan102/Ubuntu-Launchpad/master/launchpad-1.0.deb --output 'launchpad-1.0.deb'
+sudo apt-get install -y ./launchpad-1.0.deb
+rm launchpad-1.0.deb
+
 ##-------------------------------------------
 #
 ## Install more Apple Icons
