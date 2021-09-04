@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install Git
-echo Installing Git ...
+echo 'Installing Git...'
 sudo apt-get install -y git
 
 # Set Global User Name and Email
