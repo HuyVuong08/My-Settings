@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Install Paint
-echo "Installing Paint ..."
+echo 'Installing Paint...'
 #Add the official PPA
 sudo add-apt-repository -y ppa:pinta-maintainers/pinta-stable
 #Update the repository
