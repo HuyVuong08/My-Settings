@@ -45,15 +45,6 @@ while true; do
 done
 
 while true; do
-    read -p "Do you wish to install Flameshot?[Yes][No]" yn
-    case $yn in
-        [Yy]* ) flameshot=TRUE; break;;
-        [Nn]* ) flameshot=FALSE; break;;
-        * ) echo "Please choose yes or no.";;
-    esac
-done
-
-while true; do
     read -p "Do you wish to install macOS Themes?[Yes][No]" yn
     case $yn in
         [Yy]* ) macOSTheme=TRUE; break;;
@@ -87,6 +78,7 @@ done
 #cd $WORKDIR/config
 #./install.sh -y
 #cd $WORKDIR
+bash $WORKDIR/Frequently-Used-Apps/install-frequently-used-apps.sh
 
 #-------------------------------------------
 
@@ -94,44 +86,35 @@ done
 
 if [ $latex = "TRUE" ]
 then
-    cd $WORKDIR/Frequently-Used-Apps
-    ./latex-install.sh
+    bash $WORKDIR/Frequently-Used-Apps/install/latex-install.sh
 fi
 
 if [ $paint = "TRUE" ]
 then
-    cd $WORKDIR/Frequently-Used-Apps
-    ./paint-install.sh
+    bash $WORKDIR/Frequently-Used-Apps/install/paint-install.sh
 fi
 
 if [ $recorder = "TRUE" ]
 then
-    cd $WORKDIR/Frequently-Used-Apps
-    ./screen-recorder-install.sh
+    bash $WORKDIR/Frequently-Used-Apps/install/screen-recorder-install.sh
 fi
 
 if [ $hdsentinel = "TRUE" ]
 then
-    cd $WORKDIR/Frequently-Used-Apps
-    ./hdsentinel-install.sh
-fi
-
-if [ $flameshot = "TRUE" ]
-then
-    cd $WORKDIR/Frequently-Used-Apps
-    ./flameshot-install.sh
+    bash $WORKDIR/Frequently-Used-Apps/install/hdsentinel-install.sh
 fi
 
 if [ $macOSTheme = "TRUE" ]
 then
-    cd $WORKDIR/MacOS-Themes
-    ./install.sh
+    bash $WORKDIR/MacOS-Themes/install.sh
 fi
 
 if [ $macOSApp = "TRUE" ]
 then
-    cd $WORKDIR/MacOS-Themes/MacOS-Exclusive-Apps
-    ./install.sh
+    #cd $WORKDIR/MacOS-Themes/MacOS-Exclusive-Apps
+    #./install.sh
+    #bash $WORKDIR/MacOS-Themes/MacOS-Exclusive-Apps/install.sh
+    echo "Working..."
 fi
 
 # Install Renamed Apps
