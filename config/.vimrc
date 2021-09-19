@@ -77,6 +77,7 @@ silent! colorscheme one
 "Auto higlight current word under cursor color configuration
 highlight link CurrentWordTwins Search
 highlight link CurrentWord PMenuSel
+highlight Comment term=italic ctermfg=300 guifg=#828997
 
 "Hexokinase color code to color
 let g:Hexokinase_highlighters = [ 'backgroundfull' ]
