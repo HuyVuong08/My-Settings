@@ -2,4 +2,4 @@
 
 # Install Mdless
 echo Installing Mdless for Mark Down Files Viewing ...
-sudo gem install -y mdless
+sudo apt-get install -y mdless
