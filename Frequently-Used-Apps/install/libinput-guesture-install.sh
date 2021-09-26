@@ -24,11 +24,13 @@ sudo gpasswd -a $USER input
     cd libinput-gestures
     sudo make install
     sudo bash libinput-gestures-setup install
+    
+    # Start the Software and Allow It to Run at Startup.
+    libinput-gestures-setup start
+    libinput-gestures-setup autostart
 )
 
-# Start the Software and Allow It to Run at Startup.
-libinput-gestures-setup start
-libinput-gestures-setup autostart
+
 
 # Install UI Tool
 sudo apt-get install -y python3
