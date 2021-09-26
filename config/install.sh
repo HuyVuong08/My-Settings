@@ -5,12 +5,6 @@ setup() {
     # Save Working Directory
     WORKDIR="$(pwd)"
 
-    # Upgrade
-    echo Upgrading ...
-    sudo apt-get -y upgrade
-
-    #-------------------------------------------
-
     # Update
     echo Updating ...
     sudo apt-get -y update
