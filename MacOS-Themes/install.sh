@@ -17,17 +17,17 @@ echo "Installing macOS theme..."
 #-------------------------------------------
 
 # Install Plank Dock
-bash plank-dock-install.sh
+bash $WORKDIR/plank-dock-install.sh
 
 #-------------------------------------------
 
 # Install GTK themes
-bash gtk-and-icon-theme-install.sh
+bash $WORKDIR/gtk-and-icon-theme-install.sh
 
 #-------------------------------------------
 
 # Install Albert with MacOS Big Sur Spotlight theme
-bash albert-install.sh
+bash $WORKDIR/albert-install.sh
 
 #-------------------------------------------
 
@@ -51,7 +51,7 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 #-------------------------------------------
 
 # Install Wallpaper
-bash wallpaper-install.sh
+bash $WORKDIR/wallpaper-install.sh
 
 #-------------------------------------------
 
@@ -60,9 +60,9 @@ bash wallpaper-install.sh
 #-------------------------------------------
 
 # Install Launch Pad
-bash launchpad-install.sh
+bash $WORKDIR/launchpad-install.sh
 
 #-------------------------------------------
 
 # Install imagemagick
-bash apple-exclusive-apps-install.sh
+bash $WORKDIR/apple-exclusive-apps-install.sh
