@@ -74,10 +74,8 @@ done
 
 #-------------------------------------------
 
-## Install config
-#cd $WORKDIR/config
-#./install.sh -y
-#cd $WORKDIR
+# Install config
+bash $WORKDIR/config/install.sh -y
 bash $WORKDIR/Frequently-Used-Apps/install-frequently-used-apps.sh
 
 #-------------------------------------------
