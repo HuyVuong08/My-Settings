@@ -17,16 +17,6 @@ setup() {
 
     #-------------------------------------------
 
-    # Create a 2GB Swapfile
-    echo Creating a 2GB Swapfile ...
-    sudo swapoff /swapfile
-    sudo dd if=/dev/zero of=/swapfile count=2 bs=1G
-    sudo mkswap /swapfile
-    sudo chmod 600 /swapfile
-    sudo swapon /swapfile
-
-    #-------------------------------------------
-
     # Let Ubuntu Use Local Time
     echo Making Ubuntu Use Local Time ...
     timedatectl set-local-rtc 1 --adjust-system-clock
@@ -41,49 +31,6 @@ setup() {
         echo -e "bind 'set bell-style none'" >> $HOME/.bashrc
     fi
 
-#    #-------------------------------------------
-#
-#    # Install Xdotool and Libinput-Tools
-#    echo Installing Xdotool and Libinput-Tools for MacOS-like Touch Pad Guesture ...
-#    sudo apt-get install -y libinput-tools xdotool
-#
-#    # Add User to the Input Group
-#    sudo gpasswd -a $USER input
-#
-#    # Install Libinput Gestures
-#    cd $HOME
-#    git clone https://github.com/bulletmark/libinput-gestures.git
-#    cd libinput-gestures
-#    sudo make install
-#    sudo ./libinput-gestures-setup install
-#
-#    # Start the Software and Allow It to Run at Startup.
-#    libinput-gestures-setup start
-#    libinput-gestures-setup autostart
-#
-#    # Install UI Tool
-#    sudo apt-get install -y python3
-#    sudo apt-get install -y python3-setuptools
-#    cd $HOME
-#    git clone https://gitlab.com/cunidev/gestures
-#    cd gestures
-#    sudo python3 setup.py install
-#    cd $WORKDIR
-#
-#    #-------------------------------------------
-#
-#    # Install Ibus-Unikey
-#    echo Installing Ibus-Unikey for Vietnamese Language Typing ...
-#    sudo apt-get install -y ibus-unikey
-#
-#    # Resstart Ibus
-#    ibus restart
-#
-#    #-------------------------------------------
-#
-#    # Install Mdless
-#    echo Installing Mdless for Mark Down Files Viewing ...
-#    sudo gem install -y mdless
 }
 
 quit() {
