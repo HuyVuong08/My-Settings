@@ -120,3 +120,9 @@ fi
 #-------------------------------------------
 
 # Install Run Diablog Apps
+
+#-------------------------------------------
+
+# Load Configuration Files
+echo 'Loading configuration files...'
+bash $WORKDIR/config/loadConfig.sh -y
