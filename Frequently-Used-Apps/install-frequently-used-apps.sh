@@ -2,6 +2,18 @@
 
 WORKDIR="$(dirname "$(readlink -f "$0")")"
 
+# Upgrade
+echo 'Upgrading ...'
+sudo apt-get -y upgrade
+
+#-------------------------------------------
+
+# Update
+echo 'Updating ...'
+sudo apt-get -y update
+
+#-------------------------------------------
+
 #bash $WORKDIR/install/battery-status-install.sh
 bash $WORKDIR/install/chrome-install.sh
 bash $WORKDIR/install/create-swapfiles.sh
