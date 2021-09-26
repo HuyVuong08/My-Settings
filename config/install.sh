@@ -27,22 +27,6 @@ setup() {
 
     #-------------------------------------------
 
-#    # Install Git
-#    echo Installing Git ...
-#    sudo apt-get install -y git
-#
-#    # Set Global User Name and Email
-#    git config --global user.name "HuyVuong08"
-#    git config --global user.email "huy.vuongle123@gmail.com"
-#
-#    #-------------------------------------------
-#
-#    # Installing Gparted
-#    echo Installing Gparted ...
-#    sudo apt-get install -y gparted
-
-    #-------------------------------------------
-
     # Let Ubuntu Use Local Time
     echo Making Ubuntu Use Local Time ...
     timedatectl set-local-rtc 1 --adjust-system-clock
@@ -100,99 +84,6 @@ setup() {
 #    # Install Mdless
 #    echo Installing Mdless for Mark Down Files Viewing ...
 #    sudo gem install -y mdless
-#
-#    #-------------------------------------------
-
-    # Install  Battery Status
-    echo Installing Battery Status for Battery Charging Level Limiter ...
-    sudo mkdir -p /opt/scripts/
-    sudo cp -v battery-status.sh /opt/scripts
-    sudo chmod +x /opt/scripts/battery-status.sh
-    if ! grep -Fxq "sh /opt/scripts/battery-status.sh &" /etc/profile
-    then
-        echo -e "\nsh /opt/scripts/battery-status.sh &" | sudo tee --append /etc/profile >> /dev/null
-    fi
-
-    #-------------------------------------------
-
-    # Install TeamViewer
-    echo Installing TeamViewer ...
-    cd $HOME
-    rm teamviewer_amd64.deb
-    wget https://download.teamviewer.com/download/linux/teamviewer_amd64.deb
-    sudo apt-get install -y ./teamviewer_amd64.deb
-    cd $WORKDIR
-
-    #-------------------------------------------
-
-    # Install Unusedpkg
-    echo Installing Unusedpkg ...
-    cd $HOME
-    curl https://codeload.github.com/epinna/Unusedpkg/zip/master -o 'unusedpkg.zip'
-    unzip -o unusedpkg.zip && rm unusedpkg.zip
-    cd Unusedpkg-master
-    ./unusedpkg
-    cd $WORKDIR
-
-    #-------------------------------------------
-
-    # Install Curl
-    echo Installing Curl ...
-    sudo apt-get install -y curl
-
-    #-------------------------------------------
-
-    # Install Vim and Necessary Packages
-    echo Installing Vim and Necessary Packages ...
-
-    # Install Vim
-    sudo apt-get install -y vim
-
-    # Install Vim GTK3 for copying to clipboard from vim
-    sudo apt-get install -y vim-gtk3
-
-    #-------------------------------------------
-
-    # Install Vim Plug Plugin Manager
-    echo Installing Vim Plug Plugin Manager ...
-    curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-    #-------------------------------------------
-
-    # Load Configuration Files
-    echo Loading Configuration Files ...
-    ./loadConfig.sh -y
-
-    #-------------------------------------------
-
-    # Install Vim Setups and Pluggins
-    echo Installing Vim Setups and Pluggins ...
-
-    # Remove Existing YouCompleteMe if any Before Re-install It
-    sudo rm -rf $HOME/.vim/plugged/YouCompleteMe
-
-    # Source .vimrc
-    vim -c -y "source $MYVIMRC" -c qa
-
-    # Install Pluggins
-    vim -c "PlugInstall" -c qa
-
-    # Install YouCompleteMe
-    echo Installing YouCompleteMe ...
-    sudo apt-get install -y build-essential cmake vim-nox python3-dev
-    sudo apt-get install -y mono-complete golang nodejs default-jdk npm
-    cd $HOME/.vim/plugged/YouCompleteMe
-    python3 install.py --clangd-completer
-    python3 install.py --all
-    cd $WORKDIR
-
-    # Install Exuberant Ctags
-    echo Installing Exuberant-ctags ...
-    sudo apt-get install -y exuberant-ctags
-
-    # Install Ack-Grep
-    echo Installing Ack-grep ...
-    sudo apt-get install -y ack-grep
 }
 
 quit() {
