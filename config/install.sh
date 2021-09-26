@@ -6,20 +6,20 @@ setup() {
     WORKDIR="$(pwd)"
 
     # Update
-    echo Updating ...
+    echo 'Updating...'
     sudo apt-get -y update
 
     #-------------------------------------------
 
     # Let Ubuntu Use Local Time
-    echo Making Ubuntu Use Local Time ...
+    echo 'Making Ubuntu Use Local Time...'
     timedatectl set-local-rtc 1 --adjust-system-clock
     timedatectl
 
     #-------------------------------------------
 
     # Disable Error Sound in Terminal
-    echo Disabling Error Sound in Terminal ...
+    echo 'Disabling Error Sound in Terminal...'
     if ! grep -Fxq "bind 'set bell-style none'" $HOME/.bashrc
     then
         echo -e "bind 'set bell-style none'" >> $HOME/.bashrc
@@ -28,7 +28,7 @@ setup() {
 }
 
 quit() {
-    echo "Quit ..."
+    echo 'Quit...'
 }
 
 usage() {
