@@ -69,7 +69,9 @@ Plug 'terryma/vim-multiple-cursors'
 call plug#end()
 
 "Sets color scheme
-set termguicolors
+if (has("termguicolors"))
+    set termguicolors
+endif
 set background=dark
 let g:one_allow_italics = 1
 silent! colorscheme one
