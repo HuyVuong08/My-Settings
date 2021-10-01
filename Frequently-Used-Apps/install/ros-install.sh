@@ -46,7 +46,7 @@ sudo rosdep init
 rosdep update
 
 source /opt/ros/kinetic/setup.bash
-sudo apt-get install -y ros-kinetic-rqt ros-kinetic-rqt-common-plugins ros-kinetic-hector-gazebo ros-kinetic-hector-localization ros-kinetic-hector-slam ros-kinetic-hector-slam ros-kinetic-hector-models ros-kinetic-hardware-interface ros-kinetic-controller-interface ros-kinetic-gazebo-ros-control ros-kinetic-ar-track-alvar ros-kinetic-twist-mux ros-kinetic-ros-control python-pip
+sudo apt-get install -y ros-kinetic-rqt ros-kinetic-rqt-common-plugins ros-kinetic-hector-gazebo ros-kinetic-hector-localization ros-kinetic-hector-slam ros-kinetic-hector-slam ros-kinetic-hector-models ros-kinetic-hardware-interface ros-kinetic-controller-interface ros-kinetic-gazebo-ros-control ros-kinetic-ar-track-alvar ros-kinetic-twist-mux ros-kinetic-ros-control python-pip gnome-themes-standard
 
 pip install --user --upgrade pip
 pip install --user untangle
