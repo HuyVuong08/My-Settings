@@ -31,6 +31,10 @@ overwriteCopy () {
     echo Saving macOS-BigSur Dock Theme...
     sudo cp -v /usr/share/plank/themes/macOS-BigSur/dock.theme $WORKDIR/../MacOS-Themes/BigSur-Dock
 
+    #Save Dock default quick launch icons
+    echo Saving Dock default quick launch icons...
+    cp -v $HOME/.config/plank/dock1/launchers/* $WORKDIR/../MacOS-Themes/plank-launchers
+
     #Save Albert settings
     echo Saving Albert settings...
     cp -v $HOME/.config/albert/albert.conf $WORKDIR/../MacOS-Themes/BigSur-Spotlight/
@@ -88,6 +92,14 @@ nonOverwriteCopy () {
     #Save macOS-BigSur Dock Theme
     echo Saving macOS-BigSur Dock Theme...
     result=$(sudo cp -vn /usr/share/plank/themes/macOS-BigSur/dock.theme $WORKDIR/../MacOS-Themes/BigSur-Dock)
+    if [ "$result" = "" ]
+        then
+            echo -e "File already exist. Abort..."
+    fi
+
+    #Save Dock default quick launch icons
+    echo Saving Dock default quick launch icons...
+    result=$(cp -vn $HOME/.config/plank/dock1/launchers/* $WORKDIR/../MacOS-Themes/plank-launchers)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."

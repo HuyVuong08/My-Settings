@@ -42,6 +42,10 @@ OverwriteCopy () {
     sudo mkdir -p /usr/share/plank/themes/macOS-BigSur/
     sudo cp -v $WORKDIR/../MacOS-Themes/BigSur-Dock/dock.theme /usr/share/plank/themes/macOS-BigSur/
 
+    #Load Dock default quick launch icons
+    echo Loading Dock default quick launch icons...
+    cp -v $WORKDIR/../MacOS-Themes/plank-launchers/* $HOME/.config/plank/dock1/launchers/
+
     #Load Albert settings
     echo Loading Albert settings...
     sudo cp -v $WORKDIR/../MacOS-Themes/BigSur-Spotlight/BigSur_White.qss /usr/share/albert/org.albert.frontend.widgetboxmodel/themes/
@@ -113,6 +117,14 @@ nonOverwriteCopy () {
     echo Loading macOS-BigSur Dock Theme...
     sudo mkdir -p /usr/share/plank/themes/macOS-BigSur/
     result=$(sudo cp -vn $WORKDIR/../MacOS-Themes/BigSur-Dock/dock.theme /usr/share/plank/themes/macOS-BigSur/)
+    if [ "$result" = "" ]
+        then
+            echo -e "File already exist. Abort..."
+    fi
+
+    #Load Dock default quick launch icons
+    echo Loading Dock default quick launch icons...
+    result=$(cp -vn $WORKDIR/../MacOS-Themes/plank-launchers/* $HOME/.config/plank/dock1/launchers/)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."

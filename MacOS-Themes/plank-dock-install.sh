@@ -15,3 +15,7 @@ ln -s /usr/share/applications/plank.desktop $HOME/.config/autostart/plank.deskto
 echo 'Installing MacOS Big Sur Plank Dock Themes...'
 sudo mkdir -p /usr/share/plank/themes/macOS-BigSur/
 sudo cp -v $WORKDIR/BigSur-Dock/dock.theme /usr/share/plank/themes/macOS-BigSur/
+
+# Add default quick launch icon to Plank Dock
+echo 'Adding default quick launch icons to Plank Dock...'
+cp -v $WORKDIR/plank-launchers/* $HOME/.config/plank/dock1/launchers
