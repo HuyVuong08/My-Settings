@@ -33,3 +33,7 @@ function safari () {
 function mail () {
     setsid thunderbird $1 &>/dev/null
 }
+
+function cat () {
+    pygmentize -g $1
+}
