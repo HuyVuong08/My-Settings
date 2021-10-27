@@ -34,6 +34,6 @@ function mail () {
     setsid thunderbird $1 &>/dev/null
 }
 
-function cat () {
+function catc () {
     pygmentize -g $1
 }
