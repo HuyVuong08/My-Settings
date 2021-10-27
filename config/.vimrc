@@ -48,7 +48,7 @@ Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 "Plugin fontsize changing
 Plug 'drmikehenry/vim-fontsize'
 "Plugin auto complete
-Plug 'ycm-core/YouCompleteMe'
+"Plug 'ycm-core/YouCompleteMe'
 "Plugin code structure pane
 Plug 'preservim/tagbar'
 "Plugin project files finder
@@ -80,6 +80,7 @@ silent! colorscheme one
 highlight link CurrentWordTwins Search
 highlight link CurrentWord PMenuSel
 highlight Comment term=italic ctermfg=300 guifg=#828997
+highlight LineNr term=italic ctermfg=300 guifg=#828997
 
 "Hexokinase color code to color
 let g:Hexokinase_highlighters = [ 'backgroundfull' ]
@@ -164,6 +165,10 @@ let g:session_directory = "~/.vim/session"
 let g:session_autoload = "no"
 let g:session_autosave = "no"
 let g:session_command_aliases = 1
+
+"Shortcuts vimdiff on/off foe showing different between files
+nnoremap <leader>vd :windo diffthis<CR>
+nnoremap <leader>vf :windo diffoff<CR>
 
 "Shortcuts session management
 nnoremap <leader>ss :SaveSession<space>
@@ -413,6 +418,9 @@ vnoremap <leader>rb :.,s//g<Left><Left><Left><Left>
 
 "Shortcuts replace with pattern
 nnoremap <leader>rp :s/Copyright \zs2007\ze All Rights Reserved/2008/
+
+"Shortcuts open Tagbar
+nnoremap <leader>tb :Tagbar<CR>
 
 "Shortcuts copy and delete to the end of paragraph
 nnoremap y{ V}y
