@@ -71,3 +71,7 @@ sudo apt-get install -y ack-grep
 
 # Install Hexoknase for RGB Color Code Illustrator
 ( cd $HOME/.vim/plugged/vim-hexokinase/ && make hexokinase )
+
+# Install code-minimap
+sudo apt-get install -y cargo
+cargo install --locked code-minimap

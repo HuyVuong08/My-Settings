@@ -20,6 +20,10 @@ Plug 'lfv89/vim-interestingwords'
 "Plugin highlight all occurences under the cursor
 Plug 'dominikduda/vim_current_word'
 
+"Pluggin for code minimap
+Plug 'wfxr/minimap.vim'
+"Plug 'severin-lemaignan/vim-minimap'
+
 "Plugin html files editing
 "Plug 'mattn/emmet-vim'
 ""Plugin php programming
@@ -81,6 +85,15 @@ highlight link CurrentWordTwins Search
 highlight link CurrentWord PMenuSel
 highlight Comment term=italic ctermfg=300 guifg=#828997
 highlight LineNr term=italic ctermfg=300 guifg=#828997
+
+"Config minimap
+let g:minimap_git_colors = 1
+let g:minimap_highlight_range = 1
+let g:minimap_git_colors = 1
+let g:minimap_git_color_priority = 130
+let g:minimap_auto_start = 1
+let g:minimap_auto_start_win_enter = 1
+
 
 "Hexokinase color code to color
 let g:Hexokinase_highlighters = [ 'backgroundfull' ]
@@ -166,6 +179,10 @@ let g:session_autoload = "no"
 let g:session_autosave = "no"
 let g:session_command_aliases = 1
 
+"Shortcuts minimap toggle
+nnoremap <leader>mm :MinimapToggle<CR>
+nnoremap <leader>ms :nohlsearch<CR>:call minimap#vim#ClearColorSearch()<CR>
+
 "Shortcuts vimdiff on/off foe showing different between files
 nnoremap <leader>vd :windo diffthis<CR>
 nnoremap <leader>vf :windo diffoff<CR>
@@ -207,7 +224,7 @@ nnoremap <A-t> <C-z>
 "Map with ALT key
 "Shortcuts file write and quit
 execute "set <A-w>=\ew"
-nnoremap <A-w> ma:w<CR>`a
+nnoremap <A-w> mt:w<CR>`t:MinimapToggle<CR>:MinimapToggle<CR>
 execute "set <A-q>=\eq"
 nnoremap <A-q> :q<CR>
 
@@ -260,7 +277,7 @@ execute "set <A-i>=\ei"
 nnoremap <A-i> K
 
 "Remaps line merge and split
-nnoremap <leader>mm J
+nnoremap <leader>me J
 nnoremap <leader>um i<CR><ESC>
 
 "Remaps vertical line scroll
