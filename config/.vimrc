@@ -24,6 +24,9 @@ Plug 'dominikduda/vim_current_word'
 Plug 'wfxr/minimap.vim'
 "Plug 'severin-lemaignan/vim-minimap'
 
+"Plugin for tabularize block of code
+Plug 'godlygeek/tabular'
+
 "Plugin html files editing
 "Plug 'mattn/emmet-vim'
 ""Plugin php programming
@@ -91,7 +94,7 @@ let g:minimap_git_colors = 1
 let g:minimap_highlight_range = 1
 let g:minimap_git_colors = 1
 let g:minimap_git_color_priority = 130
-let g:minimap_auto_start = 1
+let g:minimap_auto_start = 0
 let g:minimap_auto_start_win_enter = 1
 
 
@@ -224,7 +227,7 @@ nnoremap <A-t> <C-z>
 "Map with ALT key
 "Shortcuts file write and quit
 execute "set <A-w>=\ew"
-nnoremap <A-w> mt:w<CR>`t:MinimapToggle<CR>:MinimapToggle<CR>
+nnoremap <A-w> mt:w<CR>`t
 execute "set <A-q>=\eq"
 nnoremap <A-q> :q<CR>
 
@@ -376,6 +379,7 @@ nnoremap Y yg_
 nnoremap gm `m
 nnoremap ga `a
 nnoremap gs `s
+nnoremap gf `f
 
 "Remaps split navigation
 nnoremap <leader>hh <C-w>h
@@ -395,6 +399,15 @@ nnoremap <leader>mh <C-w>H
 nnoremap <leader>mj <C-w>J
 nnoremap <leader>mk <C-w>K
 nnoremap <leader>ml <C-w>L
+
+"Remaps git command
+nnoremap <leader>gs :Git<CR>
+nnoremap <leader>gd :Gdiffsplit<CR>
+nmap gj ]c
+nmap gk [c
+
+"Shortcuts toggle relative number
+nnoremap <leader>rn :set relativenumber!<CR>
 
 "Shortcuts split creation
 nnoremap <leader>vs :vsp .<CR>
@@ -431,7 +444,7 @@ nnoremap <leader>rl :s//g<Left><Left>
 
 "Shortcuts replace all occurrences in a block of code
 nnoremap <leader>rb :.,s//g<Left><Left><Left><Left>
-vnoremap <leader>rb :.,s//g<Left><Left><Left><Left>
+vnoremap <leader>rb :s//g<Left><Left>
 
 "Shortcuts replace with pattern
 nnoremap <leader>rp :s/Copyright \zs2007\ze All Rights Reserved/2008/
