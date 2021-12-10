@@ -97,7 +97,6 @@ let g:minimap_git_color_priority = 130
 let g:minimap_auto_start = 0
 let g:minimap_auto_start_win_enter = 1
 
-
 "Hexokinase color code to color
 let g:Hexokinase_highlighters = [ 'backgroundfull' ]
 
@@ -171,6 +170,9 @@ set wrap
 set linebreak
 set nolist
 set showbreak=--
+
+"Set select text by mouse drag to copy
+set mouse=a
 
 "Maps leader key
 let mapleader=' '
@@ -634,4 +636,8 @@ function CppFunctionBlockInteract(choice)
         endif
     endwhile
     execute 'normal! ' . l:posOfFuncName . 'ggV`z' . a:choice
+endfunction
+
+function! GotoDefinition()
+  let n = search("\\<".expand("<cword>")."\\>[^(]*([^)]*)\\s*\\n*\\s*{")
 endfunction
