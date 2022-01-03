@@ -19,13 +19,15 @@ Plug 'Yggdroot/indentLine'
 Plug 'lfv89/vim-interestingwords'
 "Plugin highlight all occurences under the cursor
 Plug 'dominikduda/vim_current_word'
-
 "Pluggin for code minimap
 Plug 'wfxr/minimap.vim'
 "Plug 'severin-lemaignan/vim-minimap'
-
 "Plugin for tabularize block of code
 Plug 'godlygeek/tabular'
+"Plugin file system explorer
+Plug 'preservim/nerdtree'
+"Plugin for Python syntax highlighting
+Plug 'vim-python/python-syntax'
 
 "Plugin html files editing
 "Plug 'mattn/emmet-vim'
@@ -33,8 +35,6 @@ Plug 'godlygeek/tabular'
 "Plug 'StanAngeloff/php.vim'
 ""Plugin php and python debugger
 "Plug 'vim-vdebug/vdebug'
-"Plugin file system explorer
-Plug 'preservim/nerdtree'
 ""Plugin snipets
 "Plug 'SirVer/ultisnips'
 ""Plugin tab button configuration for code completion
@@ -99,6 +99,9 @@ let g:minimap_auto_start_win_enter = 1
 
 "Hexokinase color code to color
 let g:Hexokinase_highlighters = [ 'backgroundfull' ]
+
+"Config python highlight
+let g:python_highlight_all = 1
 
 "Indent line indication configuration
 let g:indentLine_setColors = 0
@@ -184,6 +187,21 @@ let g:session_autoload = "no"
 let g:session_autosave = "no"
 let g:session_command_aliases = 1
 
+"Shortcuts set syntax when opening a file
+nnoremap <leader>st :set syntax=
+
+"Shortcuts register N.O 2 paste
+nnoremap <leader>pp "2p
+nnoremap <leader>pP "2P
+
+"Shortcuts register yank and paste
+nnoremap 'ay "ay
+nnoremap 'sy "sy
+nnoremap 'ap "ap
+nnoremap 'sp "sp
+nnoremap 'aP "aP
+nnoremap 'sP "sP
+
 "Shortcuts minimap toggle
 nnoremap <leader>mm :MinimapToggle<CR>
 nnoremap <leader>ms :nohlsearch<CR>:call minimap#vim#ClearColorSearch()<CR>
@@ -199,7 +217,7 @@ nnoremap <leader>sd :DeleteSession<CR>
 nnoremap <leader>sc :CloseSession<CR>
 
 "Remaps Esc
-inoremap <Esc> <Esc><Esc><Esc>
+inoremap <Esc> <C-[><Esc>
 
 "Remaps go to last non-space character of displayed line
 execute "set <A-l>=\el"
@@ -267,9 +285,17 @@ execute "set <A-o>=\eo"
 nnoremap <A-o> o<ESC>
 
 "Map with ALT key
-"Shortcuts visual column
-execute "set <A-c>=\ec"
-nnoremap <A-c> v<C-v>
+"Shortcuts moving cursor in insert mode
+execute "set <A-l>=\el"
+inoremap <A-l> <C-o>l
+execute "set <A-h>=\eh"
+inoremap <A-h> <C-o>h
+execute "set <A-j>=\ej"
+inoremap <A-j> <C-o>j
+execute "set <A-k>=\ek"
+inoremap <A-k> <C-o>k
+execute "set <A-x>=\ex"
+inoremap <A-x> <C-o>X
 
 "Map with ALT key
 "Remaps manual page openning
@@ -308,6 +334,7 @@ vnoremap k gk
 "Remaps tab in and out
 nnoremap <Tab> I<Tab><Esc>
 nnoremap <S-Tab> I<BS><Esc>
+nnoremap <leader>rt :%retab!<CR>
 
 "Remaps O to insert line above
 nnoremap <C-o> O<Esc>
@@ -381,7 +408,9 @@ nnoremap Y yg_
 nnoremap gm `m
 nnoremap ga `a
 nnoremap gs `s
-nnoremap gf `f
+nnoremap gw `w
+nnoremap gf `z
+nnoremap gd mzgd
 
 "Remaps split navigation
 nnoremap <leader>hh <C-w>h
@@ -407,6 +436,16 @@ nnoremap <leader>gs :Git<CR>
 nnoremap <leader>gd :Gdiffsplit<CR>
 nmap gj ]c
 nmap gk [c
+
+"Shortcuts go to next indented line
+nnoremap gH :call NextIndent(0, 0, 0, 1, 1)<CR>
+nnoremap gL :call NextIndent(0, 1, 0, 1, 1)<CR>
+nnoremap gh :call NextIndent(0, 0, 1, 1, 1)<CR>
+nnoremap gl :call NextIndent(0, 1, 1, 1, 1)<CR>
+vnoremap gH :call NextIndent(0, 0, 0, 1, 1)<CR>
+vnoremap gL :call NextIndent(0, 1, 0, 1, 1)<CR>
+vnoremap gh :call NextIndent(0, 0, 1, 1, 1)<CR>
+vnoremap gl :call NextIndent(0, 1, 1, 1, 1)<CR>
 
 "Shortcuts toggle relative number
 nnoremap <leader>rn :set relativenumber!<CR>
@@ -454,14 +493,26 @@ nnoremap <leader>rp :s/Copyright \zs2007\ze All Rights Reserved/2008/
 "Shortcuts open Tagbar
 nnoremap <leader>tb :Tagbar<CR>
 
+"Shorcuts tabularize a block of code
+vnoremap <leader>ta :Tabularize /
+
 "Shortcuts copy and delete to the end of paragraph
 nnoremap y{ V}y
 nnoremap d{ V}d
 
-"Shortcuts copy, delete and select a function block
-nnoremap yaf :call FunctionBlockInteract('y')<CR>
-nnoremap daf :call FunctionBlockInteract('d')<CR>
-nnoremap vaf :call FunctionBlockInteract('')<CR>
+"Shortcuts fold rule
+nnoremap <leader>fs :set foldmethod=syntax<CR>
+nnoremap <leader>fi :set foldmethod=indent<CR>
+
+"Shortcuts fold enable toggle
+nnoremap <leader>fe :set nofoldenable!<CR>
+
+"Shortcuts fold open and close
+nnoremap <leader>fo za
+
+"Shortcuts fold open and close all
+nnoremap <leader>fa zM
+nnoremap <leader>fu zR
 
 "Shortcuts copy, delete and select an if else block
 nnoremap yai :call IfElseBlockInteract('y')<CR>
@@ -483,27 +534,40 @@ nnoremap yac :call SwitchCaseBlockInteract('y')<CR>
 nnoremap dac :call SwitchCaseBlockInteract('d')<CR>
 nnoremap vac :call SwitchCaseBlockInteract('')<CR>
 
-"Shortduts fold rule
-nnoremap <leader>fs :set foldmethod=syntax<CR>
-nnoremap <leader>fi :set foldmethod=indent<CR>
-
-"Shortcuts fold enable toggle
-nnoremap <leader>fe :set nofoldenable!<CR>
-
-"Shortcuts fold open and close
-nnoremap <leader>fo za
-
-"Shortcuts fold open and close all
-nnoremap <leader>fa zM
-nnoremap <leader>fu zR
+"Shortcuts copy, delete and select a c/cpp function block
+autocmd FileType c,cpp,java nnoremap <buffer> yaf :call FunctionBlockInteractCppAndJava('y')<CR>
+autocmd FileType c,cpp,java nnoremap <buffer> daf :call FunctionBlockInteractCppAndJava('d')<CR>
+autocmd FileType c,cpp,java nnoremap <buffer> vaf :call FunctionBlockInteractCppAndJava('')<CR>
 
 "Shortcuts copy, delete and select a c/cpp function block
-autocmd FileType c,cpp nnoremap <buffer> yaf :call CppFunctionBlockInteract('y')<CR>
-autocmd FileType c,cpp nnoremap <buffer> daf :call CppFunctionBlockInteract('d')<CR>
-autocmd FileType c,cpp nnoremap <buffer> vaf :call CppFunctionBlockInteract('')<CR>
+autocmd FileType python nnoremap <buffer> yaf :call FunctionBlockInteractPython('y')<CR>
+autocmd FileType python nnoremap <buffer> daf :call FunctionBlockInteractPython('d')<CR>
+autocmd FileType python nnoremap <buffer> vaf :call FunctionBlockInteractPython('')<CR>
 
+"Shortcuts copy, delete and select a c/cpp function block
+autocmd FileType vim nnoremap <buffer> yaf :call FunctionBlockInteractVim('y')<CR>
+autocmd FileType vim nnoremap <buffer> daf :call FunctionBlockInteractVim('d')<CR>
+autocmd FileType vim nnoremap <buffer> vaf :call FunctionBlockInteractVim('')<CR>
+
+"Shortcuts go to the start of function
+autocmd FileType c,cpp,java nnoremap <buffer> gfs :call FunctionBlockInteractCppAndJava('fs')<CR>
+autocmd FileType python nnoremap <buffer> gfs :call FunctionBlockInteractPython('fs')<CR>
+autocmd FileType vim* nnoremap <buffer> gfs :call FunctionBlockInteractVim('fs')<CR>
+
+"Shortcuts go to the end of function
+autocmd FileType c,cpp,java nnoremap <buffer> gfe :call FunctionBlockInteractCppAndJava('fe')<CR>
+autocmd FileType python nnoremap <buffer> gfe :call FunctionBlockInteractPython('fe')<CR>
+autocmd FileType vim* nnoremap <buffer> gfe :call FunctionBlockInteractVim('fe')<CR>
+
+"Shortcuts go to function definition
+autocmd FileType c,cpp,java nnoremap <buffer> gfd :call  GotoFunctionDefinitionCppAndJava()<CR>
+autocmd FileType python nnoremap <buffer> gfd :call  GotoFunctionDefinitionPython()<CR>
+autocmd FileType vim* nnoremap <buffer> gfd :call  GotoFunctionDefinitionVim()<CR>
+
+"Shortcuts fold to current level
+nnoremap  <leader>fl :let &l:fdl=indent('.')/&shiftwidth - 1<CR>
 "Automatically set syntax highlighting when open shell scripts
-autocmd FileType sh :set syn=sh
+autocmd FileType sh :set syntax=sh
 
 "Automatically delete trailing white spaces before saving a file
 autocmd BufWritePre * :call StripTrailingWhitespace()
@@ -534,21 +598,6 @@ function TrimTrailingLines()
     let lastNonblankLine = prevnonblank(lastLine)
     if lastLine > 0 && lastNonblankLine != lastLine
         silent! execute lastNonblankLine + 1 . ',$delete _'
-    endif
-endfunction
-
-"Function to interact block of codes
-function FunctionBlockInteract(choice)
-    "choice = 'y' for yanking a function block
-    "choice = 'd' for deleting a function block
-    "choice = '' for selecting a function block
-    call search('function.*(.*)','bc')
-    normal! mz
-    if search('{','c',line('.') + 1) != 0
-        execute 'normal! %V`z' . a:choice
-    else
-        call search('endfunc','c')
-        execute 'normal! V`z' . a:choice
     endif
 endfunction
 
@@ -608,36 +657,248 @@ function SwitchCaseBlockInteract(choice)
 endfunction
 
 "Function to interact block of codes
-function CppFunctionBlockInteract(choice)
-    "choice = 'y' for yanking a c/pp function block
-    "choice = 'd' for deleting a c/pp function block
-    "choice = '' for selecting a c/pp function block
-    while 1
-        "Go backward to the function's curly braces '{'. Skip '{' of blocks such as if, esle, while, for, switch
-        call search('{','bc')
-        if search('if','bc',line('.')-1) == 0 && search('else','bc',line('.')-1) == 0 && search('while','bc',line('.')-1) == 0 && search('for','bc',line('.')-1) == 0 && search('switch','bc',line('.')-1) == 0
-            break
+function FunctionBlockInteractCppAndJava(choice)
+    "choice = 'y' for yanking a c/cpp/java function block
+    "choice = 'd' for deleting a c/cpp/java function block
+    "choice = '' for selecting a c/cpp/java function block
+    "choice = 'fs' for jumping to start of a c/cpp/java function block
+    "choice = 'fe' for jumping to end of a c/cpp/java function block
+    let l:currentPos = getpos('.')
+    let l:NO_skipped = 0
+    let l:n = search("\\<[0-9a-zA-Z_]*\\>[.:~ ]*\\<[0-9a-zA-Z_]*\\>[^(]*([0-9a-zA-Z_ ,:*\\[\\]\\n]*)\\s*\\n*\\s*{", 'bc')
+    while l:n > 0 && l:NO_skipped < 20
+        if eval(search("\\<else\\>\\s*\\<if\\>", 'cn', line('.')) != 0)
+            let l:n = search("\\<[0-9a-zA-Z_]*\\>[.:~ ]*\\<[0-9a-zA-Z_]*\\>[^(]*([^)]*)\\s*\\n*\\s*{", 'b')
+    "normal! %mz%
+            let l:NO_skipped += 1
+            continue
         endif
+        break
     endwhile
-    normal! %mz%
-    let l:posOfFuncName = line('.')
-    if stridx(split(getline('.'))[0],'{') "Curly brace '{' in the same line with function name
-        execute 'normal! V%' . a:choice
-        return
+    let l:functionPos   = getpos('.')
+    let l:functionStart = search(')', 'n')
+    call search('{')
+    normal! %
+    let l:functionEnd   = getpos('.')
+    call setpos('.', l:functionPos)
+    if l:currentPos[1] != l:functionStart && l:currentPos[1] != l:functionEnd[1]
+        call setpos("'z", l:currentPos)
     endif
-    while 1
-        "Go backward line by line to the funciton name. Skip commented or blank lines
-        let l:posOfFuncName -= 1
-        if len(split(getline(l:posOfFuncName))) == 0
-            let l:posOfFuncName -= 1
-        endif
-        if stridx(split(getline(l:posOfFuncName))[0],'//') != 0
-            break
-        endif
-    endwhile
-    execute 'normal! ' . l:posOfFuncName . 'ggV`z' . a:choice
+    if a:choice == 'fs'
+        call search(')')
+        return
+    elseif a:choice == 'fe'
+        call search('{')
+        normal! %
+        return
+    else
+        normal! mz
+        call search('{')
+        normal! %
+        "Try to include empty line below
+        call search("^$", '', line('.')+1)
+        execute 'normal! V`z' . a:choice
+    endif
 endfunction
 
-function! GotoDefinition()
-  let n = search("\\<".expand("<cword>")."\\>[^(]*([^)]*)\\s*\\n*\\s*{")
+"Function to interact block of codes
+function FunctionBlockInteractPython(choice)
+    "choice = 'y' for yanking a python function block
+    "choice = 'd' for deleting a python function block
+    "choice = '' for selecting a python function block
+    "choice = 'fs' for jumping to start of a python function block
+    "choice = 'fe' for jumping to end of a python function block
+    let l:currentPos = getpos('.')
+    call search("\\<def\\>\\s*\\<[0-9a-zA-Z_]*\\>\\s*([^)]*)\\s*:", 'bc')
+    let l:functionStart = search(')', 'n')
+    let l:functionEnd   = NextIndent(1,1,0,1,0)
+    if l:currentPos[1] != l:functionStart && l:currentPos[1] != l:functionEnd
+        call setpos("'z", l:currentPos)
+    endif
+    if a:choice == 'fs'
+        call search(')')
+        return
+    elseif a:choice == 'fe'
+        call NextIndent(1,1,0,1,1)
+        return
+    else
+        normal! mz
+        call NextIndent(1,1,0,1,1)
+        execute 'normal! V`z' . a:choice
+    endif
 endfunction
+
+"Function to interact block of codes
+function FunctionBlockInteractVim(choice)
+    "choice = 'y' for yanking a vim function block
+    "choice = 'd' for deleting a vim function block
+    "choice = '' for selecting a vim function block
+    "choice = 'fs' for jumping to start of a vim function block
+    "choice = 'fe' for jumping to end of a vim function block
+    normal! mz
+    let l:functionStart = search("\\<function\\>\\s*\\<[0-9a-zA-Z_]*\\>\\s*([^)]*)", 'bc')
+    if a:choice == 'fs'
+        call search(")")
+        return
+    elseif a:choice == 'fe'
+        call search("\\<endfunc")
+        return
+    else
+        normal! mz
+        call search("\\<endfunc")
+        "Try to include empty line below
+        call search("^$", '', line('.')+1)
+        execute 'normal! V`z' . a:choice
+    endif
+endfunction
+
+function GotoFunctionDefinitionCppAndJava()
+    let l:currentPos = getpos('.')
+    let n = search("\\<".expand("<cword>")."\\>[^(]*([^)]*)\\s*\\n*\\s*{")
+    let l:functionStart = getpos('.')
+    if l:currentPos[1] != l:functionStart[1]
+        call setpos("'z", l:currentPos)
+    endif
+endfunction
+
+function GotoFunctionDefinitionPython()
+    let l:currentPos = getpos('.')
+    let n = search("\\<".expand("<cword>")."\\>[^(]*([^)]*)\\s*:")
+    let l:functionStart = getpos('.')
+    if l:currentPos[1] != l:functionStart[1]
+        call setpos("'z", l:currentPos)
+    endif
+endfunction
+
+function GotoFunctionDefinitionVim()
+    let l:currentPos = getpos('.')
+    let n = search("function\\s*\\<".expand("<cword>")."\\>[^(]*([^)]*)")
+    let l:functionStart = getpos('.')
+    if l:currentPos[1] != l:functionStart[1]
+        call setpos("'z", l:currentPos)
+    endif
+endfunction
+
+function IndentLevel(lnum)
+    return indent(a:lnum) / &shiftwidth
+endfunction
+
+function NextNonBlankLine(lnum)
+    let numlines = line('$')
+    let current = a:lnum + 1
+
+    while current <= numlines
+        if getline(current) =~? '\v\S'
+            return current
+        endif
+
+        let current += 1
+    endwhile
+
+    return -2
+endfunction
+
+function GetPotionFold(lnum)
+    if getline(a:lnum) =~? '\v^\s*$'
+        return '-1'
+    endif
+
+    let this_indent = IndentLevel(a:lnum)
+    let next_indent = IndentLevel(NextNonBlankLine(a:lnum))
+
+    if next_indent == this_indent
+        return this_indent
+    elseif next_indent < this_indent
+        return this_indent
+    elseif next_indent > this_indent
+        return '>' . next_indent
+    endif
+endfunction
+
+function SearchWithSkip(pattern, flags, stopline, timeout, skip)
+"
+" Returns true if a match is found for {pattern}, but ignores matches
+" where {skip} evaluates to false. This allows you to do nifty things
+" like, say, only matching outside comments, only on odd-numbered lines,
+" or whatever else you like.
+"
+" Mimics the built-in search() function, but adds a {skip} expression
+" like that available in searchpair() and searchpairpos().
+" (See the Vim help on search() for details of the other parameters.)
+"
+    " Note the current position, so that if there are no unskipped
+    " matches, the cursor can be restored to this location.
+    "
+    let l:matchpos = getpos('.')
+
+    " Loop as long as {pattern} continues to be found.
+    "
+    while search(a:pattern, a:flags, a:stopline, a:timeout) > 0
+
+        " If {skip} is true, ignore this match and continue searching.
+        "
+        if eval(a:skip)
+            continue
+        endif
+
+        " If we get here, {pattern} was found and {skip} is false,
+        " so this is a match we don't want to ignore. Update the
+        " match position and stop searching.
+        "
+        let l:matchpos = getpos('.')
+        break
+
+    endwhile
+
+    " Jump to the position of the unskipped match, or to the original
+    " position if there wasn't one.
+    "
+    call setpos('.', l:matchpos)
+
+endfunction
+
+function SearchOutside(synName, pattern)
+"
+" Searches for the specified pattern, but skips matches that
+" exist within the specified syntax region.
+"
+    call SearchWithSkip(a:pattern, '', '', '',
+        \ 'synIDattr(synID(line("."), col("."), 0), "name") =~? "' . a:synName . '"' )
+
+endfunction
+
+function NextIndent(exclusive, fwd, lowerlevel, skipblanks, movecursor)
+    let l:line = line('.')
+    let column = col('.')
+    let lastline = line('$')
+    let indent = indent(l:line)
+    let stepvalue = a:fwd ? 1 : -1
+    while (l:line > 0 && l:line <= lastline)
+        let l:line = l:line + stepvalue
+        if ( a:lowerlevel == 0 && indent(l:line) <= indent ||
+                    \ a:lowerlevel && indent(l:line) < indent)
+            if (! a:skipblanks || strlen(getline(l:line)) > 0)
+                if (a:exclusive)
+                    let l:line = l:line - stepvalue
+                endif
+                normal! mw
+                if (a:movecursor)
+                    execute l:line
+                    normal! ^
+                endif
+                return l:line
+            endif
+        endif
+    endwhile
+endfunction
+
+vnoremap <silent> [l <Esc>:call NextIndent(0, 0, 0, 1)<CR>m'gv''
+vnoremap <silent> ]l <Esc>:call NextIndent(0, 1, 0, 1)<CR>m'gv''
+vnoremap <silent> [L <Esc>:call NextIndent(0, 0, 1, 1)<CR>m'gv''
+vnoremap <silent> ]L <Esc>:call NextIndent(0, 1, 1, 1)<CR>m'gv''
+onoremap <silent> [l :call NextIndent(0, 0, 0, 1)<CR>
+onoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<CR>
+onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<CR>
+onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<CR>
+
+onoremap <silent> ]k :g/3D/s/^\s*\\zs\(\w\)/# \1/
