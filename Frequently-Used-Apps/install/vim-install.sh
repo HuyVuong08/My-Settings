@@ -75,3 +75,4 @@ sudo apt-get install -y ack-grep
 # Install code-minimap
 sudo apt-get install -y cargo
 cargo install --locked code-minimap
+sudo apt-get install -y minimap
