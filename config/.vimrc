@@ -225,6 +225,11 @@ nnoremap <A-l> g$
 vnoremap <A-l> g$
 
 "Map with ALT key
+"Shortuts appending semi-colon to the end of line
+execute "set <A-;>=\e;"
+inoremap <A-;> <C-[>A;<C-[><Esc>
+
+"Map with ALT key
 "Shortcuts visual to end of line
 execute "set <A-v>=\ev"
 nnoremap <A-v> vg_
@@ -665,7 +670,7 @@ function FunctionBlockInteractCppAndJava(choice)
     "choice = 'fe' for jumping to end of a c/cpp/java function block
     let l:currentPos = getpos('.')
     let l:NO_skipped = 0
-    let l:n = search("\\<[0-9a-zA-Z_]*\\>[.:~ ]*\\<[0-9a-zA-Z_]*\\>[^(]*([0-9a-zA-Z_ ,:*\\[\\]\\n]*)\\s*\\n*\\s*{", 'bc')
+    let l:n = search("\\<[0-9a-zA-Z_]*\\>[.:~ ]*\\<[0-9a-zA-Z_]*\\>[^(]*([0-9a-zA-Z_ ,:*&\\[\\]\\n]*)\\s*\\n*\\s*{", 'bc')
     while l:n > 0 && l:NO_skipped < 20
         if eval(search("\\<else\\>\\s*\\<if\\>", 'cn', line('.')) != 0)
             let l:n = search("\\<[0-9a-zA-Z_]*\\>[.:~ ]*\\<[0-9a-zA-Z_]*\\>[^(]*([^)]*)\\s*\\n*\\s*{", 'b')
