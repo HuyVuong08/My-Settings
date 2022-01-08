@@ -33,4 +33,5 @@ bash $WORKDIR/install/team-viewer-install.sh
 bash $WORKDIR/install/unusedpkg-install.sh
 bash $WORKDIR/install/vim-install.sh
 bash $WORKDIR/install/discord-install.sh
+bash $WORKDIR/install/telegram-install.sh
 bash $WORKDIR/install/wps-office-install.sh
