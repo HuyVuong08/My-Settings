@@ -20,7 +20,7 @@ Plug 'lfv89/vim-interestingwords'
 "Plugin highlight all occurences under the cursor
 Plug 'dominikduda/vim_current_word'
 "Pluggin for code minimap
-Plug 'wfxr/minimap.vim'
+"Plug 'wfxr/minimap.vim'
 "Plug 'severin-lemaignan/vim-minimap'
 "Plugin for tabularize block of code
 Plug 'godlygeek/tabular'
@@ -29,8 +29,32 @@ Plug 'preservim/nerdtree'
 "Plugin for Python syntax highlighting
 Plug 'vim-python/python-syntax'
 
+"Pligin for React .jsx file indenting and highlighting
+Plug 'pangloss/vim-javascript'
+"Plug 'mxw/vim-jsx'
+Plug 'MaxMEllon/vim-jsx-pretty'
+"Plugin for React .jsx file autocompletion
+Plug 'ternjs/tern_for_vim', { 'do' : 'npm install' }
+"Plugin auto pairs
+Plug 'jiangmiao/auto-pairs'
 "Plugin html files editing
-"Plug 'mattn/emmet-vim'
+Plug 'mattn/emmet-vim'
+"Plugin closing html tags
+Plug 'alvan/vim-closetag'
+"Plugin matching tag
+Plug 'Valloric/MatchTagAlways'
+"Plugin React snippets
+Plug 'justinj/vim-react-snippets'
+"Plugin directory differences indicator
+Plug 'will133/vim-dirdiff'
+"Plugin auto close tag
+"Plug 'sukima/xmledit'
+
+"Plugin React snippets
+"Plug 'mlaursen/vim-react-snippets'
+"Plugin auto complete
+"Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
+
 ""Plugin php programming
 "Plug 'StanAngeloff/php.vim'
 ""Plugin php and python debugger
@@ -156,6 +180,10 @@ set incsearch
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
+set shiftround
+set smarttab
+filetype indent plugin on
+set omnifunc=syntaxcomplete#Complete
 
 "Converts tabs to spaces
 set autoindent
@@ -173,19 +201,67 @@ set wrap
 set linebreak
 set nolist
 set showbreak=--
+set breakindent
+set breakindentopt=sbr
 
 "Set select text by mouse drag to copy
 set mouse=a
 
 "Maps leader key
-let mapleader=' '
-let g:user_emmet_leader_key=','
+let mapleader               = ' '
+let g:user_emmet_leader_key = ','
+let g:user_emmet_settings = {
+\  'javascript' : {
+\      'extends' : 'jsx',
+\  },
+\}
+let g:user_emmet_install_global=0
+autocmd FileType html,css,js,javascript.jsx EmmetInstall
 
-"Session management
-let g:session_directory = "~/.vim/session"
-let g:session_autoload = "no"
-let g:session_autosave = "no"
+"Setup session management
+let g:session_directory       = "~/.vim/session"
+let g:session_autoload        = "no"
+let g:session_autosave        = "no"
 let g:session_command_aliases = 1
+
+"Setup indent for html files
+autocmd BufRead,BufNewFile *.html set shiftwidth=2
+autocmd BufRead,BufNewFile *.xml set shiftwidth=2
+autocmd BufRead,BufNewFile *.css set shiftwidth=2
+let g:html_indent_script1  = "inc"
+let g:html_indent_style1   = "inc"
+let g:html_indent_inctags = "html,body,head,tbody"
+let g:html_indent_autotags = "br,input,img,html,body,tbody"
+
+"Setup Prettier for React
+autocmd FileType javascript setlocal formatprg=prettier
+autocmd FileType javascript.jsx setlocal formatprg=prettier
+autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
+autocmd FileType html setlocal formatprg=js-beautify\ --type\ html
+autocmd FileType scss setlocal formatprg=prettier\ --parser\ css
+autocmd FileType css setlocal formatprg=prettier\ --parser\ css
+nnoremap <F5> mzgggqG`z
+let g:mta_filetypes = {
+    \ 'html' : 1,
+    \ 'xhtml' : 1,
+    \ 'xml' : 1,
+    \ 'jinja' : 1,
+    \ 'js' : 1,
+    \}
+"Setup indent for html files
+autocmd BufRead,BufNewFile *.js set shiftwidth=2
+autocmd BufRead,BufNewFile *.jsx set shiftwidth=2
+let g:closetag_filetypes = 'html,xhtml,phtml,js,jsx'
+let g:closetag_xhtml_filetypes = 'xhtml,javascript.jsx,jsx'
+"let g:closetag_xhtml_filetypes = 'xhtml,js,jsx'
+"let g:closetag_regions = {
+    "\ 'typescript.tsx': 'jsxRegion,tsxRegion',
+    "\ 'javascript.jsx': 'jsxRegion',
+    "\ 'typescriptreact': 'jsxRegion,tsxRegion',
+    "\ 'javascriptreact': 'jsxRegion',
+    "\ }
+autocmd BufNewFile,BufRead *.js set filetype=javascript.jsx
+autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
 
 "Shortcuts set syntax when opening a file
 nnoremap <leader>st :set syntax=
@@ -227,7 +303,11 @@ vnoremap <A-l> g$
 "Map with ALT key
 "Shortuts appending semi-colon to the end of line
 execute "set <A-;>=\e;"
-inoremap <A-;> <C-[>A;<C-[><Esc>
+inoremap <A-;> <C-[>A;
+inoremap ;<cr> <end>;<cr>
+inoremap ;; <down><end>;<cr>
+
+"<C-[><Esc>
 
 "Map with ALT key
 "Shortcuts visual to end of line
@@ -301,6 +381,30 @@ execute "set <A-k>=\ek"
 inoremap <A-k> <C-o>k
 execute "set <A-x>=\ex"
 inoremap <A-x> <C-o>X
+execute "set <A-X>=\eX"
+inoremap <A-X> <C-o>x
+execute "set <A-c>=\ec"
+inoremap <A-c> <C-o>h<C-o>caw
+execute "set <A-C>=\eC"
+inoremap <A-C> <C-o>caw
+execute "set <A-u>=\eu"
+inoremap <A-u> <C-o>u
+execute "set <A-o>=\eo"
+inoremap <A-o> <C-o>O
+execute "set <A-d>=\ed"
+inoremap <A-d> <C-o>dd
+execute "set <A-m>=\em"
+inoremap <A-m> <C-o>k<C-o>J
+
+"Map with ALT key
+"Shorcuts append space to end of line in insert mode
+execute "set <A-a>=\ea"
+inoremap <A-a> <C-o>A
+
+"Map with ALT key
+"Shorcuts replacing a character insert mode
+execute "set <A-r>=\er"
+inoremap <A-r> <C-o>r
 
 "Map with ALT key
 "Remaps manual page openning
@@ -311,6 +415,11 @@ nnoremap <A-i> K
 "Remaps manual page openning
 execute "set <A-i>=\ei"
 nnoremap <A-i> K
+
+"Map with ALT key
+"Remaps manual page openning
+execute "set <A-c>=\ec"
+nnoremap <A-c> cc<ESC>
 
 "Remaps line merge and split
 nnoremap <leader>me J
@@ -405,6 +514,7 @@ nnoremap U <C-r>
 "Remaps copy and paste block of code to clipboard
 vnoremap <C-c> "+y
 nnoremap <C-v> "+P
+inoremap <C-v> <C-o>"+P
 
 "Remaps copy from current possition to the end of line
 nnoremap Y yg_
@@ -477,7 +587,7 @@ nnoremap <leader>sv :w <bar> :source $MYVIMRC <bar> :doautocmd BufRead<CR>
 nnoremap <leader>pi :PlugInstall<CR>
 
 "Shortcuts auto indent
-nnoremap <leader>== gg=G``
+nnoremap <leader>== mqgg=G`q
 
 "Shortcuts merge blocks
 nnoremap <leader>mb :5,8del <bar> let l=split(@","/n") <bar> ,s/$/\=remove(l,0)/g
@@ -907,3 +1017,5 @@ onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<CR>
 onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<CR>
 
 onoremap <silent> ]k :g/3D/s/^\s*\\zs\(\w\)/# \1/
+"iabbrev </ </<C-X><C-O>
+"inoremap <buffer> > ></<C-x><C-o><C-y><C-o>%<CR><C-o>O

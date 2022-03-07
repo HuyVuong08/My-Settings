@@ -76,3 +76,9 @@ sudo apt-get install -y ack-grep
 sudo apt-get install -y cargo
 cargo install --locked code-minimap
 sudo apt-get install -y minimap
+
+# Install Prettier Formater
+sudo npm install -g prettier
+
+# Install javascript and typescript Language Server
+sudo npm install -g javascript-typescript-langserver
