@@ -379,14 +379,23 @@ execute "set <A-j>=\ej"
 inoremap <A-j> <C-o>j
 execute "set <A-k>=\ek"
 inoremap <A-k> <C-o>k
+execute "set <A-L>=\eL"
+inoremap <A-L> <C-o>w
+execute "set <A-H>=\eH"
+inoremap <A-H> <C-o>b
+execute "set <A-J>=\eJ"
+inoremap <A-J> <C-o><C-e>
+execute "set <A-K>=\eK"
+inoremap <A-K> <C-o><C-y>
+
+"Map with ALT key
+"Shortcuts changing and   deleting in insert mode
 execute "set <A-x>=\ex"
 inoremap <A-x> <C-o>X
 execute "set <A-X>=\eX"
 inoremap <A-X> <C-o>x
 execute "set <A-c>=\ec"
-inoremap <A-c> <C-o>h<C-o>caw
-execute "set <A-C>=\eC"
-inoremap <A-C> <C-o>caw
+inoremap <A-c> <C-o>:call search('[^ ]', 'b')<CR>
 execute "set <A-u>=\eu"
 inoremap <A-u> <C-o>u
 execute "set <A-o>=\eo"
