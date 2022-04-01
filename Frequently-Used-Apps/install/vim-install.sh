@@ -27,6 +27,12 @@ curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \https://raw.githubusercont
 
 #-------------------------------------------
 
+# Install Termdebug
+echo Installing Termdebug...
+sudo apt-get install -y termdebug
+
+#-------------------------------------------
+
 # Load Vim Configuration Files
 echo Loading Vim Configuration Files...
 
