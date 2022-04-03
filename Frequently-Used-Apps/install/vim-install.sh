@@ -78,7 +78,9 @@ cargo install --locked code-minimap
 sudo apt-get install -y minimap
 
 # Install Prettier Formater
+sudo apt install -y npm
 sudo npm install -g prettier
 
 # Install javascript and typescript Language Server
+sudo apt install -y npm
 sudo npm install -g javascript-typescript-langserver
