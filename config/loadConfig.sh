@@ -32,9 +32,9 @@ OverwriteCopy () {
     sudo mkdir -p /opt/scripts/
     sudo cp -v $WORKDIR/battery-status.sh /opt/scripts
     sudo chmod +x /opt/scripts/battery-status.sh
-    if ! grep -Fxq "sh /opt/scripts/battery-status.sh &" /etc/profile
+    if ! grep -Fxq "bash /opt/scripts/battery-status.sh &" /etc/profile
     then
-         echo -e "\nsh /opt/scripts/battery-status.sh &" | sudo tee --append /etc/profile >> /dev/null
+         echo -e "\nbash /opt/scripts/battery-status.sh &" | sudo tee --append /etc/profile >> /dev/null
     fi
 
     #Load macOS-BigSur Dock Theme
@@ -107,9 +107,9 @@ nonOverwriteCopy () {
             echo -e "File already exist. Abort..."
     else
         sudo chmod +x /opt/scripts/battery-status.sh
-        if ! grep -Fxq "sh /opt/scripts/battery-status.sh &" /etc/profile
+        if ! grep -Fxq "bash /opt/scripts/battery-status.sh &" /etc/profile
         then
-             echo -e "\nsh /opt/scripts/battery-status.sh &" | sudo tee --append /etc/profile >> /dev/null
+             echo -e "\nbash /opt/scripts/battery-status.sh &" | sudo tee --append /etc/profile >> /dev/null
         fi
     fi
 
