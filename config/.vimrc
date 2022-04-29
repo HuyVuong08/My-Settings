@@ -389,17 +389,21 @@ execute "set <A-K>=\eK"
 inoremap <A-K> <C-o><C-y>
 
 "Map with ALT key
-"Shortcuts changing and   deleting in insert mode
+"Shortcuts changing and merging and deleting in insert mode
 execute "set <A-x>=\ex"
 inoremap <A-x> <C-o>X
 execute "set <A-X>=\eX"
 inoremap <A-X> <C-o>x
 execute "set <A-c>=\ec"
-inoremap <A-c> <C-o>:call search('[^ ]', 'b')<CR>
+inoremap <A-c> <C-o>:call ChangeWordBeforeCursor()<CR>
+execute "set <A-C>=\eC"
+inoremap <A-C> <C-o>:call ChangeWordAfterCursor()<CR>
 execute "set <A-u>=\eu"
 inoremap <A-u> <C-o>u
 execute "set <A-o>=\eo"
-inoremap <A-o> <C-o>O
+inoremap <A-o> <C-o>o
+execute "set <A-O>=\eO"
+inoremap <A-O> <C-o>O
 execute "set <A-d>=\ed"
 inoremap <A-d> <C-o>dd
 execute "set <A-m>=\em"
@@ -1014,6 +1018,30 @@ function NextIndent(exclusive, fwd, lowerlevel, skipblanks, movecursor)
             endif
         endif
     endwhile
+endfunction
+
+function Getchar()
+  return strcharpart(strpart(getline('.'), col('.') - 1), 0, 1)
+endfunction
+
+function ChangeWordAfterCursor()
+  let l:cursor = Getchar()
+  echo l:cursor
+  if ( l:cursor == ' ' )
+    normal daw
+  else
+    normal wdaw
+  endif
+endfunction
+
+function ChangeWordBeforeCursor()
+  let l:cursor = Getchar()
+  echo l:cursor
+  if ( l:cursor == ' ' )
+    normal bdaw
+  else
+    normal daw
+  endif
 endfunction
 
 vnoremap <silent> [l <Esc>:call NextIndent(0, 0, 0, 1)<CR>m'gv''
