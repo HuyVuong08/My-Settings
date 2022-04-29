@@ -36,12 +36,21 @@ sudo apt-get install -y termdebug
 # Load Vim Configuration Files
 echo Loading Vim Configuration Files...
 
+# Load .vimrc
 echo Loading .vimrc...
-cp -v $WORKDIR/../../config/.vimrc $HOME
+result=$(cp -vn $WORKDIR/../../config/.vimrc $HOME)
+if [ "$result" = "" ]
+    then
+        echo -e "File already exist. Abort..."
+fi
 
-#Load .gvimrc
+# Load .gvimrc
 echo Loading .gvimrc...
-cp -v $WORKDIR/../../config/.gvimrc $HOME
+result=$(cp -vn $WORKDIR/../../config/.gvimrc $HOME)
+if [ "$result" = "" ]
+    then
+        echo -e "File already exist. Abort..."
+fi
 
 #-------------------------------------------
 
