@@ -7,13 +7,13 @@ do
     then
         if [[ $battery_level -ge 80 ]]
         then
-            notify-send --urgency=critical --expire-time=20000 "Battery Level: ${battery_level}%" "Please unplug the charging cable."
+            notify-send --urgency=normal --expire-time=20000 --hint int:transient:1 "Battery Level: ${battery_level}%" "Please unplug the charging cable."
             #paplay /usr/share/sounds/freedesktop/stereo/suspend-error.oga
         fi
     else
         if [[ $battery_level -le 40 ]]
         then
-            notify-send --urgency=critical --expire-time=20000 "Low Battery Level: ${battery_level}%" "Please plug in the charging cable."
+            notify-send --urgency=normal --expire-time=20000 --hint int:transient:1 "Low Battery Level: ${battery_level}%" "Please plug in the charging cable."
             #paplay /usr/share/sounds/freedesktop/stereo/suspend-error.oga
         fi
     fi

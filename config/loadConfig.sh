@@ -22,13 +22,17 @@ OverwriteCopy () {
     #Load .bash_aliases
     echo Loading .bash_aliases...
     cp -v $WORKDIR/.bash_aliases $HOME && source $HOME/.bashrc
+    if ! grep -Fxq "    source .bash_aliases" $HOME/.bashrc
+    then
+        echo -e "\nif [ -f ~/.bash_aliases ]; then\n    source.bash_aliases\nfi" >> $HOME/.bashrc
+    fi
 
     #Load .bash_functions
     echo Loading .bash_functions...
     cp -v $WORKDIR/.bash_functions $HOME && source $HOME/.bashrc
-    if ! grep -Fxq "    . ~/.bash_functions" $HOME/.bashrc
+    if ! grep -Fxq "    source .bash_functions" $HOME/.bashrc
     then
-        echo -e "\nif [ -f ~/.bash_functions ]; then\n    . ~/.bash_functions\nfi" >> $HOME/.bashrc
+        echo -e "\nif [ -f ~/.bash_functions ]; then\n    source.bash_functions\nfi" >> $HOME/.bashrc
     fi
 
     #Load battery-status.sh
@@ -36,9 +40,9 @@ OverwriteCopy () {
     sudo mkdir -p /opt/scripts/
     sudo cp -v $WORKDIR/battery-status.sh /opt/scripts
     sudo chmod +x /opt/scripts/battery-status.sh
-    if ! grep -Fxq "sh /opt/scripts/battery-status.sh &" /etc/profile
+    if ! grep -Fxq "bash /opt/scripts/battery-status.sh &" /etc/profile
     then
-         echo -e "\nsh /opt/scripts/battery-status.sh &" | sudo tee --append /etc/profile >> /dev/null
+         echo -e "\nbash /opt/scripts/battery-status.sh &" | sudo tee --append /etc/profile >> /dev/null
     fi
 
     #Load macOS-BigSur Dock Theme
@@ -119,9 +123,9 @@ nonOverwriteCopy () {
             echo -e "File already exist. Abort..."
     else
         sudo chmod +x /opt/scripts/battery-status.sh
-        if ! grep -Fxq "sh /opt/scripts/battery-status.sh &" /etc/profile
+        if ! grep -Fxq "bash /opt/scripts/battery-status.sh &" /etc/profile
         then
-             echo -e "\nsh /opt/scripts/battery-status.sh &" | sudo tee --append /etc/profile >> /dev/null
+             echo -e "\nbash /opt/scripts/battery-status.sh &" | sudo tee --append /etc/profile >> /dev/null
         fi
     fi
 
