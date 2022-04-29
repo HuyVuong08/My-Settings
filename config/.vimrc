@@ -100,7 +100,7 @@ Plug 'terryma/vim-multiple-cursors'
 call plug#end()
 
 " Sets color scheme
-if (has(" termguicolors"))
+if (has("termguicolors"))
     set termguicolors
 endif
 set background=dark
