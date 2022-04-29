@@ -11,6 +11,10 @@ OverwriteCopy () {
     echo Loading .gvimrc...
     cp -v $WORKDIR/.gvimrc $HOME
 
+    #Load .tmux.conf
+    echo Loading .tmux.conf...
+    cp -v $WORKDIR/.tmux.conf $HOME
+
     #Load libinput-gestures.conf
     echo Loading libinput-gestures.conf...
     cp -v $WORKDIR/libinput-gestures.conf $HOME/.config/ && libinput-gestures-setup restart
@@ -64,6 +68,14 @@ nonOverwriteCopy () {
     #Load .gvimrc
     echo Loading .gvimrc...
     result=$(cp -vn $WORKDIR/.gvimrc $HOME)
+    if [ "$result" = "" ]
+        then
+            echo -e "File already exist. Abort..."
+    fi
+
+    #Load .tmux.conf
+    echo Loading .tmux.conf...
+    result=$(cp -vn $WORKDIR/.tmux.conf $HOME)
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
