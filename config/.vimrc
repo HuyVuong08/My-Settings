@@ -12,7 +12,7 @@ Plug 'vim-scripts/VisIncr'
 " Plugin auto close character
 Plug 'Townk/vim-autoclose'
 " Plugin display color from color code
-Plug 'RRethy/vim-hexokinase'
+" Plug 'RRethy/vim-hexokinase'
 " Plugin indent line indication
 Plug 'Yggdroot/indentLine'
 " Plugin highlight all occurences
@@ -562,6 +562,7 @@ nnoremap <leader>ml <C-w>L
 " Remaps git command
 nnoremap <leader>gs :Git<CR>
 nnoremap <leader>gd :Gdiffsplit<CR>
+nnoremap <leader>gl :Git log --name-status HEAD@{1}..HEAD@{0}
 nmap gj ]c
 nmap gk [c
 
