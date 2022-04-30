@@ -22,17 +22,17 @@ OverwriteCopy () {
     #Load .bash_aliases
     echo Loading .bash_aliases...
     cp -v $WORKDIR/.bash_aliases $HOME && source $HOME/.bashrc
-    if ! grep -Fxq "    source .bash_aliases" $HOME/.bashrc
+    if ! grep -Fxq "    source ~/.bash_aliases" $HOME/.bashrc
     then
-        echo -e "\nif [ -f ~/.bash_aliases ]; then\n    source .bash_aliases\nfi" >> $HOME/.bashrc
+        echo -e "\nif [ -f ~/.bash_aliases ]; then\n    source ~/.bash_aliases\nfi" >> $HOME/.bashrc
     fi
 
     #Load .bash_functions
     echo Loading .bash_functions...
     cp -v $WORKDIR/.bash_functions $HOME && source $HOME/.bashrc
-    if ! grep -Fxq "    source .bash_functions" $HOME/.bashrc
+    if ! grep -Fxq "    source ~/.bash_functions" $HOME/.bashrc
     then
-        echo -e "\nif [ -f ~/.bash_functions ]; then\n    source .bash_functions\nfi" >> $HOME/.bashrc
+        echo -e "\nif [ -f ~/.bash_functions ]; then\n    source ~/.bash_functions\nfi" >> $HOME/.bashrc
     fi
 
     #Load battery-status.sh
@@ -99,6 +99,11 @@ nonOverwriteCopy () {
     if [ "$result" = "" ]
         then
             echo -e "File already exist. Abort..."
+    else
+        if ! grep -Fxq "    source ~/.bash_aliases" $HOME/.bashrc
+        then
+            echo -e "\nif [ -f ~/.bash_aliases ]; then\n    source ~/.bash_aliases\nfi" >> $HOME/.bashrc
+        fi
     fi
 
     #Load .bash_functions
@@ -108,9 +113,9 @@ nonOverwriteCopy () {
         then
             echo -e "File already exist. Abort..."
     else
-        if ! grep -Fxq "    . ~/.bash_functions" $HOME/.bashrc
+        if ! grep -Fxq "    source ~/.bash_functions" $HOME/.bashrc
         then
-            echo -e "\nif [ -f ~/.bash_functions ]; then\n    . ~/.bash_functions\nfi" >> $HOME/.bashrc
+            echo -e "\nif [ -f ~/.bash_functions ]; then\n    source ~/.bash_functions\nfi" >> $HOME/.bashrc
         fi
     fi
 
