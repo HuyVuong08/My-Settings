@@ -1071,3 +1071,7 @@ onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<CR>
 onoremap <silent> ]k :g/3D/s/^\s*\\zs\(\w\)/# \1/
 " iabbrev </ </<C-X><C-O>
 " inoremap <buffer> > ></<C-x><C-o><C-y><C-o>%<CR><C-o>O
+" :g/pattern/s/^/;
+" :g/pattern/norm I;
+" :%s/.*pattern/;&
+" :g!/wachl_ws\/build/g!/wachl_ws\/devel/g!/.*.pyc\>/
