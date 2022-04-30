@@ -15,6 +15,7 @@ sudo apt-get -y update
 #-------------------------------------------
 
 bash $WORKDIR/install/battery-status-install.sh
+bash $WORKDIR/install/beyond-compare-install.sh
 bash $WORKDIR/install/redshift-install.sh
 bash $WORKDIR/install/chrome-install.sh
 bash $WORKDIR/install/vs-code-install.sh
