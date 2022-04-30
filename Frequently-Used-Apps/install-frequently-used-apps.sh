@@ -29,6 +29,7 @@ bash $WORKDIR/install/git-install.sh
 bash $WORKDIR/install/gparted-install.sh
 bash $WORKDIR/install/ibus-unikey-install.sh
 bash $WORKDIR/install/libinput-guesture-install.sh
+bash $WORKDIR/install/meld-compare-install.sh
 bash $WORKDIR/install/mdless-install.sh
 bash $WORKDIR/install/slim-book-battery-install.sh
 bash $WORKDIR/install/stopwatch-install.sh
