@@ -132,6 +132,9 @@ let g:indentLine_setColors = 0
 let g:indentLine_defaultGroup = 'SpecialKey'
 let g:indentLine_char = '▏'
 
+" Add space after comment character in Nerd Commenter
+let NERDSpaceDelims=1
+
 " Toggling on jumping between if and endif
 runtime macros/matchit.vim
 
