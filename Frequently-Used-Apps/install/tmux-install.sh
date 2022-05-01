@@ -17,7 +17,7 @@ sudo apt-get install -y tmux
 # Install Tmux Plugin Manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-#Load .tmux.conf
+# Load .tmux.conf
 echo Loading .tmux.conf...
 result=$(cp -vn $WORKDIR/.tmux.conf $HOME)
 if [ "$result" = "" ]
@@ -27,3 +27,9 @@ fi
 
 # Source configuration file
 tmux source ~/.tmux.conf
+
+# Run tmux when open terminal
+if ! grep -Fxq "tmux attach -t base || tmux new -s base" $HOME/.bashrc
+then
+    echo -e "\ntmux attach -t base || tmux new -s base" >> $HOME/.bashrc
+fi

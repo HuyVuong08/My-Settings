@@ -14,6 +14,10 @@ OverwriteCopy () {
     #Load .tmux.conf
     echo Loading .tmux.conf...
     cp -v $WORKDIR/.tmux.conf $HOME
+    if ! grep -Fxq "tmux attach -t base || tmux new -s base" $HOME/.bashrc
+    then
+        echo -e "\ntmux attach -t base || tmux new -s base" >> $HOME/.bashrc
+    fi
 
     #Load libinput-gestures.conf
     echo Loading libinput-gestures.conf...
