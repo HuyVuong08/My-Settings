@@ -12,7 +12,7 @@ Plug 'vim-scripts/VisIncr'
 " Plugin auto close character
 Plug 'Townk/vim-autoclose'
 " Plugin display color from color code
-Plug 'RRethy/vim-hexokinase'
+" Plug 'RRethy/vim-hexokinase'
 " Plugin indent line indication
 Plug 'Yggdroot/indentLine'
 " Plugin highlight all occurences
@@ -131,6 +131,9 @@ let g:python_highlight_all = 1
 let g:indentLine_setColors = 0
 let g:indentLine_defaultGroup = 'SpecialKey'
 let g:indentLine_char = '▏'
+
+" Add space after comment character in Nerd Commenter
+let NERDSpaceDelims=1
 
 " Toggling on jumping between if and endif
 runtime macros/matchit.vim
@@ -562,6 +565,7 @@ nnoremap <leader>ml <C-w>L
 " Remaps git command
 nnoremap <leader>gs :Git<CR>
 nnoremap <leader>gd :Gdiffsplit<CR>
+nnoremap <leader>gl :Git log --name-status HEAD@{1}..HEAD@{0}
 nmap gj ]c
 nmap gk [c
 
@@ -710,7 +714,7 @@ autocmd BufNewFile *.cpp 0r ~/.vim/templates/skeleton.cpp
 autocmd BufEnter * silent! :lcd%:p:h
 
 " Function to delete trailing white spaces
-function StripTrailingWhitespace()
+function! StripTrailingWhitespace()
     if !&binary && &filetype != 'diff'
         normal! mz
         normal! Hmy
@@ -721,7 +725,7 @@ function StripTrailingWhitespace()
 endfunction
 
 " Function to delete empty lines at the end of file
-function TrimTrailingLines()
+function! TrimTrailingLines()
     let lastLine = line('$')
     let lastNonblankLine = prevnonblank(lastLine)
     if lastLine > 0 && lastNonblankLine != lastLine
@@ -730,7 +734,7 @@ function TrimTrailingLines()
 endfunction
 
 " Function to interact block of codes
-function IfElseBlockInteract(choice)
+function! IfElseBlockInteract(choice)
     " choice = 'y' for yanking an if else block
     " choice = 'd' for deleting an if else block
     " choice = '' for selecting an if else block
@@ -752,7 +756,7 @@ function IfElseBlockInteract(choice)
 endfunction
 
 " Function to interact block of codes
-function WhileBlockInteract(choice)
+function! WhileBlockInteract(choice)
     " choice = 'y' for yanking a while block
     " choice = 'd' for deleting a while block
     " choice = '' for selecting a while block
@@ -763,7 +767,7 @@ function WhileBlockInteract(choice)
 endfunction
 
 " Function to interact block of codes
-function ForBlockInteract(choice)
+function! ForBlockInteract(choice)
     " choice = 'y' for yanking a for block
     " choice = 'd' for deleting a for block
     " choice = '' for selecting a for block
@@ -774,7 +778,7 @@ function ForBlockInteract(choice)
 endfunction
 
 " Function to interact block of codes
-function SwitchCaseBlockInteract(choice)
+function! SwitchCaseBlockInteract(choice)
     " choice = 'y' for yanking a switch case block
     " choice = 'd' for deleting a switch case block
     " choice = '' for selecting a switch case block
@@ -785,7 +789,7 @@ function SwitchCaseBlockInteract(choice)
 endfunction
 
 " Function to interact block of codes
-function FunctionBlockInteractCppAndJava(choice)
+function! FunctionBlockInteractCppAndJava(choice)
     " choice = 'y' for yanking a c/cpp/java function block
     " choice = 'd' for deleting a c/cpp/java function block
     " choice = '' for selecting a c/cpp/java function block
@@ -830,7 +834,7 @@ function FunctionBlockInteractCppAndJava(choice)
 endfunction
 
 " Function to interact block of codes
-function FunctionBlockInteractPython(choice)
+function! FunctionBlockInteractPython(choice)
     " choice = 'y' for yanking a python function block
     " choice = 'd' for deleting a python function block
     " choice = '' for selecting a python function block
@@ -857,7 +861,7 @@ function FunctionBlockInteractPython(choice)
 endfunction
 
 " Function to interact block of codes
-function FunctionBlockInteractVim(choice)
+function! FunctionBlockInteractVim(choice)
     " choice = 'y' for yanking a vim function block
     " choice = 'd' for deleting a vim function block
     " choice = '' for selecting a vim function block
@@ -880,7 +884,7 @@ function FunctionBlockInteractVim(choice)
     endif
 endfunction
 
-function GotoFunctionDefinitionCppAndJava()
+function! GotoFunctionDefinitionCppAndJava()
     let l:currentPos = getpos('.')
     let n = search("\\<".expand("<cword>")."\\>[^(]*([^)]*)\\s*\\n*\\s*{")
     let l:functionStart = getpos('.')
@@ -889,7 +893,7 @@ function GotoFunctionDefinitionCppAndJava()
     endif
 endfunction
 
-function GotoFunctionDefinitionPython()
+function! GotoFunctionDefinitionPython()
     let l:currentPos = getpos('.')
     let n = search("\\<".expand("<cword>")."\\>[^(]*([^)]*)\\s*:")
     let l:functionStart = getpos('.')
@@ -898,7 +902,7 @@ function GotoFunctionDefinitionPython()
     endif
 endfunction
 
-function GotoFunctionDefinitionVim()
+function! GotoFunctionDefinitionVim()
     let l:currentPos = getpos('.')
     let n = search("function\\s*\\<".expand("<cword>")."\\>[^(]*([^)]*)")
     let l:functionStart = getpos('.')
@@ -907,11 +911,11 @@ function GotoFunctionDefinitionVim()
     endif
 endfunction
 
-function IndentLevel(lnum)
+function! IndentLevel(lnum)
     return indent(a:lnum) / &shiftwidth
 endfunction
 
-function NextNonBlankLine(lnum)
+function! NextNonBlankLine(lnum)
     let numlines = line('$')
     let current = a:lnum + 1
 
@@ -926,7 +930,7 @@ function NextNonBlankLine(lnum)
     return -2
 endfunction
 
-function GetPotionFold(lnum)
+function! GetPotionFold(lnum)
     if getline(a:lnum) =~? '\v^\s*$'
         return '-1'
     endif
@@ -943,7 +947,7 @@ function GetPotionFold(lnum)
     endif
 endfunction
 
-function SearchWithSkip(pattern, flags, stopline, timeout, skip)
+function! SearchWithSkip(pattern, flags, stopline, timeout, skip)
 "
 " Returns true if a match is found for {pattern}, but ignores matches
 " where {skip} evaluates to false. This allows you to do nifty things
@@ -985,7 +989,7 @@ function SearchWithSkip(pattern, flags, stopline, timeout, skip)
 
 endfunction
 
-function SearchOutside(synName, pattern)
+function! SearchOutside(synName, pattern)
 "
 " Searches for the specified pattern, but skips matches that
 " exist within the specified syntax region.
@@ -995,7 +999,7 @@ function SearchOutside(synName, pattern)
 
 endfunction
 
-function NextIndent(exclusive, fwd, lowerlevel, skipblanks, movecursor)
+function! NextIndent(exclusive, fwd, lowerlevel, skipblanks, movecursor)
     let l:line = line('.')
     let column = col('.')
     let lastline = line('$')
@@ -1020,7 +1024,7 @@ function NextIndent(exclusive, fwd, lowerlevel, skipblanks, movecursor)
     endwhile
 endfunction
 
-function Getchar(right)
+function! Getchar(right)
 "
 " Function to get character right or left the cursor
 " Let right = 0 to get charater under the cursor
@@ -1028,14 +1032,14 @@ function Getchar(right)
     return strcharpart(strpart(getline('.'), col('.') - 1 + a:right), 0, 1)
 endfunction
 
-function IsAlphabet(char)
+function! IsAlphabet(char)
 "
 "Function to check if a character was an alphabet letter
 "
     return a:char >= 'a' && a:char <= 'b' || a:char >= 'A' && a:char <= 'Z'
 endfunction
 
-function ChangeWordAfterCursor()
+function! ChangeWordAfterCursor()
     let l:cursor = Getchar(0)
     let l:left   = Getchar(-1)
     let l:right  = Getchar(1)
@@ -1048,7 +1052,7 @@ function ChangeWordAfterCursor()
     endif
 endfunction
 
-function ChangeWordBeforeCursor()
+function! ChangeWordBeforeCursor()
   let l:cursor = Getchar(0)
   echo l:cursor
   if ( l:cursor == ' ' )
@@ -1070,3 +1074,7 @@ onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<CR>
 onoremap <silent> ]k :g/3D/s/^\s*\\zs\(\w\)/# \1/
 " iabbrev </ </<C-X><C-O>
 " inoremap <buffer> > ></<C-x><C-o><C-y><C-o>%<CR><C-o>O
+" :g/pattern/s/^/;
+" :g/pattern/norm I;
+" :%s/.*pattern/;&
+" :g!/wachl_ws\/build/g!/wachl_ws\/devel/g!/.*.pyc\>/
