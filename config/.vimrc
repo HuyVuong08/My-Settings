@@ -68,6 +68,8 @@ Plug 'will133/vim-dirdiff'
 "" Plugin syntax checking (replaced by ale)
 " Plug 'vim-syntastic/syntastic'
 
+" Plugin impair checking
+Plug 'tpope/vim-unimpaired'
 " Plugin syntax checking
 Plug 'dense-analysis/ale'
 " Plugin commentary support
