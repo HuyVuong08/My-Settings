@@ -223,6 +223,9 @@ let g:user_emmet_settings = {
 let g:user_emmet_install_global=0
 autocmd FileType html,css,js,javascript.jsx EmmetInstall
 
+" Auto equal splits' size when resize window
+autocmd VimResized * wincmd =
+
 " Setup session management
 let g:session_directory       = "~/.vim/session"
 let g:session_autoload        = "no"
