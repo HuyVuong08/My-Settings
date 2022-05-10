@@ -157,6 +157,11 @@ set undofile
 set undodir=~/.vim/undodir
 set fileformat=unix
 
+" Set text width for auto break lines that are too long
+set textwidth=80
+set formatoptions+=w
+set fo+=t
+
 " Reduce the number of hit-enter prompts
 set cmdheight=2
 
@@ -228,7 +233,7 @@ autocmd FileType html,css,js,javascript.jsx EmmetInstall
 
 " Auto equal splits' size when resize window
 " autocmd VimResized * wincmd =
-autocmd VimResized * :call ResizeProportionally()<CR>
+autocmd VimResized * :call ResizeProportionally()<CR><CR>
 
 " Setup session management
 let g:session_directory       = "~/.vim/session"
@@ -1094,3 +1099,8 @@ onoremap <silent> ]k :g/3D/s/^\s*\\zs\(\w\)/# \1/
 " :g/pattern/norm I;
 " :%s/.*pattern/;&
 " :g!/wachl_ws\/build/g!/wachl_ws\/devel/g!/.*.pyc\>/
+" :s/\v(.{80})/\1\r/g
+" :s/       replaces within the current select
+" \v        uses regular expressions
+" (.{80})   selects 80 characters & placed them into group one
+" \1\r      replaces group one with group one and a newline
