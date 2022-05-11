@@ -232,8 +232,8 @@ let g:user_emmet_install_global=0
 autocmd FileType html,css,js,javascript.jsx EmmetInstall
 
 " Auto equal splits' size when resize window
-" autocmd VimResized * wincmd =
-autocmd VimResized * :call ResizeProportionally()<CR><CR>
+autocmd VimResized * wincmd =
+" autocmd VimResized * :call ResizeProportionally()<CR><CR>
 
 " Setup session management
 let g:session_directory       = "~/.vim/session"
@@ -1079,8 +1079,9 @@ endfunction
 function! ResizeProportionally()
     mksession! ~/sessions.vim
     " mksession! ~/session.vim<CR>:only<CR>
-    wincmd =
-    so ~/sessions.vim
+    " wincmd =
+    " Change window size
+    source ~/sessions.vim
 endfunction
 
 vnoremap <silent> [l <Esc>:call NextIndent(0, 0, 0, 1)<CR>m'gv''
