@@ -68,6 +68,8 @@ Plug 'will133/vim-dirdiff'
 "" Plugin syntax checking (replaced by ale)
 " Plug 'vim-syntastic/syntastic'
 
+" Plugin impair checking
+Plug 'tpope/vim-unimpaired'
 " Plugin syntax checking
 Plug 'dense-analysis/ale'
 " Plugin commentary support
@@ -155,6 +157,14 @@ set undofile
 set undodir=~/.vim/undodir
 set fileformat=unix
 
+" Set text width for auto break lines that are too long
+set textwidth=80
+set formatoptions+=w
+set fo+=t
+
+" Reduce the number of hit-enter prompts
+set cmdheight=2
+
 " Disables beeping sounds
 set noerrorbells visualbell t_vb=
 if has('autocmd')
@@ -214,12 +224,16 @@ set mouse=a
 let mapleader               = ' '
 let g:user_emmet_leader_key = ','
 let g:user_emmet_settings = {
-\  'javascript' : {
-\      'extends' : 'jsx',
-\  },
-\}
+            \  'javascript' : {
+            \      'extends' : 'jsx',
+            \  },
+            \}
 let g:user_emmet_install_global=0
 autocmd FileType html,css,js,javascript.jsx EmmetInstall
+
+" Auto equal splits' size when resize window
+autocmd VimResized * wincmd =
+" autocmd VimResized * :call ResizeProportionally()<CR><CR>
 
 " Setup session management
 let g:session_directory       = "~/.vim/session"
@@ -245,12 +259,12 @@ autocmd FileType scss setlocal formatprg=prettier\ --parser\ css
 autocmd FileType css setlocal formatprg=prettier\ --parser\ css
 nnoremap <F5> mzgggqG`z
 let g:mta_filetypes = {
-    \ 'html' : 1,
-    \ 'xhtml' : 1,
-    \ 'xml' : 1,
-    \ 'jinja' : 1,
-    \ 'js' : 1,
-    \}
+            \ 'html' : 1,
+            \ 'xhtml' : 1,
+            \ 'xml' : 1,
+            \ 'jinja' : 1,
+            \ 'js' : 1,
+            \}
 " Setup indent for html files
 autocmd BufRead,BufNewFile *.js set shiftwidth=2
 autocmd BufRead,BufNewFile *.jsx set shiftwidth=2
@@ -258,11 +272,11 @@ let g:closetag_filetypes = 'html,xhtml,phtml,js,jsx'
 let g:closetag_xhtml_filetypes = 'xhtml,javascript.jsx,jsx'
 " let g:closetag_xhtml_filetypes = 'xhtml,js,jsx'
 " let g:closetag_regions = {
-    " \ 'typescript.tsx': 'jsxRegion,tsxRegion',
-    " \ 'javascript.jsx': 'jsxRegion',
-    " \ 'typescriptreact': 'jsxRegion,tsxRegion',
-    " \ 'javascriptreact': 'jsxRegion',
-    " \ }
+" \ 'typescript.tsx': 'jsxRegion,tsxRegion',
+" \ 'javascript.jsx': 'jsxRegion',
+" \ 'typescriptreact': 'jsxRegion,tsxRegion',
+" \ 'javascriptreact': 'jsxRegion',
+" \ }
 autocmd BufNewFile,BufRead *.js set filetype=javascript.jsx
 autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
 
@@ -801,7 +815,7 @@ function! FunctionBlockInteractCppAndJava(choice)
     while l:n > 0 && l:NO_skipped < 20
         if eval(search("\\<else\\>\\s*\\<if\\>", 'cn', line('.')) != 0)
             let l:n = search("\\<[0-9a-zA-Z_]*\\>[.:~ ]*\\<[0-9a-zA-Z_]*\\>[^(]*([^)]*)\\s*\\n*\\s*{", 'b')
-    " normal! %mz%
+            " normal! %mz%
             let l:NO_skipped += 1
             continue
         endif
@@ -868,16 +882,16 @@ function! FunctionBlockInteractVim(choice)
     " choice = 'fs' for jumping to start of a vim function block
     " choice = 'fe' for jumping to end of a vim function block
     normal! mz
-    let l:functionStart = search("\\<function\\>\\s*\\<[0-9a-zA-Z_]*\\>\\s*([^)]*)", 'bc')
+    let l:functionStart = search("\\<function\\>!\\?\\s*\\<[0-9a-zA-Z_]*\\>\\s*([^)]*)", 'bc')
     if a:choice == 'fs'
         call search(")")
         return
     elseif a:choice == 'fe'
-        call search("\\<endfunc")
+        call search("^\\<endfunc")
         return
     else
         normal! mz
-        call search("\\<endfunc")
+        call search("^\\<endfunc")
         " Try to include empty line below
         call search("^$", '', line('.')+1)
         execute 'normal! V`z' . a:choice
@@ -904,7 +918,7 @@ endfunction
 
 function! GotoFunctionDefinitionVim()
     let l:currentPos = getpos('.')
-    let n = search("function\\s*\\<".expand("<cword>")."\\>[^(]*([^)]*)")
+    let n = search("function\\>!\\?\\s*\\<".expand("<cword>")."\\>[^(]*([^)]*)")
     let l:functionStart = getpos('.')
     if l:currentPos[1] != l:functionStart[1]
         call setpos("'z", l:currentPos)
@@ -948,16 +962,16 @@ function! GetPotionFold(lnum)
 endfunction
 
 function! SearchWithSkip(pattern, flags, stopline, timeout, skip)
-"
-" Returns true if a match is found for {pattern}, but ignores matches
-" where {skip} evaluates to false. This allows you to do nifty things
-" like, say, only matching outside comments, only on odd-numbered lines,
-" or whatever else you like.
-"
-" Mimics the built-in search() function, but adds a {skip} expression
-" like that available in searchpair() and searchpairpos().
-" (See the Vim help on search() for details of the other parameters.)
-"
+    "
+    " Returns true if a match is found for {pattern}, but ignores matches
+    " where {skip} evaluates to false. This allows you to do nifty things
+    " like, say, only matching outside comments, only on odd-numbered lines,
+    " or whatever else you like.
+    "
+    " Mimics the built-in search() function, but adds a {skip} expression
+    " like that available in searchpair() and searchpairpos().
+    " (See the Vim help on search() for details of the other parameters.)
+    "
     " Note the current position, so that if there are no unskipped
     " matches, the cursor can be restored to this location.
     "
@@ -990,12 +1004,12 @@ function! SearchWithSkip(pattern, flags, stopline, timeout, skip)
 endfunction
 
 function! SearchOutside(synName, pattern)
-"
-" Searches for the specified pattern, but skips matches that
-" exist within the specified syntax region.
-"
+    "
+    " Searches for the specified pattern, but skips matches that
+    " exist within the specified syntax region.
+    "
     call SearchWithSkip(a:pattern, '', '', '',
-        \ 'synIDattr(synID(line("."), col("."), 0), "name") =~? "' . a:synName . '"' )
+                \ 'synIDattr(synID(line("."), col("."), 0), "name") =~? "' . a:synName . '"' )
 
 endfunction
 
@@ -1025,17 +1039,17 @@ function! NextIndent(exclusive, fwd, lowerlevel, skipblanks, movecursor)
 endfunction
 
 function! Getchar(right)
-"
-" Function to get character right or left the cursor
-" Let right = 0 to get charater under the cursor
-"
+    "
+    " Function to get character right or left the cursor
+    " Let right = 0 to get charater under the cursor
+    "
     return strcharpart(strpart(getline('.'), col('.') - 1 + a:right), 0, 1)
 endfunction
 
 function! IsAlphabet(char)
-"
-"Function to check if a character was an alphabet letter
-"
+    "
+    "Function to check if a character was an alphabet letter
+    "
     return a:char >= 'a' && a:char <= 'b' || a:char >= 'A' && a:char <= 'Z'
 endfunction
 
@@ -1053,13 +1067,21 @@ function! ChangeWordAfterCursor()
 endfunction
 
 function! ChangeWordBeforeCursor()
-  let l:cursor = Getchar(0)
-  echo l:cursor
-  if ( l:cursor == ' ' )
-    normal bdaw
-  else
-    normal daw
-  endif
+    let l:cursor = Getchar(0)
+    echo l:cursor
+    if ( l:cursor == ' ' )
+        normal bdaw
+    else
+        normal daw
+    endif
+endfunction
+
+function! ResizeProportionally()
+    mksession! ~/sessions.vim
+    " mksession! ~/session.vim<CR>:only<CR>
+    " wincmd =
+    " Change window size
+    source ~/sessions.vim
 endfunction
 
 vnoremap <silent> [l <Esc>:call NextIndent(0, 0, 0, 1)<CR>m'gv''
@@ -1078,3 +1100,8 @@ onoremap <silent> ]k :g/3D/s/^\s*\\zs\(\w\)/# \1/
 " :g/pattern/norm I;
 " :%s/.*pattern/;&
 " :g!/wachl_ws\/build/g!/wachl_ws\/devel/g!/.*.pyc\>/
+" :s/\v(.{80})/\1\r/g
+" :s/       replaces within the current select
+" \v        uses regular expressions
+" (.{80})   selects 80 characters & placed them into group one
+" \1\r      replaces group one with group one and a newline

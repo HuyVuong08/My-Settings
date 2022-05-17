@@ -19,7 +19,7 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # Load .tmux.conf
 echo Loading .tmux.conf...
-result=$(cp -vn $WORKDIR/.tmux.conf $HOME)
+result=$(cp -vn $WORKDIR/../../config/.tmux.conf $HOME)
 if [ "$result" = "" ]
 then
     echo -e "File already exist. Abort..."
