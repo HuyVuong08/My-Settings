@@ -28,6 +28,8 @@ Plug 'godlygeek/tabular'
 Plug 'preservim/nerdtree'
 " Plugin for Python syntax highlighting
 Plug 'vim-python/python-syntax'
+"Plugin for Python syntax highlighting
+Plug 'tpope/vim-sensible'
 
 " Pligin for React .jsx file indenting and highlighting
 Plug 'pangloss/vim-javascript'
@@ -105,8 +107,10 @@ call plug#end()
 if (has("termguicolors"))
     set termguicolors
 endif
+" set term=screen-256color
 set background=dark
 let g:one_allow_italics = 1
+" syntax on
 silent! colorscheme one
 
 " Auto higlight current word under cursor color configuration
