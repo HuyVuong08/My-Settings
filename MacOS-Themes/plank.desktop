@@ -1,10 +1,8 @@
 [Desktop Entry]
-Type=Application
-Categories=Utility
-Exec=plank
-Hidden=false
-NoDisplay=false
-X-GNOME-Autostart-enabled=true
 Name=Plank
-Comment=Plank Dock
-X-GNOME-Autostart-Delay=1
+GenericName=Plank
+Comment=Plank
+Exec=/usr/bin/bash -c "systemctl --user start plank && /usr/bin/xeventbind resolution /usr/bin/restart-plank.sh"
+Terminal=false
+Type=Application
+X-GNOME-Autostart-enabled=true
