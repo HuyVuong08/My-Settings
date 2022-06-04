@@ -83,7 +83,7 @@ Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 " Plugin fontsize changing
 Plug 'drmikehenry/vim-fontsize'
 " Plugin auto complete
-" Plug 'ycm-core/YouCompleteMe'
+Plug 'ycm-core/YouCompleteMe'
 " Plugin code structure pane
 Plug 'preservim/tagbar'
 " Plugin project files finder
