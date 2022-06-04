@@ -18,7 +18,7 @@ sudo apt-get install -y plank
 echo "Fixing Plank Dock Location When Changine Resolution..."
 sudo apt-get install -y libx11-dev make gcc
 mkdir -p $HOME/.config/systemd/user
-cp -v plank.service $HOME/.config/systemd/user/
+cp -v $WORKDIR/BigSur-Dock/plank.service $HOME/.config/systemd/user/
 systemctl --user enable plank
 # Kill plank if it is running
 # pkill -f plank
@@ -31,9 +31,9 @@ make
 sudo cp -v ./xeventbind /usr/bin/
 )
 rm -rf xeventbind xeventbind
-sudo cp -v restart-plank.sh /usr/bin/
+sudo cp -v $WORKDIR/BigSur-Dock/restart-plank.sh /usr/bin/
 sudo chmod a+x /usr/bin/restart-plank.sh
-cp -v plank.desktop $HOME/.config/autostart/
+cp -v $WORKDIR/BigSur-Dock/plank.desktop $HOME/.config/autostart/
 
 # Launch Plank Dock on Startup
 # ln -s /usr/share/applications/plank.desktop $HOME/.config/autostart/plank.desktop
@@ -45,4 +45,4 @@ sudo cp -v $WORKDIR/BigSur-Dock/dock.theme /usr/share/plank/themes/macOS-BigSur/
 
 # Add default quick launch icon to Plank Dock
 echo 'Adding default quick launch icons to Plank Dock...'
-cp -v $WORKDIR/plank-launchers/* $HOME/.config/plank/dock1/launchers/
+cp -v $WORKDIR/BigSur-Dock/plank-launchers/* $HOME/.config/plank/dock1/launchers/
