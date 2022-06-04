@@ -36,7 +36,7 @@ UrgentBounceHeight=1
 #The height (in percent of IconSize) to bounce an icon when launching an application.
 LaunchBounceHeight=0.9
 #The opacity value (0 to 1) to fade the dock to when hiding it.
-FadeOpacity=1
+FadeOpacity=0
 #The amount of time (in ms) for click animations.
 ClickTime=900
 #The amount of time (in ms) to bounce an urgent icon.
@@ -50,7 +50,7 @@ SlideTime=500
 #The time (in ms) to fade the dock in/out on a hide (if FadeOpacity is < 1).
 FadeTime=400
 #The time (in ms) to slide the dock in/out on a hide (if FadeOpacity is 1).
-HideTime=230
+HideTime=500
 #The size of the urgent glow (shown when dock is hidden), in tenths of a percent of IconSize.
 GlowSize=1000
 #The total time (in ms) to show the hidden-dock urgent glow.
