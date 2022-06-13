@@ -1,8 +1,12 @@
 #!/bin/bash
 
+# Install Snap
+echo 'Installing Snap...'
+sudo apt-get install -y snap
+
 # Install Flameshot
 echo "Installing Flameshot for screenshot..."
-sudo apt-get install -y flameshot || sudo snap install flameshot 
+sudo apt-get install -y flameshot || sudo snap install flameshot
 
 #-------------------------------------------
 
