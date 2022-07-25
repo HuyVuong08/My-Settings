@@ -15,6 +15,7 @@ echo "Installing Plank Dock..."
 sudo apt-get install -y plank
 
 # Fix Plank Dock Location When Changine Resolution
+# https://discourse.ubuntubudgie.org/t/fix-plank-location-when-changing-resolution/5198/5
 echo "Fixing Plank Dock Location When Changine Resolution..."
 sudo apt-get install -y libx11-dev make gcc
 mkdir -p $HOME/.config/systemd/user
