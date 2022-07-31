@@ -25,6 +25,11 @@ setup() {
         echo -e "bind 'set bell-style none'" >> $HOME/.bashrc
     fi
 
+    #-------------------------------------------
+
+    # Install Graphic Drivers
+    echo 'Installing Graphic Drivers...'
+    sudo ubuntu-drivers autoinstall
 }
 
 quit() {

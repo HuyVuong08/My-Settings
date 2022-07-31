@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Plank
+GenericName=Plank
+Comment=Plank
+Exec=/usr/bin/bash -c "systemctl --user start plank && /usr/bin/xeventbind resolution /usr/bin/restart-plank.sh"
+Terminal=false
+Type=Application
+X-GNOME-Autostart-enabled=true
