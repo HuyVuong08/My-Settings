@@ -30,6 +30,11 @@ setup() {
     # Install Graphic Drivers
     echo 'Installing Graphic Drivers...'
     sudo ubuntu-drivers autoinstall
+
+    #-------------------------------------------
+    # Open new window in center of screen
+    gsettings set org.gnome.mutter center-new-windows true
+
 }
 
 quit() {
