@@ -12,7 +12,7 @@ Plug 'vim-scripts/VisIncr'
 " Plugin auto close character
 Plug 'Townk/vim-autoclose'
 " Plugin display color from color code
-" Plug 'RRethy/vim-hexokinase'
+Plug 'RRethy/vim-hexokinase'
 " Plugin indent line indication
 Plug 'Yggdroot/indentLine'
 " Plugin highlight all occurences
@@ -222,6 +222,7 @@ set breakindent
 set breakindentopt=sbr
 
 " Set select text by mouse drag to copy
+set ttymouse=xterm2
 set mouse=a
 
 " Maps leader key
@@ -620,6 +621,9 @@ nnoremap <leader>sv :w <bar> :source $MYVIMRC <bar> :doautocmd BufRead<CR>
 
 " Shortcuts plugins installation
 nnoremap <leader>pi :PlugInstall<CR>
+
+" Shortcuts plugins update
+nnoremap <leader>pu :PlugUpdate<CR>
 
 " Shortcuts auto indent
 nnoremap <leader>== mqgg=G`q
