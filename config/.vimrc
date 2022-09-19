@@ -432,21 +432,21 @@ nnoremap <A-o> o<ESC>
 " Map with ALT key
 " Shortcuts moving cursor in insert mode
 execute "set <A-l>=\el"
-inoremap <A-l> <C-o>l
+inoremap <A-l> <Right>
 execute "set <A-h>=\eh"
-inoremap <A-h> <C-o>h
+inoremap <A-h> <Left>
 execute "set <A-j>=\ej"
-inoremap <A-j> <C-o>j
+inoremap <A-j> <Down>
 execute "set <A-k>=\ek"
-inoremap <A-k> <C-o>k
+inoremap <A-k> <Up>
 execute "set <A-L>=\eL"
-inoremap <A-L> <C-o>w
+inoremap <A-L> <C-Right>
 execute "set <A-H>=\eH"
-inoremap <A-H> <C-o>b
+inoremap <A-H> <C-Left>
 execute "set <A-J>=\eJ"
-inoremap <A-J> <C-o><C-e>
+inoremap <A-J> <C-x><C-e>
 execute "set <A-K>=\eK"
-inoremap <A-K> <C-o><C-y>
+inoremap <A-K> <C-x><C-y>
 
 " Map with ALT key
 " Shortcuts changing and merging and deleting in insert mode
