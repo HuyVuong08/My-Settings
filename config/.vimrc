@@ -58,6 +58,9 @@ Plug 'will133/vim-dirdiff'
 " Plug auto import in javascript
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
+" Plug Autocomplete
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " Plug command-line mode mappings
 Plug 'vim-utils/vim-husk'
 
@@ -81,8 +84,8 @@ Plug 'vim-utils/vim-husk'
 
 " Plugin impair checking
 Plug 'tpope/vim-unimpaired'
-" Plugin syntax checking
-Plug 'dense-analysis/ale'
+" Plugin syntax checking (replaced by COC)
+" Plug 'dense-analysis/ale'
 " Plugin commentary support
 Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-commentary'
@@ -92,8 +95,8 @@ Plug 'vim-latex/vim-latex'
 Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 " Plugin fontsize changing
 Plug 'drmikehenry/vim-fontsize'
-" Plugin auto complete
-Plug 'ycm-core/YouCompleteMe'
+" Plugin auto complete (replaced by COC)
+" Plug 'ycm-core/YouCompleteMe'
 " Plugin code structure pane
 Plug 'preservim/tagbar'
 " Plugin project files finder
@@ -270,6 +273,65 @@ let g:user_emmet_settings = {
 let g:user_emmet_install_global=0
 autocmd FileType html,css,js,javascript.jsx EmmetInstall
 
+" Config coc
+let g:coc_global_extensions = [
+  \ 'coc-ultisnips',
+  \ 'coc-json',
+  \ 'coc-tsserver',
+  \ 'coc-html',
+  \ 'coc-css',
+  \ 'coc-yaml',
+  \ 'coc-highlight',
+  \ 'coc-eslint',
+  \ 'coc-git',
+  \ 'coc-prettier',
+  \ 'coc-flutter',
+  \ 'coc-angular',
+  \ 'coc-pyright',
+  \ ]
+" Map Ctrl + Space để show list functions/biến autocomplete
+inoremap <silent><expr> <c-space> coc#refresh()
+" Tự động import file của biến/function khi chọn và nhấn Tab
+inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<C-g>u\<TAB>"
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1):
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" Go to definition ở tab mới
+nmap <silent> gd :call CocAction('jumpDefinition', 'tab drop')<CR>
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+" Hiển thị document cho function, biến
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (noc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+" Highlight word chỗ con trỏ đang đứng
+autocmd CursorHold * silent call CocActionAsync('highlight')
+" use <tab> for trigger completion and navigate to the next complete item
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+" Shortuts organize imports
+nnoremap <leader>io :OR<CR>
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> <leader>ek <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>ej <Plug>(coc-diagnostic-next)
+
 " Config prettier
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 let g:prettier#autoformat = 1
@@ -344,6 +406,10 @@ let g:closetag_xhtml_filetypes = 'xhtml,javascript.jsx,jsx'
 " \ }
 autocmd BufNewFile,BufRead *.js set filetype=javascript.jsx
 autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
+
+" " Shortcuts jumping to next error line in ALE
+" nnoremap <leader>aj :ALENext<cr>
+" nnoremap <leader>ak :ALEPrevious<cr>
 
 " Shortcuts set syntax when opening a file
 nnoremap <leader>st :set syntax=
