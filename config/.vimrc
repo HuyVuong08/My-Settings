@@ -451,9 +451,9 @@ inoremap <A-K> <C-x><C-y>
 " Map with ALT key
 " Shortcuts changing and merging and deleting in insert mode
 execute "set <A-x>=\ex"
-inoremap <A-x> <C-o>X
+inoremap <A-x> <BS>
 execute "set <A-X>=\eX"
-inoremap <A-X> <C-o>x
+inoremap <A-X> <Del>
 execute "set <A-c>=\ec"
 inoremap <A-c> <C-o>:call ChangeWordBeforeCursor()<CR>
 execute "set <A-C>=\eC"
