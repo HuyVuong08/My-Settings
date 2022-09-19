@@ -468,6 +468,8 @@ execute "set <A-d>=\ed"
 inoremap <A-d> <C-o>dd
 execute "set <A-m>=\em"
 inoremap <A-m> <C-o>k<C-o>J
+execute "set <A-=>=\e="
+inoremap <A-=> <C-o>==
 
 " Map with ALT key
 " Shorcuts append space to end of line in insert mode
