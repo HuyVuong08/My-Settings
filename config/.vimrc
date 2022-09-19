@@ -55,6 +55,8 @@ Plug 'will133/vim-dirdiff'
 " Plug auto import in javascript
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
+" Plug command-line mode mappings
+Plug 'vim-utils/vim-husk'
 
 " Plugin React snippets
 " Plug 'mlaursen/vim-react-snippets'
@@ -267,6 +269,14 @@ autocmd FileType html,css,js,javascript.jsx EmmetInstall
 " Config prettier
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 let g:prettier#autoformat = 1
+
+" Config Husk command-line mode mappings
+cmap <Esc>l <M-l>
+cnoremap <expr> <M-l> husk#right()
+cmap <Esc>h <M-h>
+cnoremap <expr> <M-h> husk#left()
+cnoremap <expr> <C-n> getcmdpos()>strlen(getcmdline())?&cedit:"\<Lt>Right>"
+cnoremap <expr> <C-f> &cedit
 
 " Config Vim Multi Cursors
 let g:multi_cursor_prev_key = '<C-b>'
