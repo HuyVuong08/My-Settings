@@ -871,16 +871,14 @@ autocmd FileType python nnoremap <buffer> gfs :call FunctionBlockInteractPython(
 autocmd FileType python nnoremap <buffer> gfe :call FunctionBlockInteractPython('fe')<CR>
 autocmd FileType python nnoremap <buffer> gfd :call GotoFunctionDefinitionPython()<CR>
 
-" Shortcuts copy, delete and select a c/cpp function block
+" Shortcuts copy, delete and select a vimscript function block
 autocmd FileType vim nnoremap <buffer> yaf :call FunctionBlockInteractVim('y')<CR>
 autocmd FileType vim nnoremap <buffer> daf :call FunctionBlockInteractVim('d')<CR>
 autocmd FileType vim nnoremap <buffer> vaf :call FunctionBlockInteractVim('')<CR>
 " Shortcuts jump to the start, end and definition of function
 autocmd FileType vim* nnoremap <buffer> gfs :call FunctionBlockInteractVim('fs')<CR>
 autocmd FileType vim* nnoremap <buffer> gfe :call FunctionBlockInteractVim('fe')<CR>
-
-" Shortcuts go to function definition
-autocmd FileType vim* nnoremap <buffer> gfd :call  GotoFunctionDefinitionVim()<CR>
+autocmd FileType vim* nnoremap <buffer> gfd :call GotoFunctionDefinitionVim()<CR>
 
 " Shortcuts fold to current level
 nnoremap  <leader>fl :let &l:fdl=indent('.')/&shiftwidth - 1<CR>
