@@ -739,7 +739,20 @@ autocmd FileType c,cpp,java nnoremap <buffer> yaf :call FunctionBlockInteractCpp
 autocmd FileType c,cpp,java nnoremap <buffer> daf :call FunctionBlockInteractCppAndJava('d')<CR>
 autocmd FileType c,cpp,java nnoremap <buffer> vaf :call FunctionBlockInteractCppAndJava('')<CR>
 
-" Shortcuts copy, delete and select a c/cpp function block
+" Shortcuts copy, delete and select a javascript ES6 function block
+autocmd FileType js,jsx,javascript nnoremap <buffer> yaf :call FunctionBlockInteractES6('y')<CR>
+autocmd FileType js,jsx,javascript nnoremap <buffer> daf :call FunctionBlockInteractES6('d')<CR>
+autocmd FileType js,jsx,javascript nnoremap <buffer> vaf :call FunctionBlockInteractES6('')<CR>
+autocmd FileType js,jsx,javascript nnoremap <buffer> gcaf :call FunctionBlockInteractES6('gca')<CR>
+autocmd FileType js,jsx,javascript nnoremap <buffer> yif :call FunctionBlockInteractES6('yi')<CR>
+autocmd FileType js,jsx,javascript nnoremap <buffer> dif :call FunctionBlockInteractES6('di')<CR>
+autocmd FileType js,jsx,javascript nnoremap <buffer> cif :call FunctionBlockInteractES6('di')<CR>O
+autocmd FileType js,jsx,javascript nnoremap <buffer> vif :call FunctionBlockInteractES6('vi')<CR>
+autocmd FileType js,jsx,javascript nnoremap <buffer> gcif :call FunctionBlockInteractES6('gci')<CR>
+" Shortcuts jump to the start, end and definition of function
+autocmd FileType js,jsx,javascript nnoremap <buffer> gfs :call FunctionBlockInteractES6('fs')<CR>
+autocmd FileType js,jsx,javascript nnoremap <buffer> gfe :call FunctionBlockInteractES6('fe')<CR>
+autocmd FileType js,jsx,javascript nnoremap <buffer> gfd :call GotoFunctionDefinitionES6()<CR>
 autocmd FileType python nnoremap <buffer> yaf :call FunctionBlockInteractPython('y')<CR>
 autocmd FileType python nnoremap <buffer> daf :call FunctionBlockInteractPython('d')<CR>
 autocmd FileType python nnoremap <buffer> vaf :call FunctionBlockInteractPython('')<CR>
@@ -902,6 +915,105 @@ function! FunctionBlockInteractCppAndJava(choice)
 endfunction
 
 " Function to interact block of codes
+function! FunctionBlockInteractHelperES6(choice)
+    " choice = 'y' for yanking a c/cpp/java function block
+    " choice = 'd' for deleting a c/cpp/java function block
+    " choice = '' for selecting a c/cpp/java function block
+    " choice = 'fs' for jumping to start of a c/cpp/java function block
+    " choice = 'fe' for jumping to end of a c/cpp/java function block
+    let l:currentPos = getpos('.')
+    let l:NO_skipped = 0
+    let l:n = search("\\<[0-9a-zA-Z_]*\\>[.:~ ]*\\<[0-9a-zA-Z_]*\\>[^(]*=\\s*([0-9a-zA-Z_ ,:*&\\[\\]\\n]*)\\s*=>\\s*{", 'bc')
+    " while l:n > 0 && l:NO_skipped < 20
+    "     if eval(search("\\<else\\>\\s*\\<if\\>", 'cn', line('.')) != 0)
+    "         let l:n = search("\\<[0-9a-zA-Z_]*\\>[.:~ ]*\\<[0-9a-zA-Z_]*\\>[^(]*([^)]*)\\s*\\n*\\s*{", 'b')
+    "         " normal! %mz%
+    "         let l:NO_skipped += 1
+    "         continue
+    "     endif
+    "     break
+    " endwhile
+    let l:functionPos   = getpos('.')
+    let l:functionStart = search(')', 'n')
+    call search('{')
+    normal! %
+    let l:functionEnd   = getpos('.')
+    call setpos('.', l:functionPos)
+    if l:currentPos[1] != l:functionStart && l:currentPos[1] != l:functionEnd[1]
+        call setpos("'z", l:currentPos)
+    endif
+    if a:choice == 'fs'
+        call search(')')
+        return getpos('.')
+    elseif a:choice == 'fe'
+        call search('{')
+        normal! %
+        return getpos('.')
+    else
+        normal! mz
+        call search('{')
+        normal! %
+        " Try to include empty line below
+        call search("^$", '', line('.')+1)
+        execute 'normal! V`z' . a:choice
+    endif
+endfunction
+
+" Function to interact block of codes
+function! FunctionBlockInteractES6(choice)
+    " choice = 'y' for yanking a ES6 function block
+    " choice = 'd' for deleting a ES6 function block
+    " choice = '' for selecting a ES6 function block
+    " choice = 'yi' for yanking a ES6 function block
+    " choice = 'di' for deleting a ES6 function block
+    " choice = 'vi' for selecting a ES6 function block
+    " choice = 'fs' for jumping to start of a ES6 function block
+    " choice = 'fe' for jumping to end of a ES6 function block
+    " choice = 'gci' for commenting a ES6 function block
+    let l:currentPos = getpos('.')
+    let l:NO_skipped = 0
+    while l:NO_skipped < 20
+        let l:functionStart = FunctionBlockInteractHelperES6('fs')
+        let l:functionEnd = FunctionBlockInteractHelperES6('fe')
+        if eval(l:functionEnd[1] < l:currentPos[1])
+            let l:NO_skipped += 1
+            call setpos('.', [l:functionStart[0], l:functionStart[1] - 1, l:functionStart[2], l:functionStart[3]])
+            continue
+        endif
+        if a:choice == 'fs'
+            call setpos('.', l:functionStart)
+            return getpos('.')
+        elseif a:choice == 'fe'
+            call setpos('.', l:functionEnd)
+            return getpos('.')
+        elseif a:choice == 'gca'
+            execute l:functionStart[1] . ',' . l:functionEnd[1] . 'Commentary'
+        elseif a:choice == 'gci'
+            execute l:functionStart[1] . '+1,' . l:functionEnd[1] . '-1Commentary'
+        elseif a:choice[1] == 'i'
+            call setpos('.', l:functionStart)
+            call search('{')
+            execute 'normal! ' . a:choice . '{'
+        else
+            call setpos("'z", l:functionStart)
+            call setpos('.', l:functionEnd)
+            " Try to include empty line below
+            call search("^$", '', line('.')+1)
+            execute 'normal! V`z' . a:choice
+        endif
+        break
+    endwhile
+endfunction
+
+function! GotoFunctionDefinitionES6()
+    let l:currentPos = getpos('.')
+    let n = search("\\<".expand("<cword>")."\\>\\s*=\\s*([^)]*)\\s*=>\\s*{")
+    let l:functionStart = getpos('.')
+    if l:currentPos[1] != l:functionStart[1]
+        call setpos("'z", l:currentPos)
+    endif
+endfunction
+
 function! FunctionBlockInteractPython(choice)
     " choice = 'y' for yanking a python function block
     " choice = 'd' for deleting a python function block
