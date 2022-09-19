@@ -52,6 +52,9 @@ Plug 'justinj/vim-react-snippets'
 Plug 'will133/vim-dirdiff'
 " Plugin auto close tag
 " Plug 'sukima/xmledit'
+" Plug fuzzy search
+ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+ Plug 'junegunn/fzf.vim'
 " Plug auto import in javascript
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
@@ -94,7 +97,8 @@ Plug 'ycm-core/YouCompleteMe'
 " Plugin code structure pane
 Plug 'preservim/tagbar'
 " Plugin project files finder
-Plug 'ctrlpvim/ctrlp.vim'
+" Replaced by FZF
+" Plug 'ctrlpvim/ctrlp.vim'
 " Plugin word search in all files
 Plug 'mileszs/ack.vim'
 " Plugin session managing
@@ -269,6 +273,16 @@ autocmd FileType html,css,js,javascript.jsx EmmetInstall
 " Config prettier
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 let g:prettier#autoformat = 1
+
+" Config FZF Map phím tắt Ctrl + P
+nnoremap <C-p> :Files ../
+" Tìm file trong project, nhưng bỏ mấy thư mục như node_modules ra, để tìm nhẹ hơn.
+set wildmode=list:longest,list:full
+set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
+let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path '**/node_modules/**' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+" Map phím "\f" để tìm nội dung, tương tự như "Ctrl + Shift + F" trên VSCode nhé
+nnoremap <silent> <Leader>f :Rg<CR>
 
 " Config Husk command-line mode mappings
 cmap <Esc>l <M-l>
