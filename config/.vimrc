@@ -358,8 +358,14 @@ vnoremap <A-l> g$
 " Shortuts appending semi-colon to the end of line
 execute "set <A-;>=\e;"
 inoremap <A-;> <C-[>A;
-inoremap ;<cr> <end>;<cr>
-inoremap ;; <down><end>;<cr>
+inoremap ;<CR> <End>;<CR>
+inoremap ;; <Down><End>;<CR>
+
+" Map with ALT key
+" Shortuts appending comma to the end of line
+execute "set <A-,>=\e,"
+inoremap <A-,> <C-[>A,
+inoremap ,<CR> <End>,<CR>
 
 "<C-[><Esc>
 
