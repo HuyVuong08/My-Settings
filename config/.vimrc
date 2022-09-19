@@ -52,6 +52,9 @@ Plug 'justinj/vim-react-snippets'
 Plug 'will133/vim-dirdiff'
 " Plugin auto close tag
 " Plug 'sukima/xmledit'
+" Plug auto import in javascript
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 
 " Plugin React snippets
 " Plug 'mlaursen/vim-react-snippets'
@@ -144,6 +147,11 @@ let g:minimap_git_colors = 1
 let g:minimap_git_color_priority = 130
 let g:minimap_auto_start = 0
 let g:minimap_auto_start_win_enter = 1
+
+" Config vim js file import
+" set tagfunc=jsfileimport#tagfunc
+let g:js_file_import_sort_after_insert = 0
+let g:js_file_import_prompt_if_no_tag = 1
 
 " Hexokinase color code to color
 let g:Hexokinase_highlighters = [ 'backgroundfull' ]
