@@ -498,11 +498,11 @@ nnoremap <A-c> cc<ESC>
 
 " Remaps line merge and split
 nnoremap <leader>me J
-nnoremap <leader>um i<CR><ESC>
+nnoremap <leader>um i<CR><Esc>
 
 " Remaps vertical line scroll
-nnoremap J <C-e>
-nnoremap K <C-y>
+nnoremap J 3<C-e>
+nnoremap K 3<C-y>
 
 " Remaps scroll downwards
 nnoremap { <C-d>
