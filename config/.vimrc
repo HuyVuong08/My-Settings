@@ -3,6 +3,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'rakr/vim-one'
 " Plugin status line theme
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " Plugin surrounding tags and brackets editing
 Plug 'tpope/vim-surround'
 " Plugin closing buffer without closing window
@@ -112,6 +113,23 @@ set background=dark
 let g:one_allow_italics = 1
 " syntax on
 silent! colorscheme one
+
+" Make triangle symbol in vim airline
+" let g:airline_theme = 'bubblegum'
+let g:airline_theme = 'onedark'
+let g:airline_powerline_fonts = 1
+au User AirlineAfterInit,AirlineAfterTheme call FixSplitColours()
+fun! FixSplitColours()
+    let l:theme = get(g:, 'airline_theme', g:colors_name)
+    let l:termColour = g:airline#themes#{l:theme}#palette['inactive']['airline_a'][3]
+    " exec 'hi VertSplit ctermfg=' . l:termColour . ' ctermbg=' . l:termColour
+    exec 'hi StatusLine ctermfg=' . l:termColour
+    exec 'hi StatusLineNC ctermfg=' . l:termColour
+endfun
+
+" if !has("gui_running")
+    " au VimEnter * AirlineToggle
+" endif
 
 " Auto higlight current word under cursor color configuration
 highlight link CurrentWordTwins Search
