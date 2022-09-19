@@ -407,6 +407,9 @@ let g:closetag_xhtml_filetypes = 'xhtml,javascript.jsx,jsx'
 autocmd BufNewFile,BufRead *.js set filetype=javascript.jsx
 autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
 
+" Automatically set syntax highlighting when open css files
+autocmd BufNewFile,BufRead *.css :set filetype=css
+
 " " Shortcuts jumping to next error line in ALE
 " nnoremap <leader>aj :ALENext<cr>
 " nnoremap <leader>ak :ALEPrevious<cr>
