@@ -895,9 +895,12 @@ autocmd BufWritePre * Prettier
 " autocmd InsertLeave * Prettier
 
 " Automatically delete trailing white spaces before saving a file
-autocmd BufWritePre * :call StripTrailingWhitespace()
+" Replaced by coc
+let list_StripTrailingWhitespace = ['vim', 'cpp']
+autocmd BufWritePre * if (index(list_StripTrailingWhitespace, &ft)) >= 0 | call StripTrailingWhitespace()
+" autocmd BufWritePre *.vim :call StripTrailingWhitespace()
 
-" Automatically delete trailing white spaces before saving a file
+" Automatically delete trailing empty lines before saving a file
 " Replaced by coc
 " autocmd BufWritePre * :call TrimTrailingLines()
 
