@@ -674,6 +674,12 @@ nnoremap <leader>mb :5,8del <bar> let l=split(@","/n") <bar> ,s/$/\=remove(l,0)/
 " Shortcuts replace all occurrences
 nnoremap <leader>ra :%s//gc<Left><Left><Left>
 
+" Shortcuts replace all occurrences of word under cursor
+nnoremap <expr> <leader>rc ':%s/\<'.expand('<cword>').'\>//gc<Left><Left><Left>'
+vnoremap <expr> <leader>rc ':s/\<'.expand('<cword>').'\>//g<Left><Left>'
+" nnoremap <LEADER>* :%s/\<<C-r><C-w>\>/
+" nnoremap <expr> <leader>rc ':%s/\<'.expand('<cword>').'\>/<&>/g'
+
 " Shortcuts replace all occurrences in one line
 nnoremap <leader>rl :s//g<Left><Left>
 
