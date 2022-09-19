@@ -898,7 +898,8 @@ autocmd BufWritePre * Prettier
 autocmd BufWritePre * :call StripTrailingWhitespace()
 
 " Automatically delete trailing white spaces before saving a file
-autocmd BufWritePre * :call TrimTrailingLines()
+" Replaced by coc
+" autocmd BufWritePre * :call TrimTrailingLines()
 
 " Automatically insert skeleton when create new .cpp files
 autocmd BufNewFile *.cpp 0r ~/.vim/templates/skeleton.cpp
