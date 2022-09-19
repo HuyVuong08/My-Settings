@@ -842,6 +842,10 @@ nnoremap vac :call SwitchCaseBlockInteract('')<CR>
 autocmd FileType c,cpp,java nnoremap <buffer> yaf :call FunctionBlockInteractCppAndJava('y')<CR>
 autocmd FileType c,cpp,java nnoremap <buffer> daf :call FunctionBlockInteractCppAndJava('d')<CR>
 autocmd FileType c,cpp,java nnoremap <buffer> vaf :call FunctionBlockInteractCppAndJava('')<CR>
+" Shortcuts jump to the start, end and definition of function
+autocmd FileType c,cpp,java nnoremap <buffer> gfs :call FunctionBlockInteractCppAndJava('fs')<CR>
+autocmd FileType c,cpp,java nnoremap <buffer> gfe :call FunctionBlockInteractCppAndJava('fe')<CR>
+autocmd FileType c,cpp,java nnoremap <buffer> gfd :call GotoFunctionDefinitionCppAndJava()<CR>
 
 " Shortcuts copy, delete and select a javascript ES6 function block
 autocmd FileType js,jsx,javascript nnoremap <buffer> yaf :call FunctionBlockInteractES6('y')<CR>
@@ -867,22 +871,20 @@ autocmd FileType vim nnoremap <buffer> daf :call FunctionBlockInteractVim('d')<C
 autocmd FileType vim nnoremap <buffer> vaf :call FunctionBlockInteractVim('')<CR>
 
 " Shortcuts go to the start of function
-autocmd FileType c,cpp,java nnoremap <buffer> gfs :call FunctionBlockInteractCppAndJava('fs')<CR>
 autocmd FileType python nnoremap <buffer> gfs :call FunctionBlockInteractPython('fs')<CR>
 autocmd FileType vim* nnoremap <buffer> gfs :call FunctionBlockInteractVim('fs')<CR>
 
 " Shortcuts go to the end of function
-autocmd FileType c,cpp,java nnoremap <buffer> gfe :call FunctionBlockInteractCppAndJava('fe')<CR>
 autocmd FileType python nnoremap <buffer> gfe :call FunctionBlockInteractPython('fe')<CR>
 autocmd FileType vim* nnoremap <buffer> gfe :call FunctionBlockInteractVim('fe')<CR>
 
 " Shortcuts go to function definition
-autocmd FileType c,cpp,java nnoremap <buffer> gfd :call  GotoFunctionDefinitionCppAndJava()<CR>
 autocmd FileType python nnoremap <buffer> gfd :call  GotoFunctionDefinitionPython()<CR>
 autocmd FileType vim* nnoremap <buffer> gfd :call  GotoFunctionDefinitionVim()<CR>
 
 " Shortcuts fold to current level
 nnoremap  <leader>fl :let &l:fdl=indent('.')/&shiftwidth - 1<CR>
+
 " Automatically set syntax highlighting when open shell scripts
 autocmd FileType sh :set syntax=sh
 
@@ -1021,6 +1023,15 @@ function! FunctionBlockInteractCppAndJava(choice)
         " Try to include empty line below
         call search("^$", '', line('.')+1)
         execute 'normal! V`z' . a:choice
+    endif
+endfunction
+
+function! GotoFunctionDefinitionCppAndJava()
+    let l:currentPos = getpos('.')
+    let n = search("\\<".expand("<cword>")."\\>[^(]*([^)]*)\\s*\\n*\\s*{")
+    let l:functionStart = getpos('.')
+    if l:currentPos[1] != l:functionStart[1]
+        call setpos("'z", l:currentPos)
     endif
 endfunction
 
@@ -1171,15 +1182,6 @@ function! FunctionBlockInteractVim(choice)
         " Try to include empty line below
         call search("^$", '', line('.')+1)
         execute 'normal! V`z' . a:choice
-    endif
-endfunction
-
-function! GotoFunctionDefinitionCppAndJava()
-    let l:currentPos = getpos('.')
-    let n = search("\\<".expand("<cword>")."\\>[^(]*([^)]*)\\s*\\n*\\s*{")
-    let l:functionStart = getpos('.')
-    if l:currentPos[1] != l:functionStart[1]
-        call setpos("'z", l:currentPos)
     endif
 endfunction
 
