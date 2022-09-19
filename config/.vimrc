@@ -264,6 +264,10 @@ let g:user_emmet_settings = {
 let g:user_emmet_install_global=0
 autocmd FileType html,css,js,javascript.jsx EmmetInstall
 
+" Config prettier
+command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+let g:prettier#autoformat = 1
+
 " Config Vim Multi Cursors
 let g:multi_cursor_prev_key = '<C-b>'
 let g:multi_cursor_quit_key = '<C-i>'
@@ -785,6 +789,12 @@ autocmd FileType vim* nnoremap <buffer> gfd :call  GotoFunctionDefinitionVim()<C
 nnoremap  <leader>fl :let &l:fdl=indent('.')/&shiftwidth - 1<CR>
 " Automatically set syntax highlighting when open shell scripts
 autocmd FileType sh :set syntax=sh
+
+" Automatically call Prettier on saving a file or text changed or insert leave
+autocmd BufWritePre * Prettier
+" let blacklist_TextChanged = ['nerdtree']
+" autocmd TextChanged * if (index(blacklist_TextChanged, &ft)) < 0 | Prettier
+" autocmd InsertLeave * Prettier
 
 " Automatically delete trailing white spaces before saving a file
 autocmd BufWritePre * :call StripTrailingWhitespace()
