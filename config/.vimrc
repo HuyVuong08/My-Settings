@@ -80,6 +80,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'dense-analysis/ale'
 " Plugin commentary support
 Plug 'preservim/nerdcommenter'
+Plug 'tpope/vim-commentary'
 " Plugin latex editing
 Plug 'vim-latex/vim-latex'
 " Plugin latex live preview
