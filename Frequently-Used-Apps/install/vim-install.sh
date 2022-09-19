@@ -88,14 +88,21 @@ sudo apt-get install -y ack-grep
 ( cd $HOME/.vim/plugged/vim-hexokinase/ && make hexokinase )
 
 # Install code-minimap
+echo Installing code-minimap...
 sudo apt-get install -y cargo
 cargo install --locked code-minimap
 sudo apt-get install -y minimap
 
 # Install Prettier Formater
-sudo apt install -y npm
+echo Installing Prettier Formater...
+sudo apt-get install -y npm
 sudo npm install -g prettier
 
 # Install javascript and typescript Language Server
-sudo apt install -y npm
+echo Installing javascript and typescript Language Server...
+sudo apt-get install -y npm
 sudo npm install -g javascript-typescript-langserver
+
+# Install font Power Line for Vim Airline
+echo Installing font Power Line for Vim Airline...
+sudo apt-get install -y fonts-powerline
