@@ -861,25 +861,25 @@ autocmd FileType js,jsx,javascript nnoremap <buffer> gcif :call FunctionBlockInt
 autocmd FileType js,jsx,javascript nnoremap <buffer> gfs :call FunctionBlockInteractES6('fs')<CR>
 autocmd FileType js,jsx,javascript nnoremap <buffer> gfe :call FunctionBlockInteractES6('fe')<CR>
 autocmd FileType js,jsx,javascript nnoremap <buffer> gfd :call GotoFunctionDefinitionES6()<CR>
+
+" Shortcuts copy, delete and select a python function block
 autocmd FileType python nnoremap <buffer> yaf :call FunctionBlockInteractPython('y')<CR>
 autocmd FileType python nnoremap <buffer> daf :call FunctionBlockInteractPython('d')<CR>
 autocmd FileType python nnoremap <buffer> vaf :call FunctionBlockInteractPython('')<CR>
+" Shortcuts jump to the start, end and definition of function
+autocmd FileType python nnoremap <buffer> gfs :call FunctionBlockInteractPython('fs')<CR>
+autocmd FileType python nnoremap <buffer> gfe :call FunctionBlockInteractPython('fe')<CR>
+autocmd FileType python nnoremap <buffer> gfd :call GotoFunctionDefinitionPython()<CR>
 
 " Shortcuts copy, delete and select a c/cpp function block
 autocmd FileType vim nnoremap <buffer> yaf :call FunctionBlockInteractVim('y')<CR>
 autocmd FileType vim nnoremap <buffer> daf :call FunctionBlockInteractVim('d')<CR>
 autocmd FileType vim nnoremap <buffer> vaf :call FunctionBlockInteractVim('')<CR>
-
-" Shortcuts go to the start of function
-autocmd FileType python nnoremap <buffer> gfs :call FunctionBlockInteractPython('fs')<CR>
+" Shortcuts jump to the start, end and definition of function
 autocmd FileType vim* nnoremap <buffer> gfs :call FunctionBlockInteractVim('fs')<CR>
-
-" Shortcuts go to the end of function
-autocmd FileType python nnoremap <buffer> gfe :call FunctionBlockInteractPython('fe')<CR>
 autocmd FileType vim* nnoremap <buffer> gfe :call FunctionBlockInteractVim('fe')<CR>
 
 " Shortcuts go to function definition
-autocmd FileType python nnoremap <buffer> gfd :call  GotoFunctionDefinitionPython()<CR>
 autocmd FileType vim* nnoremap <buffer> gfd :call  GotoFunctionDefinitionVim()<CR>
 
 " Shortcuts fold to current level
@@ -1139,6 +1139,7 @@ function! GotoFunctionDefinitionES6()
     endif
 endfunction
 
+" Function to interact block of codes
 function! FunctionBlockInteractPython(choice)
     " choice = 'y' for yanking a python function block
     " choice = 'd' for deleting a python function block
@@ -1165,6 +1166,15 @@ function! FunctionBlockInteractPython(choice)
     endif
 endfunction
 
+function! GotoFunctionDefinitionPython()
+    let l:currentPos = getpos('.')
+    let n = search("\\<".expand("<cword>")."\\>[^(]*([^)]*)\\s*:")
+    let l:functionStart = getpos('.')
+    if l:currentPos[1] != l:functionStart[1]
+        call setpos("'z", l:currentPos)
+    endif
+endfunction
+
 " Function to interact block of codes
 function! FunctionBlockInteractVim(choice)
     " choice = 'y' for yanking a vim function block
@@ -1186,15 +1196,6 @@ function! FunctionBlockInteractVim(choice)
         " Try to include empty line below
         call search("^$", '', line('.')+1)
         execute 'normal! V`z' . a:choice
-    endif
-endfunction
-
-function! GotoFunctionDefinitionPython()
-    let l:currentPos = getpos('.')
-    let n = search("\\<".expand("<cword>")."\\>[^(]*([^)]*)\\s*:")
-    let l:functionStart = getpos('.')
-    if l:currentPos[1] != l:functionStart[1]
-        call setpos("'z", l:currentPos)
     endif
 endfunction
 
