@@ -343,7 +343,11 @@ nnoremap <leader>sd :DeleteSession<CR>
 nnoremap <leader>sc :CloseSession<CR>
 
 " Remaps Esc
-inoremap <Esc> <C-[><Esc>
+inoremap jj <Esc>
+inoremap ii <Esc>
+vnoremap ii <Esc>
+cnoremap ii <C-c>
+inoremap <expr> <C-L> (pumvisible() <bar><bar> &insertmode) ? '<C-L>' : '<Esc>'
 
 " Remaps go to last non-space character of displayed line
 execute "set <A-l>=\el"
