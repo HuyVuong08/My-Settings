@@ -414,6 +414,9 @@ autocmd BufNewFile,BufRead *.css :set filetype=css
 " nnoremap <leader>aj :ALENext<cr>
 " nnoremap <leader>ak :ALEPrevious<cr>
 
+" Shortcuts split html tag and attributes into multiple lines
+nnoremap <leader>sa V:s/[a-zA-Z}'"]\zs \ze/\r/g<CR>v?<<CR>=
+
 " Shortcuts set syntax when opening a file
 nnoremap <leader>st :set syntax=
 
