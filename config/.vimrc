@@ -214,6 +214,7 @@ set hidden
 
 " Shows line number
 set number
+set numberwidth=1
 
 " Sets non-case-sensitive and increamental search
 set smartcase
