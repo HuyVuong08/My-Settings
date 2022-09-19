@@ -194,7 +194,7 @@ set formatoptions+=w
 set fo+=t
 
 " Reduce the number of hit-enter prompts
-set cmdheight=2
+set cmdheight=1
 
 " Disables beeping sounds
 set noerrorbells visualbell t_vb=
