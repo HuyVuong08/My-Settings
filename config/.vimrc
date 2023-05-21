@@ -1121,6 +1121,7 @@ function! WhileBlockInteract(choice)
     " choice = 'ls' for jumping to start of a block
     " choice = 'le' for jumping to end of a block
     " choice = 'gci' for commenting a block
+    normal! mp
     let l:currentPos = getpos('.')
     let l:search_pattern = "\\<while\\>\\s*(\\?[0-9a-zA-Z_ ,:&|\\[\\]\\n.=<>!~+\\-*/%]*)\\?\\s*{\\n\\?"
     let l:start_pattern = "[0-9a-zA-Z_\\](]\\s*}\\?)\\?\\s*{\\?\\n"
@@ -1354,6 +1355,7 @@ function! FunctionBlockInteractES6(choice)
     " choice = 'fs' for jumping to start of a ES6 function block
     " choice = 'fe' for jumping to end of a ES6 function block
     " choice = 'gci' for commenting a ES6 function block
+    normal! mp
     let l:currentPos = getpos('.')
     let l:NO_skipped = 0
     while l:NO_skipped < 20
@@ -1428,6 +1430,7 @@ function! MethodBlockInteractES6(choice)
     " choice = 'ms' for jumping to start of a ES6 method block
     " choice = 'me' for jumping to end of a ES6 method block
     " choice = 'gci' for commenting a ES6 method block
+    normal! mp
     let l:currentPos = getpos('.')
     let l:search_pattern = "\\<[0-9a-zA-Z_]*\\>\\s*([0-9a-zA-Z_ ,:*&\\[\\]\\n=]*)\\s*{\\n\\?"
     let l:start_pattern = "\\S\\s*}\\?)\\?\\s*{\\n\\?"
