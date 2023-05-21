@@ -1124,7 +1124,7 @@ function! WhileBlockInteract(choice)
     normal! mp
     let l:currentPos = getpos('.')
     let l:search_pattern = "\\<while\\>\\s*(\\?[0-9a-zA-Z_ ,:&|\\[\\]\\n.=<>!~+\\-*/%]*)\\?\\s*{\\n\\?"
-    let l:start_pattern = "[0-9a-zA-Z_\\](]\\s*}\\?)\\?\\s*{\\?\\n"
+    let l:start_pattern = "[0-9a-zA-Z_\\](]\\s*}\\?)\\?\\s*{\\n\\?"
     let l:NO_skipped = 0
     while l:NO_skipped < 20
         call search(l:search_pattern, 'bc')
