@@ -1549,15 +1549,14 @@ function! ClassBlockInteractES6(choice)
 endfunction
 
 function! FunctionBlockInteractPython(choice)
-    " Function to interact block of codes
-    " choice = 'y' for yanking a python function block
-    " choice = 'd' for deleting a python function block
-    " choice = '' for selecting a python function block
-    " choice = 'fs' for jumping to start of a python function block
-    " choice = 'fe' for jumping to end of a python function block
+    " choice = 'y' for yanking a function block
+    " choice = 'd' for deleting a function block
+    " choice = '' for selecting a function block
+    " choice = 'fs' for jumping to start of a function block
+    " choice = 'fe' for jumping to end of a function block
     normal! mp
     let l:currentPos = getpos('.')
-    call search("\\<def\\>\\s*\\<[0-9a-zA-Z_]*\\>\\s*([^)]*)\\s*:", 'bc')
+    call search("\\<def\\>\\s*\\<[0-9a-zA-Z_]*\\>\\s*([^)]*)\\s*\\(->\\s*\\<[0-9a-zA-Z_]*\\>\\s*\\)\\?:", 'bc')
     let l:functionStart = search(')', 'n')
     let l:functionEnd   = NextIndent(1,1,0,1,0)
     if l:currentPos[1] != l:functionStart && l:currentPos[1] != l:functionEnd
@@ -1587,12 +1586,11 @@ function! GotoFunctionDefinitionPython()
 endfunction
 
 function! FunctionBlockInteractVim(choice)
-    " Function to interact block of codes
-    " choice = 'y' for yanking a vim function block
-    " choice = 'd' for deleting a vim function block
-    " choice = '' for selecting a vim function block
-    " choice = 'fs' for jumping to start of a vim function block
-    " choice = 'fe' for jumping to end of a vim function block
+    " choice = 'y' for yanking a function block
+    " choice = 'd' for deleting a function block
+    " choice = '' for selecting a function block
+    " choice = 'fs' for jumping to start of a function block
+    " choice = 'fe' for jumping to end of a function block
     normal! mp
     let l:functionStart = search("\\<function\\>!\\?\\s*\\<[0-9a-zA-Z_]*\\>\\s*([^)]*)", 'bc')
     if a:choice == 'fs'
@@ -1613,7 +1611,7 @@ endfunction
 function! GotoFunctionDefinitionVim()
     normal! mp
     let l:currentPos = getpos('.')
-    let n = search("function\\>!\\?\\s*\\<".expand("<cword>")."\\>[^(]*([^)]*)")
+    let n = search("function\\>!\\?\\s*\\<".expand("<cword>")."\\>[^(]*([^)]*)", "e")
     let l:functionStart = getpos('.')
     if l:currentPos[1] != l:functionStart[1]
         call setpos("'z", l:currentPos)
@@ -1709,6 +1707,7 @@ function! SearchOutside(synName, pattern)
 endfunction
 
 function! NextIndent(exclusive, fwd, lowerlevel, skipblanks, movecursor)
+" Function to jump to next indent
     let l:line = line('.')
     let column = col('.')
     let lastline = line('$')
