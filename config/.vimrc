@@ -58,11 +58,17 @@ Plug 'will133/vim-dirdiff'
 " Plug auto import in javascript
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
+" Plug split long lines
+Plug 'AndrewRadev/splitjoin.vim'
+" Plug vim jsx
+Plug 'pangloss/vim-javascript'
+" Plug 'mxw/vim-jsx'
 " Plug Autocomplete
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
 " Plug command-line mode mappings
 Plug 'vim-utils/vim-husk'
+" Plug fancy start screen for vim
+Plug 'mhinz/vim-startify'
 
 " Plugin React snippets
 " Plug 'mlaursen/vim-react-snippets'
@@ -82,9 +88,24 @@ Plug 'vim-utils/vim-husk'
 "" Plugin syntax checking (replaced by ale)
 " Plug 'vim-syntastic/syntastic'
 
+" " Plug wildmenu
+" if has('nvim')
+"   function! UpdateRemotePlugins(...)
+"     " Needed to refresh runtime files
+"     let &rtp=&rtp
+"     UpdateRemotePlugins
+"   endfunction
+"   Plug 'gelguy/wilder.nvim', { 'do': function('UpdateRemotePlugins') }
+" else
+"   Plug 'gelguy/wilder.nvim'
+"   " To use Python remote plugin features in Vim, can be skipped
+"   Plug 'roxma/nvim-yarp'
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+
 " Plugin impair checking
 Plug 'tpope/vim-unimpaired'
-" Plugin syntax checking (replaced by COC)
+" Plugin syntax checking (replaced by ale)
 " Plug 'dense-analysis/ale'
 " Plugin commentary support
 Plug 'preservim/nerdcommenter'
@@ -95,7 +116,7 @@ Plug 'vim-latex/vim-latex'
 Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 " Plugin fontsize changing
 Plug 'drmikehenry/vim-fontsize'
-" Plugin auto complete (replaced by COC)
+" Plugin auto complete (replaced by coc)
 " Plug 'ycm-core/YouCompleteMe'
 " Plugin code structure pane
 Plug 'preservim/tagbar'
@@ -144,11 +165,29 @@ endfun
     " au VimEnter * AirlineToggle
 " endif
 
+" Set cursor type to steady Block and steady bar
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
+
+" " Key bindings can be changed, see below
+" call wilder#setup({'modes': [':', '/', '?']})
+" " Default keys
+" call wilder#setup({
+"       \ 'modes': [':', '/', '?'],
+"       \ 'next_key': '<Tab>',
+"       \ 'previous_key': '<S-Tab>',
+"       \ 'accept_key': '<Down>',
+"       \ 'reject_key': '<Up>',
+"       \ })
+
 " Auto higlight current word under cursor color configuration
 highlight link CurrentWordTwins Search
 highlight link CurrentWord PMenuSel
 highlight Comment term=italic ctermfg=300 guifg=#828997
+" highlight Comment ctermfg=145 ctermbg=16 guifg=#abb2bf guibg=#282c34
 highlight LineNr term=italic ctermfg=300 guifg=#828997
+" highlight VertSplit guibg=#AAAAAA guifg=#000000
+highlight VertSplit term=NONE cterm=NONE gui=NONE guifg=NONE guibg=NONE ctermfg=NONE ctermbg=NONE
 
 " Config minimap
 let g:minimap_git_colors = 1
@@ -262,6 +301,9 @@ set breakindentopt=sbr
 set ttymouse=xterm2
 set mouse=a
 
+" Set timeout length for key map
+set timeoutlen=1000 ttimeoutlen=0
+
 " Maps leader key
 let mapleader               = ' '
 let g:user_emmet_leader_key = ','
@@ -301,7 +343,7 @@ inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 " Go to definition ở tab mới
-nmap <silent> gd :call CocAction('jumpDefinition', 'tab drop')<CR>
+nmap <silent> gdd mp:call CocAction('jumpDefinition', 'tab drop')<CR>
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
@@ -337,7 +379,7 @@ command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 let g:prettier#autoformat = 1
 
 " Config FZF Map phím tắt Ctrl + P
-nnoremap <C-p> :Files ../
+nnoremap <C-p> :GFiles<CR>
 " Tìm file trong project, nhưng bỏ mấy thư mục như node_modules ra, để tìm nhẹ hơn.
 set wildmode=list:longest,list:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
@@ -347,10 +389,18 @@ command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-hea
 nnoremap <silent> <Leader>f :Rg<CR>
 
 " Config Husk command-line mode mappings
+cmap <Esc>k <M-k>
+cnoremap <M-k> <Up>
+cmap <Esc>j <M-j>
+cnoremap <M-j> <Down>
 cmap <Esc>l <M-l>
-cnoremap <expr> <M-l> husk#right()
+cnoremap <M-l> <Right>
+cmap <Esc>L <M-L>
+cnoremap <expr> <M-L> husk#right()
 cmap <Esc>h <M-h>
-cnoremap <expr> <M-h> husk#left()
+cnoremap <M-h> <Left>
+cmap <Esc>H <M-H>
+cnoremap <expr> <M-H> husk#left()
 cnoremap <expr> <C-n> getcmdpos()>strlen(getcmdline())?&cedit:"\<Lt>Right>"
 cnoremap <expr> <C-f> &cedit
 
@@ -369,9 +419,9 @@ let g:session_autosave        = "no"
 let g:session_command_aliases = 1
 
 " Setup indent for html files
-autocmd BufRead,BufNewFile *.html set shiftwidth=2
-autocmd BufRead,BufNewFile *.xml set shiftwidth=2
-autocmd BufRead,BufNewFile *.css set shiftwidth=2
+autocmd BufRead,BufNewFile *.html setlocal shiftwidth=2
+autocmd BufRead,BufNewFile *.xml setlocal shiftwidth=2
+autocmd BufRead,BufNewFile *.css setlocal shiftwidth=2
 let g:html_indent_script1  = "inc"
 let g:html_indent_style1   = "inc"
 let g:html_indent_inctags = "html,body,head,tbody"
@@ -380,7 +430,10 @@ let g:html_indent_autotags = "br,input,img,html,body,tbody"
 " Setup Prettier for React
 autocmd FileType javascript setlocal formatprg=prettier
 autocmd FileType javascript.jsx setlocal formatprg=prettier
+autocmd FileType javascriptreact setlocal formatprg=prettier
 autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
+autocmd FileType typescript.tsx setlocal formatprg=prettier\ --parser\ typescript
+autocmd FileType typescriptreact setlocal formatprg=prettier\ --parser\ typescript
 autocmd FileType html setlocal formatprg=js-beautify\ --type\ html
 autocmd FileType scss setlocal formatprg=prettier\ --parser\ css
 autocmd FileType css setlocal formatprg=prettier\ --parser\ css
@@ -393,8 +446,8 @@ let g:mta_filetypes = {
             \ 'js' : 1,
             \}
 " Setup indent for html files
-autocmd BufRead,BufNewFile *.js set shiftwidth=2
-autocmd BufRead,BufNewFile *.jsx set shiftwidth=2
+autocmd BufRead,BufNewFile *.js setlocal shiftwidth=2
+autocmd BufRead,BufNewFile *.jsx setlocal shiftwidth=2
 let g:closetag_filetypes = 'html,xhtml,phtml,js,jsx'
 let g:closetag_xhtml_filetypes = 'xhtml,javascript.jsx,jsx'
 " let g:closetag_xhtml_filetypes = 'xhtml,js,jsx'
@@ -404,11 +457,19 @@ let g:closetag_xhtml_filetypes = 'xhtml,javascript.jsx,jsx'
 " \ 'typescriptreact': 'jsxRegion,tsxRegion',
 " \ 'javascriptreact': 'jsxRegion',
 " \ }
-autocmd BufNewFile,BufRead *.js set filetype=javascript.jsx
-autocmd BufNewFile,BufRead *.jsx set filetype=javascript.jsx
+" autocmd BufNewFile,BufRead *.js setlocal filetype=javascript.jsx
+" autocmd BufNewFile,BufRead *.jsx setlocal filetype=javascript.jsx
+autocmd BufNewFile,BufRead *.js setfiletype javascript.jsx
+autocmd BufNewFile,BufRead *.jsx setfiletype javascript.jsx
 
 " Automatically set syntax highlighting when open css files
-autocmd BufNewFile,BufRead *.css :set filetype=css
+autocmd BufNewFile,BufRead *.css setfiletype css
+
+" Syntax highlighting for .config files
+autocmd BufRead,BufNewFile *.conf setfiletype dosini
+
+" Syntax highlighting for .vim files
+autocmd BufRead,BufNewFile *.vim setfiletype vim
 
 " " Shortcuts jumping to next error line in ALE
 " nnoremap <leader>aj :ALENext<cr>
@@ -446,33 +507,6 @@ nnoremap <leader>so :OpenSession<space>
 nnoremap <leader>sd :DeleteSession<CR>
 nnoremap <leader>sc :CloseSession<CR>
 
-" Remaps Esc
-inoremap jj <Esc>
-inoremap ii <Esc>
-vnoremap ii <Esc>
-cnoremap ii <C-c>
-inoremap <expr> <C-L> (pumvisible() <bar><bar> &insertmode) ? '<C-L>' : '<Esc>'
-
-" Remaps go to last non-space character of displayed line
-execute "set <A-l>=\el"
-nnoremap <A-l> g$
-vnoremap <A-l> g$
-
-" Map with ALT key
-" Shortuts appending semi-colon to the end of line
-execute "set <A-;>=\e;"
-inoremap <A-;> <C-[>A;
-inoremap ;<CR> <End>;<CR>
-inoremap ;; <Down><End>;<CR>
-
-" Map with ALT key
-" Shortuts appending comma to the end of line
-execute "set <A-,>=\e,"
-inoremap <A-,> <C-[>A,
-inoremap ,<CR> <End>,<CR>
-
-"<C-[><Esc>
-
 " Map with ALT key
 " Shortcuts visual to end of line
 execute "set <A-v>=\ev"
@@ -481,17 +515,12 @@ nnoremap <A-v> vg_
 " Map with ALT key
 " Shortcuts select all lines
 execute "set <A-a>=\ea"
-nnoremap <A-a> ggVG
+nnoremap <A-a> mpggVG
 
 " Map with ALT key
 " Shortcuts open current session in gvim
 execute "set <A-g>=\eg"
 nnoremap <A-g> :mksession! ~/session.vim<CR>:!gvim -S ~/session.vim<CR><CR>
-
-" Map with ALT key
-" Remaps terminal calling
-execute "set <A-t>=\et"
-nnoremap <A-t> <C-z>
 
 " Map with ALT key
 " Shortcuts file write and quit
@@ -506,32 +535,40 @@ execute "set <A-e>=\ee"
 nnoremap <A-e> :e .<CR>
 
 " Map with ALT key
-" Remap visual column
-execute "set <A-v>=\ev"
-vnoremap <A-v> <C-v>
+" Shortcuts open repository tree
+execute "set <A-s>=\es"
+nnoremap <A-s> S<Esc>
 
 " Map with ALT key
-" Remaps go to fist non-space character of displayed line
-execute "set <A-h>=\eh"
-nnoremap <A-h> g^
-vnoremap <A-h> g^
-
-" Remaps go to next block
-" Map with ALT key
-execute "set <A-j>=\ej"
-nnoremap <A-j> }
-vnoremap <A-j> }
-
-" Remaps go to previous block
-" Map with ALT key
-execute "set <A-k>=\ek"
-nnoremap <A-k> {
-vnoremap <A-k> {
+" Shortcuts appending semi-colon to the end of line
+execute "set <A-;>=\e;"
+inoremap <A-;> <End>;<CR>
+execute "set <A-:>=\e:"
+inoremap <A-:> <End>;<Up><End><CR>
+inoremap ;; <Down><End>;<CR>
 
 " Map with ALT key
-" Remaps insert line above and to to insert mode
-execute "set <A-o>=\eo"
-nnoremap <A-o> o<ESC>
+" Shortcuts appending comma to the end of line
+execute "set <A-,>=\e,"
+inoremap <A-,> <End>,<CR>
+execute "set <A-<>=\e<"
+inoremap <A-<> <End>,<Up><End><CR>
+
+" Map with ALT key
+" Shortcuts append space to end of line in insert mode
+execute "set <A-a>=\ea"
+inoremap <A-a> <C-o>A
+
+" Map with ALT key
+" Shortcuts replacing a character insert mode
+execute "set <A-r>=\er"
+inoremap <A-r> <C-o>r
+
+" Map with ALT key
+" Shortcuts split html tag
+execute "set <A-s>=\es"
+inoremap <A-s>t <C-o>dit<CR>x<BS><CR><C-o>k<Tab><C-o>p<C-o>vat=<C-o>j<C-o>w
+" inoremap <A-s>t a<Esc>:Prettier<CR>i
 
 " Map with ALT key
 " Shortcuts moving cursor in insert mode
@@ -559,31 +596,69 @@ inoremap <A-x> <BS>
 execute "set <A-X>=\eX"
 inoremap <A-X> <Del>
 execute "set <A-c>=\ec"
-inoremap <A-c> <C-o>:call ChangeWordBeforeCursor()<CR>
+" inoremap <A-c> <C-o>:call ChangeWordBeforeCursor()<CR>
+inoremap <A-c> <C-o>de
 execute "set <A-C>=\eC"
-inoremap <A-C> <C-o>:call ChangeWordAfterCursor()<CR>
+" inoremap <A-C> <C-o>:call ChangeWordAfterCursor()<CR>
+inoremap <A-C> <C-o>db
 execute "set <A-u>=\eu"
 inoremap <A-u> <C-o>u
 execute "set <A-o>=\eo"
-inoremap <A-o> <C-o>o
-execute "set <A-O>=\eO"
-inoremap <A-O> <C-o>O
+inoremap <A-o> <End><CR>
+execute "set <A-i>=\ei"
+inoremap <A-i> <Up><End><CR>
 execute "set <A-d>=\ed"
 inoremap <A-d> <C-o>dd
 execute "set <A-m>=\em"
-inoremap <A-m> <C-o>k<C-o>J
+inoremap <A-m> <C-o>J
+execute "set <A-M>=\eM"
+inoremap <A-M> <Up><C-o>J
 execute "set <A-=>=\e="
 inoremap <A-=> <C-o>==
+execute "set <A-+>=\e+"
+inoremap <A-+> <Esc>S
+
+" Remaps Esc
+" inoremap <Esc> <C-[><Esc><C-[><Esc>
+" inoremap <C-[> <C-[><C-[>
+inoremap jj <Esc>
+inoremap ii <Esc>
+vnoremap ii <Esc>
+cnoremap ii <C-c>
+inoremap <expr> <C-L> (pumvisible() <bar><bar> &insertmode) ? '<C-L>' : '<Esc>'
+
+" Remaps go to last non-space character of displayed line
+execute "set <A-l>=\el"
+nnoremap <A-l> g$
+vnoremap <A-l> g$
 
 " Map with ALT key
-" Shorcuts append space to end of line in insert mode
-execute "set <A-a>=\ea"
-inoremap <A-a> <C-o>A
+" Remaps visual column
+execute "set <A-v>=\ev"
+vnoremap <A-v> <C-v>
 
 " Map with ALT key
-" Shorcuts replacing a character insert mode
-execute "set <A-r>=\er"
-inoremap <A-r> <C-o>r
+" Remaps go to fist non-space character of displayed line
+execute "set <A-h>=\eh"
+nnoremap <A-h> g^
+vnoremap <A-h> g^
+
+" Remaps go to next block
+" Map with ALT key
+nnoremap J }
+vnoremap J }
+onoremap J }
+
+" Remaps go to previous block
+" Map with ALT key
+nnoremap K {
+vnoremap K {
+onoremap K {
+
+" Map with ALT key
+" Remaps insert line above and to to insert mode
+execute "set <A-o>=\eo"
+nnoremap <A-o> o<Esc>
 
 " Map with ALT key
 " Remaps manual page openning
@@ -598,15 +673,36 @@ nnoremap <A-i> K
 " Map with ALT key
 " Remaps manual page openning
 execute "set <A-c>=\ec"
-nnoremap <A-c> cc<ESC>
+nnoremap <A-c> cc<Esc>
+
+" Map with ALT key
+" Remaps terminal calling
+execute "set <A-t>=\et"
+nnoremap <A-t> <C-z>
+
+" Map with ALT key
+" Remaps go to next and previous occurence
+execute "set <A-/>=\e/"
+nnoremap <A-/> *
+vnoremap <A-/> *
+execute "set <A-?>=\e?"
+nnoremap <A-?> #
+vnoremap <A-?> #
 
 " Remaps line merge and split
 nnoremap <leader>me J
-nnoremap <leader>um i<CR><Esc>
+nnoremap <leader>mu :call BreakHere()<CR>
 
+" Map with ALT key
 " Remaps vertical line scroll
-nnoremap J 3<C-e>
-nnoremap K 3<C-y>
+execute "set <A-j>=\ej"
+nnoremap <expr> <A-j> winheight(0)/4.'<C-e>'
+execute "set <A-k>=\ek"
+nnoremap <expr> <A-k> winheight(0)/4.'<C-y>'
+execute "set <A-J>=\eJ"
+nnoremap <A-J> <C-d>
+execute "set <A-K>=\eK"
+nnoremap <A-K> <C-u>
 
 " Remaps scroll downwards
 nnoremap { <C-d>
@@ -617,12 +713,12 @@ nnoremap } <C-u>
 vnoremap } <C-u>
 
 " Remaps go to next displayed line
-nnoremap j gj
-vnoremap j gj
+nnoremap zj gj
+vnoremap zj gj
 
 " Remaps go to previous displayed line
-nnoremap k gk
-vnoremap k gk
+nnoremap zk gk
+vnoremap zk gk
 
 " Remaps tab in and out
 nnoremap <Tab> I<Tab><Esc>
@@ -635,8 +731,10 @@ nnoremap <C-o> O<Esc>
 " Remaps l and h to jump to the beginning of next and previous word
 nnoremap h b
 vnoremap h b
+onoremap h b
 nnoremap l w
 vnoremap l w
+onoremap l w
 
 " Remaps l and h to jump to the beginning of next and previous word
 nnoremap H ge
@@ -647,45 +745,10 @@ vnoremap L e
 " Remaps L and H to move cursor left and right character
 nnoremap <C-h> h
 vnoremap <C-h> h
+onoremap <C-h> h
 nnoremap <C-l> l
 vnoremap <C-l> l
-
-" Remaps copy a word
-nnoremap yl yw
-nnoremap yh yb
-
-" Remaps change a word
-nnoremap cl cw
-nnoremap ch cb
-
-" Remaps change words
-nnoremap c2l c2w
-nnoremap c3l c3w
-nnoremap c4l c4w
-nnoremap c5l c5w
-nnoremap c2h c2b
-nnoremap c3h c3b
-nnoremap c4h c4b
-nnoremap c5h c5b
-
-" Remaps delete a word
-nnoremap dh db
-nnoremap dl dw
-
-" Remaps delete words
-nnoremap d2l d2w
-nnoremap d3l d3w
-nnoremap d4l d4w
-nnoremap d5l d5w
-nnoremap d2h d2b
-nnoremap d3h d3b
-nnoremap d4h d4b
-nnoremap d5h d5b
-
-" Map with ALT key
-" Remaps go to next occurence
-execute "set <A-/>=\e/"
-nnoremap <A-/> *
+onoremap <C-l> l
 
 " Remaps redo
 nnoremap U <C-r>
@@ -703,8 +766,8 @@ nnoremap gm `m
 nnoremap ga `a
 nnoremap gs `s
 nnoremap gw `w
-nnoremap gf `z
-nnoremap gd mzgd
+nnoremap gp `p
+" nnoremap gd mzgd
 
 " Remaps split navigation
 nnoremap <leader>hh <C-w>h
@@ -733,21 +796,22 @@ nmap gj ]c
 nmap gk [c
 
 " Shortcuts go to next indented line
-nnoremap gH :call NextIndent(0, 0, 0, 1, 1)<CR>
-nnoremap gL :call NextIndent(0, 1, 0, 1, 1)<CR>
-nnoremap gh :call NextIndent(0, 0, 1, 1, 1)<CR>
-nnoremap gl :call NextIndent(0, 1, 1, 1, 1)<CR>
-vnoremap gH :call NextIndent(0, 0, 0, 1, 1)<CR>
-vnoremap gL :call NextIndent(0, 1, 0, 1, 1)<CR>
-vnoremap gh :call NextIndent(0, 0, 1, 1, 1)<CR>
-vnoremap gl :call NextIndent(0, 1, 1, 1, 1)<CR>
+nnoremap glk :call NextIndent(0, 0, 0, 1, 1)<CR>
+vnoremap glk :call NextIndent(0, 0, 0, 1, 1)<CR>
+nnoremap glj :call NextIndent(0, 1, 0, 1, 1)<CR>
+vnoremap glj :call NextIndent(0, 1, 0, 1, 1)<CR>
+nnoremap glok :call NextIndent(0, 0, 1, 1, 1)<CR>
+vnoremap glok :call NextIndent(0, 0, 1, 1, 1)<CR>
+nnoremap gloj :call NextIndent(0, 1, 1, 1, 1)<CR>
+vnoremap gloj :call NextIndent(0, 1, 1, 1, 1)<CR>
 
 " Shortcuts toggle relative number
+" nnoremap <leader>rn :set number! relativenumber!<CR>
 nnoremap <leader>rn :set relativenumber!<CR>
 
 " Shortcuts split creation
-nnoremap <leader>vs :vsp .<CR>
-nnoremap <leader>hs :sp .<CR>
+nnoremap <leader>vs :vsp .<CR>:Startify<CR>
+nnoremap <leader>hs :sp .<CR>:Startify<CR>
 
 " Shortcuts buffers manipulation
 nnoremap <leader>bb <C-^>
@@ -791,8 +855,8 @@ nnoremap <leader>rl :s//g<Left><Left>
 nnoremap <leader>rb :.,s//g<Left><Left><Left><Left>
 vnoremap <leader>rb :s//g<Left><Left>
 
-" Shortcuts replace with pattern
-nnoremap <leader>rp :s/Copyright \zs2007\ze All Rights Reserved/2008/
+" Shortcuts swap two words
+nnoremap <expr> <leader>sw ':s/\('.expand('<cword>').'\)\(\)\(\)/\3\2\1/g<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>'
 
 " Shortcuts open Tagbar
 nnoremap <leader>tb :Tagbar<CR>
@@ -823,10 +887,28 @@ nnoremap yai :call IfElseBlockInteract('y')<CR>
 nnoremap dai :call IfElseBlockInteract('d')<CR>
 nnoremap vai :call IfElseBlockInteract('')<CR>
 
-" Shortcuts copy, delete and select a while block
+" Shortcuts copy, delete, select and comment a while block
 nnoremap yal :call WhileBlockInteract('y')<CR>
 nnoremap dal :call WhileBlockInteract('d')<CR>
 nnoremap val :call WhileBlockInteract('')<CR>
+nnoremap yil :call WhileBlockInteract('yi')<CR>
+nnoremap dil :call WhileBlockInteract('di')<CR>
+nnoremap vil :call WhileBlockInteract('vi')<CR>
+nnoremap yasle :call WhileBlockInteract('yle')<CR>
+nnoremap dasle :call WhileBlockInteract('dle')<CR>
+nnoremap casle :call WhileBlockInteract('cle')<CR>
+nnoremap vasle :call WhileBlockInteract('Vle')<CR>
+nnoremap yasls :call WhileBlockInteract('yls')<CR>
+nnoremap dasls :call WhileBlockInteract('dls')<CR>
+nnoremap casls :call WhileBlockInteract('cls')<CR>
+nnoremap vasls :call WhileBlockInteract('Vls')<CR>
+nnoremap gcle :call WhileBlockInteract('gcle')<CR>
+nnoremap gcls :call WhileBlockInteract('gcls')<CR>
+nnoremap gcal :call WhileBlockInteract('gca')<CR>
+nnoremap gcil :call WhileBlockInteract('gci')<CR>
+" Shortcuts jump to the start, end and definition of a while block
+nnoremap gle :call WhileBlockInteract('le')<CR>
+nnoremap gls :call WhileBlockInteract('ls')<CR>
 
 " Shortcuts copy, delete and select a for block
 nnoremap yao :call ForBlockInteract('y')<CR>
@@ -834,33 +916,112 @@ nnoremap dao :call ForBlockInteract('d')<CR>
 nnoremap vao :call ForBlockInteract('')<CR>
 
 " Shortcuts copy, delete and select a switch case block
-nnoremap yac :call SwitchCaseBlockInteract('y')<CR>
-nnoremap dac :call SwitchCaseBlockInteract('d')<CR>
-nnoremap vac :call SwitchCaseBlockInteract('')<CR>
+nnoremap yaca :call SwitchCaseBlockInteract('y')<CR>
+nnoremap daca :call SwitchCaseBlockInteract('d')<CR>
+nnoremap vaca :call SwitchCaseBlockInteract('')<CR>
+
+" Shortcuts copy, delete and select a multiple line round braces block
+nnoremap yas( :call MultipleLineBracesBlockInteract('y', '(')<CR>
+nnoremap das( :call MultipleLineBracesBlockInteract('d', '(')<CR>
+nnoremap vas( :call MultipleLineBracesBlockInteract('', '(')<CR>
+nnoremap yasb :call MultipleLineBracesBlockInteract('y', '(')<CR>
+nnoremap dasb :call MultipleLineBracesBlockInteract('d', '(')<CR>
+nnoremap vasb :call MultipleLineBracesBlockInteract('', '(')<CR>
+
+" Shortcuts copy, delete and select a multiple line curly braces block
+nnoremap yas{ :call MultipleLineBracesBlockInteract('y', '{')<CR>
+nnoremap das{ :call MultipleLineBracesBlockInteract('d', '{')<CR>
+nnoremap vas{ :call MultipleLineBracesBlockInteract('', '{')<CR>
+nnoremap yasB :call MultipleLineBracesBlockInteract('y', '{')<CR>
+nnoremap dasB :call MultipleLineBracesBlockInteract('d', '{')<CR>
+nnoremap vasB :call MultipleLineBracesBlockInteract('', '{')<CR>
+
+" Shortcuts copy, delete and select a multiple line square braces block
+nnoremap yas[ :call MultipleLineBracesBlockInteract('y', '[')<CR>
+nnoremap das[ :call MultipleLineBracesBlockInteract('d', '[')<CR>
+nnoremap vas[ :call MultipleLineBracesBlockInteract('', '[')<CR>
+nnoremap yis[ :call MultipleLineBracesBlockInteract('yi', '[')<CR>
+nnoremap dis[ :call MultipleLineBracesBlockInteract('di', '[')<CR>
+nnoremap vis[ :call MultipleLineBracesBlockInteract('vi', '[')<CR>
+
+" Shortcuts jump to the next or previous parameters
+nnoremap gff :call JumpNextParameter(2)<CR>
+nnoremap gll :call JumpNextParameter(1)<CR>
+nnoremap ghh :call JumpNextParameter(0)<CR>
 
 " Shortcuts copy, delete and select a c/cpp function block
 autocmd FileType c,cpp,java nnoremap <buffer> yaf :call FunctionBlockInteractCppAndJava('y')<CR>
 autocmd FileType c,cpp,java nnoremap <buffer> daf :call FunctionBlockInteractCppAndJava('d')<CR>
 autocmd FileType c,cpp,java nnoremap <buffer> vaf :call FunctionBlockInteractCppAndJava('')<CR>
 " Shortcuts jump to the start, end and definition of function
-autocmd FileType c,cpp,java nnoremap <buffer> gfs :call FunctionBlockInteractCppAndJava('fs')<CR>
-autocmd FileType c,cpp,java nnoremap <buffer> gfe :call FunctionBlockInteractCppAndJava('fe')<CR>
-autocmd FileType c,cpp,java nnoremap <buffer> gfd :call GotoFunctionDefinitionCppAndJava()<CR>
+autocmd FileType c,cpp,java nnoremap <buffer> gfe :call FunctionBlockInteractCppAndJava('fs')<CR>
+autocmd FileType c,cpp,java nnoremap <buffer> gfs :call FunctionBlockInteractCppAndJava('fe')<CR>
+autocmd FileType c,cpp,java nnoremap <buffer> gfd mp:call GotoFunctionDefinitionCppAndJava()<CR>
 
-" Shortcuts copy, delete and select a javascript ES6 function block
-autocmd FileType js,jsx,javascript nnoremap <buffer> yaf :call FunctionBlockInteractES6('y')<CR>
-autocmd FileType js,jsx,javascript nnoremap <buffer> daf :call FunctionBlockInteractES6('d')<CR>
-autocmd FileType js,jsx,javascript nnoremap <buffer> vaf :call FunctionBlockInteractES6('')<CR>
-autocmd FileType js,jsx,javascript nnoremap <buffer> gcaf :call FunctionBlockInteractES6('gca')<CR>
-autocmd FileType js,jsx,javascript nnoremap <buffer> yif :call FunctionBlockInteractES6('yi')<CR>
-autocmd FileType js,jsx,javascript nnoremap <buffer> dif :call FunctionBlockInteractES6('di')<CR>
-autocmd FileType js,jsx,javascript nnoremap <buffer> cif :call FunctionBlockInteractES6('di')<CR>O
-autocmd FileType js,jsx,javascript nnoremap <buffer> vif :call FunctionBlockInteractES6('vi')<CR>
-autocmd FileType js,jsx,javascript nnoremap <buffer> gcif :call FunctionBlockInteractES6('gci')<CR>
+" Shortcuts copy, delete, select and comment a javascript ES6 function block
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> yaf :call FunctionBlockInteractES6('y')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> daf :call FunctionBlockInteractES6('d')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> vaf :call FunctionBlockInteractES6('')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> yif :call FunctionBlockInteractES6('yi')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> dif :call FunctionBlockInteractES6('di')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> cif :call FunctionBlockInteractES6('ci')<CR>S
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> vif :call FunctionBlockInteractES6('vi')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> yasfs :call FunctionBlockInteractES6('yfs')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> dasfs :call FunctionBlockInteractES6('dfs')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> casfs :call FunctionBlockInteractES6('cfs')<CR>S
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> vasfs :call FunctionBlockInteractES6('Vfs')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> yasfe :call FunctionBlockInteractES6('yfe')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> dasfe :call FunctionBlockInteractES6('dfe')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> casfe :call FunctionBlockInteractES6('cfe')<CR>S
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> vasfe :call FunctionBlockInteractES6('Vfe')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gcaf :call FunctionBlockInteractES6('gca')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gcif :call FunctionBlockInteractES6('gci')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gcfs :call FunctionBlockInteractES6('gcfs')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gcfe :call FunctionBlockInteractES6('gcfe')<CR>
 " Shortcuts jump to the start, end and definition of function
-autocmd FileType js,jsx,javascript nnoremap <buffer> gfs :call FunctionBlockInteractES6('fs')<CR>
-autocmd FileType js,jsx,javascript nnoremap <buffer> gfe :call FunctionBlockInteractES6('fe')<CR>
-autocmd FileType js,jsx,javascript nnoremap <buffer> gfd :call GotoFunctionDefinitionES6()<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gfk :call FunctionBlockInteractES6('fs')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gfj :call FunctionBlockInteractES6('fe')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gfs :call FunctionBlockInteractES6('fs')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gfe :call FunctionBlockInteractES6('fe')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gfd mp:call GotoFunctionDefinitionES6()<CR>
+" Shortcuts copy, delete, select and comment a javascript ES6 method block
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> yam :call MethodBlockInteractES6('y')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> dam :call MethodBlockInteractES6('d')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> vam :call MethodBlockInteractES6('')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> yim :call MethodBlockInteractES6('yi')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> dim :call MethodBlockInteractES6('di')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> cim :call MethodBlockInteractES6('ci')<CR>S
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> vim :call MethodBlockInteractES6('vi')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> yasms :call MethodBlockInteractES6('yms')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> dasms :call MethodBlockInteractES6('dms')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> casms :call MethodBlockInteractES6('cms')<CR>S
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> vasms :call MethodBlockInteractES6('Vms')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> yasme :call MethodBlockInteractES6('yme')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> dasme :call MethodBlockInteractES6('dme')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> casme :call MethodBlockInteractES6('cme')<CR>S
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> vasme :call MethodBlockInteractES6('Vme')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gcam :call MethodBlockInteractES6('gca')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gcim :call MethodBlockInteractES6('gci')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gcms :call MethodBlockInteractES6('gcms')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gcme :call MethodBlockInteractES6('gcme')<CR>
+" Shortcuts jump to the start, end and definition of method
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gms :call MethodBlockInteractES6('ms')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gme :call MethodBlockInteractES6('me')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gmk :call MethodBlockInteractES6('ms')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gmj :call MethodBlockInteractES6('me')<CR>
+" Shortcuts copy, delete, select and comment a javascript ES6 class block
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> yacl :call ClassBlockInteractES6('y')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> dacl :call ClassBlockInteractES6('d')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> vacl :call ClassBlockInteractES6('')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> yicl :call ClassBlockInteractES6('yi')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> dicl :call ClassBlockInteractES6('di')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> cicl :call ClassBlockInteractES6('ci')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> vicl :call ClassBlockInteractES6('vi')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gcacl :call ClassBlockInteractES6('gca')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gcicl :call ClassBlockInteractES6('gci')<CR>
+" Shortcuts jump to the start, end and definition of class
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gclae :call ClassBlockInteractES6('ce')<CR>
+autocmd FileType js,jsx,javascript,javascriptreact nnoremap <buffer> gclas :call ClassBlockInteractES6('cs')<CR>
 
 " Shortcuts copy, delete and select a python function block
 autocmd FileType python nnoremap <buffer> yaf :call FunctionBlockInteractPython('y')<CR>
@@ -869,22 +1030,22 @@ autocmd FileType python nnoremap <buffer> vaf :call FunctionBlockInteractPython(
 " Shortcuts jump to the start, end and definition of function
 autocmd FileType python nnoremap <buffer> gfs :call FunctionBlockInteractPython('fs')<CR>
 autocmd FileType python nnoremap <buffer> gfe :call FunctionBlockInteractPython('fe')<CR>
-autocmd FileType python nnoremap <buffer> gfd :call GotoFunctionDefinitionPython()<CR>
+autocmd FileType python nnoremap <buffer> gfd mp:call GotoFunctionDefinitionPython()<CR>
 
 " Shortcuts copy, delete and select a vimscript function block
-autocmd FileType vim nnoremap <buffer> yaf :call FunctionBlockInteractVim('y')<CR>
-autocmd FileType vim nnoremap <buffer> daf :call FunctionBlockInteractVim('d')<CR>
-autocmd FileType vim nnoremap <buffer> vaf :call FunctionBlockInteractVim('')<CR>
+autocmd FileType vim* nnoremap <buffer> yaf :call FunctionBlockInteractVim('y')<CR>
+autocmd FileType vim* nnoremap <buffer> daf :call FunctionBlockInteractVim('d')<CR>
+autocmd FileType vim* nnoremap <buffer> vaf :call FunctionBlockInteractVim('')<CR>
 " Shortcuts jump to the start, end and definition of function
 autocmd FileType vim* nnoremap <buffer> gfs :call FunctionBlockInteractVim('fs')<CR>
 autocmd FileType vim* nnoremap <buffer> gfe :call FunctionBlockInteractVim('fe')<CR>
-autocmd FileType vim* nnoremap <buffer> gfd :call GotoFunctionDefinitionVim()<CR>
+autocmd FileType vim* nnoremap <buffer> gfd mp:call GotoFunctionDefinitionVim()<CR>
 
 " Shortcuts fold to current level
 nnoremap  <leader>fl :let &l:fdl=indent('.')/&shiftwidth - 1<CR>
 
 " Automatically set syntax highlighting when open shell scripts
-autocmd FileType sh :set syntax=sh
+autocmd FileType sh setlocal syntax=sh
 
 " Automatically call Prettier on saving a file or text changed or insert leave
 autocmd BufWritePre * Prettier
@@ -898,7 +1059,7 @@ let list_StripTrailingWhitespace = ['vim', 'cpp']
 autocmd BufWritePre * if (index(list_StripTrailingWhitespace, &ft)) >= 0 | call StripTrailingWhitespace()
 " autocmd BufWritePre *.vim :call StripTrailingWhitespace()
 
-" Automatically delete trailing empty lines before saving a file
+" Automatically delete trailing white spaces before saving a file
 " Replaced by coc
 " autocmd BufWritePre * :call TrimTrailingLines()
 
@@ -908,8 +1069,8 @@ autocmd BufNewFile *.cpp 0r ~/.vim/templates/skeleton.cpp
 " Automatically change directory to new openned file
 autocmd BufEnter * silent! :lcd%:p:h
 
-" Function to delete trailing white spaces
 function! StripTrailingWhitespace()
+    " Function to delete trailing white spaces
     if !&binary && &filetype != 'diff'
         normal! mz
         normal! Hmy
@@ -919,8 +1080,8 @@ function! StripTrailingWhitespace()
     endif
 endfunction
 
-" Function to delete empty lines at the end of file
 function! TrimTrailingLines()
+    " Function to delete empty lines at the end of file
     let lastLine = line('$')
     let lastNonblankLine = prevnonblank(lastLine)
     if lastLine > 0 && lastNonblankLine != lastLine
@@ -928,13 +1089,13 @@ function! TrimTrailingLines()
     endif
 endfunction
 
-" Function to interact block of codes
 function! IfElseBlockInteract(choice)
+    " Function to interact block of codes
     " choice = 'y' for yanking an if else block
     " choice = 'd' for deleting an if else block
     " choice = '' for selecting an if else block
     while 1
-        call search('if.*(.*)','bc')
+        call search('if\s*(.*)\s*{','bc')
         if search('else','bc',line('.')) == 0
             break
         endif
@@ -950,19 +1111,78 @@ function! IfElseBlockInteract(choice)
     execute 'normal! V`z' . a:choice
 endfunction
 
-" Function to interact block of codes
 function! WhileBlockInteract(choice)
+    " Function to interact block of codes
     " choice = 'y' for yanking a while block
     " choice = 'd' for deleting a while block
     " choice = '' for selecting a while block
-    call search('while.*(.*)','bc')
-    normal! mz
-    call search('{','c')
-    execute 'normal! %V`z' . a:choice
+    " choice = 'yi' for yanking a while block
+    " choice = 'di' for deleting a while block
+    " choice = 'vi' for selecting a while block
+    " choice = 'ls' for jumping to start of a while block
+    " choice = 'le' for jumping to end of a while block
+    " choice = 'gci' for commenting a while block
+    let l:currentPos = getpos('.')
+    let l:search_pattern = "\\<while\\>\\s*(\\?[0-9a-zA-Z_ ,:&|\\[\\]\\n.=<>!~+\\-*/%]*)\\?\\s*{\\n\\?"
+    let l:start_pattern = "[0-9a-zA-Z_\\](]\\s*}\\?)\\?\\s*{\\?\\n"
+    let l:NO_skipped = 0
+    while l:NO_skipped < 20
+        call search(l:search_pattern, 'bc')
+        call search(l:start_pattern)
+        let l:startPos = getpos('.')
+        call search(l:search_pattern, 'e')
+        normal! %
+        let l:endPos = getpos('.')
+        if eval(l:endPos[1] < l:currentPos[1])
+            let l:NO_skipped += 1
+            call setpos('.', [l:startPos[0], l:startPos[1] - 1, l:startPos[2], l:startPos[3]])
+            continue
+        endif
+        if l:currentPos[1] != l:startPos[1] && l:currentPos[1] != l:endPos[1] && l:currentPos[1] != l:endPos[1] - 1
+            call setpos("'p", l:currentPos)
+        endif
+        if a:choice == 'ls'
+            call setpos('.', l:startPos)
+            return getpos('.')
+        elseif a:choice == 'le'
+            call setpos('.', [l:endPos[0], l:endPos[1] - 1, l:endPos[2], l:endPos[3]])
+            call search("\\S")
+            return l:endPos
+        elseif a:choice[1:2] == 'ls'
+            call setpos('.', l:currentPos)
+            let l:distance = l:currentPos[1] -  l:startPos[1] - 1
+            execute 'normal! ' . a:choice[0] . l:distance . 'k'
+        elseif a:choice[1:2] == 'le'
+            call setpos('.', l:currentPos)
+            let l:distance = l:endPos[1] -  l:currentPos[1] - 1
+            execute 'normal! ' . a:choice[0] . l:distance . 'j'
+        elseif a:choice == 'gcls'
+            execute l:startPos[1] . '+1,' . l:currentPos[1] . 'Commentary'
+            call setpos('.', l:currentPos)
+        elseif a:choice == 'gcle'
+            execute l:currentPos[1] . ',' . l:endPos[1] . '-1Commentary'
+            call setpos('.', l:currentPos)
+        elseif a:choice == 'gca'
+            execute l:startPos[1] . ',' . l:endPos[1] . 'Commentary'
+        elseif a:choice == 'gci'
+            execute l:startPos[1] . '+1,' . l:endPos[1] . '-1Commentary'
+        elseif a:choice[1] == 'i'
+            call setpos('.', l:startPos)
+            call search('{')
+            execute 'normal! ' . a:choice . '{'
+        else
+            call setpos("'z", l:startPos)
+            call setpos('.', l:endPos)
+            " Try to include empty line below
+            call search("^$", '', line('.')+1)
+            execute 'normal! V`z' . a:choice
+        endif
+        break
+    endwhile
 endfunction
 
-" Function to interact block of codes
 function! ForBlockInteract(choice)
+    " Function to interact block of codes
     " choice = 'y' for yanking a for block
     " choice = 'd' for deleting a for block
     " choice = '' for selecting a for block
@@ -972,8 +1192,8 @@ function! ForBlockInteract(choice)
     execute 'normal! %V`z' . a:choice
 endfunction
 
-" Function to interact block of codes
 function! SwitchCaseBlockInteract(choice)
+    " Function to interact block of codes
     " choice = 'y' for yanking a switch case block
     " choice = 'd' for deleting a switch case block
     " choice = '' for selecting a switch case block
@@ -983,16 +1203,74 @@ function! SwitchCaseBlockInteract(choice)
     execute 'normal! %V`z' . a:choice
 endfunction
 
-" Function to interact block of codes
+function! MultipleLineBracesBlockInteract(choice, braces)
+    " Function to interact block of codes
+    " choice = 'y' for yanking a multiple line braces block
+    " choice = 'd' for deleting a multiple line braces block
+    " choice = '' for selecting a multiple line braces block
+    " braces = '(' or '{', '[', '<', '`' for selecting a multiple line braces block
+    let l:NO_skipped = 0
+    call search(a:braces, 'bc')
+    while l:NO_skipped < 20
+        let l:startPos = getpos('.')
+        normal! %
+        let l:endPos = getpos('.')
+        if eval(l:startPos[1] == l:endPos[1])
+            let l:NO_skipped += 1
+            normal! %
+            call search(a:braces, 'b')
+            continue
+        endif
+        if a:choice[1] == 'i'
+            call setpos('.', l:startPos)
+            execute 'normal! ' . a:choice . a:braces
+        else
+            call setpos("'z", l:startPos)
+            call setpos('.', l:endPos)
+            " Try to include empty line below
+            call search("^$", '', line('.')+1)
+            execute 'normal! V`z' . a:choice
+        endif
+        break
+    endwhile
+endfunction
+
+function! JumpNextParameter(choice)
+    " Function jump to the next or previous parameters
+    " choice = '2' for jumping to the function call
+    " choice = '1' for jumping to the next parameters
+    " choice = '0' for jumping to the previous parameters
+    let l:parameters_search_pattern = "[0-9a-zA-Z_.\\[\\]]\\+\\(\\s*[+\\-*/%= ]\\s*[0-9a-zA-Z_.\\[\\]]\\+\\)*[,)]"
+    let l:function_search_pattern = "\\<[0-9a-zA-Z_]\\+\\>\\s*("
+    if a:choice == 2
+        if eval(search(l:function_search_pattern, 'bc', line('.')) == 0)
+            call search(l:function_search_pattern, 'c', line('.'))
+        endif
+    elseif a:choice == 1
+        call search("[()\\[\\],]", '', line('.'))
+        if eval(search(l:parameters_search_pattern, '', line('.')) == 0)
+            call search("(", 'b', line('.'))
+            call search(l:parameters_search_pattern, '', line('.'))
+        endif
+    elseif a:choice == 0
+        if eval(search(l:parameters_search_pattern,'b', line('.')) == 0)
+            call search(")", '', line('.'))
+            call search(l:parameters_search_pattern,'b', line('.'))
+        endif
+    endif
+endfunction
+
 function! FunctionBlockInteractCppAndJava(choice)
+    " Function to interact block of codes
     " choice = 'y' for yanking a c/cpp/java function block
     " choice = 'd' for deleting a c/cpp/java function block
     " choice = '' for selecting a c/cpp/java function block
     " choice = 'fs' for jumping to start of a c/cpp/java function block
     " choice = 'fe' for jumping to end of a c/cpp/java function block
+    normal! mp
     let l:currentPos = getpos('.')
     let l:NO_skipped = 0
-    let l:n = search("\\<[0-9a-zA-Z_]*\\>[.:~ ]*\\<[0-9a-zA-Z_]*\\>[^(]*([0-9a-zA-Z_ ,:*&\\[\\]\\n]*)\\s*\\n*\\s*{", 'bc')
+    let l:n = search("\\<[0-9a-zA-Z_]*\\>[.:~ ]*\\<[0-9a-zA-Z_]*\\>[^(]*([0-9a-zA-Z_ ,:*&\\[\\]\\n.]*)\\s*\\n*.*{", 'bc')
     while l:n > 0 && l:NO_skipped < 20
         if eval(search("\\<else\\>\\s*\\<if\\>", 'cn', line('.')) != 0)
             let l:n = search("\\<[0-9a-zA-Z_]*\\>[.:~ ]*\\<[0-9a-zA-Z_]*\\>[^(]*([^)]*)\\s*\\n*\\s*{", 'b')
@@ -1037,53 +1315,37 @@ function! GotoFunctionDefinitionCppAndJava()
     endif
 endfunction
 
-" Function to interact block of codes
+function CountBraces(brace, lnum)
+    " Function to count searched pattern occurences
+    let line=getline(a:lnum)
+    let d={'num': 0}
+    call substitute(line, a:brace, '\=extend(d, {"num": d.num+1}).num', 'g')
+    return d.num
+endfunction
+
 function! FunctionBlockInteractHelperES6(choice)
-    " choice = 'y' for yanking a c/cpp/java function block
-    " choice = 'd' for deleting a c/cpp/java function block
-    " choice = '' for selecting a c/cpp/java function block
-    " choice = 'fs' for jumping to start of a c/cpp/java function block
-    " choice = 'fe' for jumping to end of a c/cpp/java function block
-    let l:currentPos = getpos('.')
-    let l:NO_skipped = 0
-    let l:n = search("\\<[0-9a-zA-Z_]*\\>[.:~ ]*\\<[0-9a-zA-Z_]*\\>[^(]*=\\s*([0-9a-zA-Z_ ,:*&\\[\\]\\n]*)\\s*=>\\s*{", 'bc')
-    " while l:n > 0 && l:NO_skipped < 20
-    "     if eval(search("\\<else\\>\\s*\\<if\\>", 'cn', line('.')) != 0)
-    "         let l:n = search("\\<[0-9a-zA-Z_]*\\>[.:~ ]*\\<[0-9a-zA-Z_]*\\>[^(]*([^)]*)\\s*\\n*\\s*{", 'b')
-    "         " normal! %mz%
-    "         let l:NO_skipped += 1
-    "         continue
-    "     endif
-    "     break
-    " endwhile
-    let l:functionPos   = getpos('.')
-    let l:functionStart = search(')', 'n')
-    call search('{')
-    normal! %
-    let l:functionEnd   = getpos('.')
-    call setpos('.', l:functionPos)
-    if l:currentPos[1] != l:functionStart && l:currentPos[1] != l:functionEnd[1]
-        call setpos("'z", l:currentPos)
-    endif
+    " Function to interact block of codes
+    " choice = 'fs' for returning position of the start of a arrow function block
+    " choice = 'fe' for returning position of the end of a arrow function block
+    let l:n = search("(\\?[0-9a-zA-Z_ ,=:*&()\\[\\]{}\\n]*)\\?\\s*=>\\s*{\\?\\n\\?", 'bc')
     if a:choice == 'fs'
-        call search(')')
+        call search("[0-9a-zA-Z_\\]()]\\s*}\\?)\\?\\s*=>\\s*{\\?\\n\\?", '', line('.'))
         return getpos('.')
     elseif a:choice == 'fe'
-        call search('{')
+        if (eval(search("\\s*=>\\s*{", 'e', line('.')) == 0))
+            let l:openBraces = CountBraces('(', line('.'))
+            let l:closeBraces = CountBraces(')', line('.'))
+            if (eval(l:openBraces > l:closeBraces))
+                call search("(\\?(\\?[0-9a-zA-Z_ ,:*&\\[\\]{}\\n]*)\\?\\s*=>\\s*{\\?\\n\\?", 'bc', line('.'))
+            endif
+        endif
         normal! %
         return getpos('.')
-    else
-        normal! mz
-        call search('{')
-        normal! %
-        " Try to include empty line below
-        call search("^$", '', line('.')+1)
-        execute 'normal! V`z' . a:choice
     endif
 endfunction
 
-" Function to interact block of codes
 function! FunctionBlockInteractES6(choice)
+    " Function to interact block of codes
     " choice = 'y' for yanking a ES6 function block
     " choice = 'd' for deleting a ES6 function block
     " choice = '' for selecting a ES6 function block
@@ -1096,30 +1358,48 @@ function! FunctionBlockInteractES6(choice)
     let l:currentPos = getpos('.')
     let l:NO_skipped = 0
     while l:NO_skipped < 20
-        let l:functionStart = FunctionBlockInteractHelperES6('fs')
-        let l:functionEnd = FunctionBlockInteractHelperES6('fe')
-        if eval(l:functionEnd[1] < l:currentPos[1])
+        let l:startPos = FunctionBlockInteractHelperES6('fs')
+        let l:endPos = FunctionBlockInteractHelperES6('fe')
+        if eval(l:endPos[1] < l:currentPos[1])
             let l:NO_skipped += 1
-            call setpos('.', [l:functionStart[0], l:functionStart[1] - 1, l:functionStart[2], l:functionStart[3]])
+            call setpos('.', [l:startPos[0], l:startPos[1] - 1, l:startPos[2], l:startPos[3]])
             continue
         endif
+        if l:currentPos[1] != l:startPos[1] && l:currentPos[1] != l:endPos[1] && l:currentPos[1] != l:endPos[1] - 1
+            call setpos("'p", l:currentPos)
+        endif
         if a:choice == 'fs'
-            call setpos('.', l:functionStart)
-            return getpos('.')
+            call setpos('.', l:startPos)
+            return l:startPos
         elseif a:choice == 'fe'
-            call setpos('.', l:functionEnd)
-            return getpos('.')
+            call setpos('.', [l:endPos[0], l:endPos[1] - 1, l:endPos[2], l:endPos[3]])
+            call search("\\S")
+            return l:endPos
+        elseif a:choice[1:2] == 'fs'
+            call setpos('.', l:currentPos)
+            let l:distance = l:currentPos[1] -  l:startPos[1] - 1
+            execute 'normal! ' . a:choice[0] . l:distance . 'k'
+        elseif a:choice[1:2] == 'fe'
+            call setpos('.', l:currentPos)
+            let l:distance = l:endPos[1] -  l:currentPos[1] - 1
+            execute 'normal! ' . a:choice[0] . l:distance . 'j'
+        elseif a:choice == 'gcfs'
+            execute l:startPos[1] . '+1,' . l:currentPos[1] . 'Commentary'
+            call setpos('.', l:currentPos)
+        elseif a:choice == 'gcfe'
+            execute l:currentPos[1] . ',' . l:endPos[1] . '-1Commentary'
+            call setpos('.', l:currentPos)
         elseif a:choice == 'gca'
-            execute l:functionStart[1] . ',' . l:functionEnd[1] . 'Commentary'
+            execute l:startPos[1] . ',' . l:endPos[1] . 'Commentary'
         elseif a:choice == 'gci'
-            execute l:functionStart[1] . '+1,' . l:functionEnd[1] . '-1Commentary'
+            execute l:startPos[1] . '+1,' . l:endPos[1] . '-1Commentary'
         elseif a:choice[1] == 'i'
-            call setpos('.', l:functionStart)
+            call setpos('.', l:startPos)
             call search('{')
             execute 'normal! ' . a:choice . '{'
         else
-            call setpos("'z", l:functionStart)
-            call setpos('.', l:functionEnd)
+            call setpos("'z", l:startPos)
+            call setpos('.', l:endPos)
             " Try to include empty line below
             call search("^$", '', line('.')+1)
             execute 'normal! V`z' . a:choice
@@ -1129,6 +1409,7 @@ function! FunctionBlockInteractES6(choice)
 endfunction
 
 function! GotoFunctionDefinitionES6()
+    normal! mp
     let l:currentPos = getpos('.')
     let n = search("\\<".expand("<cword>")."\\>\\s*=\\s*([^)]*)\\s*=>\\s*{")
     let l:functionStart = getpos('.')
@@ -1137,13 +1418,144 @@ function! GotoFunctionDefinitionES6()
     endif
 endfunction
 
-" Function to interact block of codes
+function! MethodBlockInteractES6(choice)
+    " Function to interact block of codes
+    " choice = 'y' for yanking a ES6 method block
+    " choice = 'd' for deleting a ES6 method block
+    " choice = '' for selecting a ES6 method block
+    " choice = 'yi' for yanking a ES6 method block
+    " choice = 'di' for deleting a ES6 method block
+    " choice = 'vi' for selecting a ES6 method block
+    " choice = 'ms' for jumping to start of a ES6 method block
+    " choice = 'me' for jumping to end of a ES6 method block
+    " choice = 'gci' for commenting a ES6 method block
+    let l:currentPos = getpos('.')
+    let l:search_pattern = "\\<[0-9a-zA-Z_]*\\>\\s*([0-9a-zA-Z_ ,:*&\\[\\]\\n=]*)\\s*{\\n\\?"
+    let l:start_pattern = "\\S\\s*}\\?)\\?\\s*{\\n\\?"
+    let l:NO_skipped = 0
+    while l:NO_skipped < 20
+        call search(l:search_pattern, 'bc')
+        if eval(search("\\(\\<if\\>\\|\\<for\\>\\|\\<while\\>\\|\\<switch\\>\\)", 'cn', line('.')) != 0)
+            let l:NO_skipped += 1
+            normal! k
+            continue
+        endif
+        call search(l:start_pattern)
+        let l:startPos = getpos('.')
+        call search(l:search_pattern, 'e')
+        normal! %
+        let l:endPos = getpos('.')
+        if eval(l:endPos[1] < l:currentPos[1])
+            let l:NO_skipped += 1
+            call setpos('.', [l:startPos[0], l:startPos[1] - 1, l:startPos[2], l:startPos[3]])
+            continue
+        endif
+        if l:currentPos[1] != l:startPos[1] && l:currentPos[1] != l:endPos[1] && l:currentPos[1] != l:endPos[1] - 1
+            call setpos("'p", l:currentPos)
+        endif
+        if a:choice == 'ms'
+            call setpos('.', l:startPos)
+            return l:startPos
+        elseif a:choice == 'me'
+            call setpos('.', [l:endPos[0], l:endPos[1] - 1, l:endPos[2], l:endPos[3]])
+            call search("\\S")
+            return l:endPos
+        elseif a:choice[1:2] == 'ms'
+            call setpos('.', l:currentPos)
+            let l:distance = l:currentPos[1] -  l:startPos[1] - 1
+            execute 'normal! ' . a:choice[0] . l:distance . 'k'
+        elseif a:choice[1:2] == 'me'
+            call setpos('.', l:currentPos)
+            let l:distance = l:endPos[1] -  l:currentPos[1] - 1
+            execute 'normal! ' . a:choice[0] . l:distance . 'j'
+        elseif a:choice == 'gcms'
+            execute l:startPos[1] . '+1,' . l:currentPos[1] . 'Commentary'
+            call setpos('.', l:currentPos)
+        elseif a:choice == 'gcme'
+            execute l:currentPos[1] . ',' . l:endPos[1] . '-1Commentary'
+            call setpos('.', l:currentPos)
+        elseif a:choice == 'gca'
+            execute l:startPos[1] . ',' . l:endPos[1] . 'Commentary'
+        elseif a:choice == 'gci'
+            execute l:startPos[1] . '+1,' . l:endPos[1] . '-1Commentary'
+        elseif a:choice[1] == 'i'
+            call setpos('.', l:startPos)
+            call search('{')
+            execute 'normal! ' . a:choice . '{'
+        else
+            call setpos("'z", l:startPos)
+            call setpos('.', l:endPos)
+            " Try to include empty line below
+            call search("^$", '', line('.')+1)
+            execute 'normal! V`z' . a:choice
+        endif
+        break
+    endwhile
+endfunction
+
+function! ClassBlockInteractES6(choice)
+    " Function to interact block of codes
+    " choice = 'y' for yanking a ES6 class block
+    " choice = 'd' for deleting a ES6 class block
+    " choice = '' for selecting a ES6 class block
+    " choice = 'yi' for yanking a ES6 class block
+    " choice = 'di' for deleting a ES6 class block
+    " choice = 'vi' for selecting a ES6 class block
+    " choice = 'cs' for jumping to start of a ES6 class block
+    " choice = 'ce' for jumping to end of a ES6 class block
+    " choice = 'gci' for commenting a ES6 class block
+    let l:currentPos = getpos('.')
+    let l:search_pattern = "\\<class\\>\\s\\+\\<[0-0a-zA-Z]\\+\\>\\s\\+\\(\\<extends\\>\\s\\+\\<[0-9a-zA-Z]\\+\\>\\s\\+\\)\\?{\\?\\n\\?"
+    let l:start_pattern = "\\<[0-0a-zA-Z]\\+\\>\\s\\+\\(\\<extends\\>\\s\\+\\<[0-9a-zA-Z]\\+\\>\\s\\+\\)\\?{\\?\\n\\?"
+    let l:NO_skipped = 1
+    while l:NO_skipped < 20
+        call search(l:search_pattern, 'bc')
+        call search(l:start_pattern)
+        let l:startPos = getpos('.')
+        call search(l:search_pattern, 'e')
+        normal! %
+        let l:endPos = getpos('.')
+        if eval(l:endPos[1] < l:currentPos[1])
+            let l:NO_skipped += 1
+            call setpos('.', [l:startPos[0], l:startPos[1] - 1, l:startPos[2], l:startPos[3]])
+            continue
+        endif
+        if l:currentPos[1] != l:startPos[1] && l:currentPos[1] != l:endPos[1] && l:currentPos[1] != l:endPos[1] - 1
+            call setpos("'p", l:currentPos)
+        endif
+        if a:choice == 'cs'
+            call setpos('.', l:startPos)
+            return getpos('.')
+        elseif a:choice == 'ce'
+            call setpos('.', l:endPos)
+            return getpos('.')
+        elseif a:choice == 'gca'
+            execute l:startPos[1] . ',' . l:endPos[1] . 'Commentary'
+        elseif a:choice == 'gci'
+            execute l:startPos[1] . '+1,' . l:endPos[1] . '-1Commentary'
+        elseif a:choice[1] == 'i'
+            call setpos('.', l:startPos)
+            call search('{')
+            execute 'normal! ' . a:choice . '{'
+        else
+            call setpos("'z", l:startPos)
+            call setpos('.', l:endPos)
+            " Try to include empty line below
+            call search("^$", '', line('.')+1)
+            execute 'normal! V`z' . a:choice
+        endif
+        break
+    endwhile
+endfunction
+
 function! FunctionBlockInteractPython(choice)
+    " Function to interact block of codes
     " choice = 'y' for yanking a python function block
     " choice = 'd' for deleting a python function block
     " choice = '' for selecting a python function block
     " choice = 'fs' for jumping to start of a python function block
     " choice = 'fe' for jumping to end of a python function block
+    normal! mp
     let l:currentPos = getpos('.')
     call search("\\<def\\>\\s*\\<[0-9a-zA-Z_]*\\>\\s*([^)]*)\\s*:", 'bc')
     let l:functionStart = search(')', 'n')
@@ -1165,6 +1577,7 @@ function! FunctionBlockInteractPython(choice)
 endfunction
 
 function! GotoFunctionDefinitionPython()
+    normal! mp
     let l:currentPos = getpos('.')
     let n = search("\\<".expand("<cword>")."\\>[^(]*([^)]*)\\s*:")
     let l:functionStart = getpos('.')
@@ -1173,14 +1586,14 @@ function! GotoFunctionDefinitionPython()
     endif
 endfunction
 
-" Function to interact block of codes
 function! FunctionBlockInteractVim(choice)
+    " Function to interact block of codes
     " choice = 'y' for yanking a vim function block
     " choice = 'd' for deleting a vim function block
     " choice = '' for selecting a vim function block
     " choice = 'fs' for jumping to start of a vim function block
     " choice = 'fe' for jumping to end of a vim function block
-    normal! mz
+    normal! mp
     let l:functionStart = search("\\<function\\>!\\?\\s*\\<[0-9a-zA-Z_]*\\>\\s*([^)]*)", 'bc')
     if a:choice == 'fs'
         call search(")")
@@ -1198,6 +1611,7 @@ function! FunctionBlockInteractVim(choice)
 endfunction
 
 function! GotoFunctionDefinitionVim()
+    normal! mp
     let l:currentPos = getpos('.')
     let n = search("function\\>!\\?\\s*\\<".expand("<cword>")."\\>[^(]*([^)]*)")
     let l:functionStart = getpos('.')
@@ -1365,6 +1779,11 @@ function! ResizeProportionally()
     source ~/sessions.vim
 endfunction
 
+function! BreakHere()
+    s/^\(\s*\)\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\2\r\1\4\6
+    call histdel("/", -1)
+endfunction
+
 vnoremap <silent> [l <Esc>:call NextIndent(0, 0, 0, 1)<CR>m'gv''
 vnoremap <silent> ]l <Esc>:call NextIndent(0, 1, 0, 1)<CR>m'gv''
 vnoremap <silent> [L <Esc>:call NextIndent(0, 0, 1, 1)<CR>m'gv''
@@ -1374,7 +1793,7 @@ onoremap <silent> ]l :call NextIndent(0, 1, 0, 1)<CR>
 onoremap <silent> [L :call NextIndent(1, 0, 1, 1)<CR>
 onoremap <silent> ]L :call NextIndent(1, 1, 1, 1)<CR>
 
-onoremap <silent> ]k :g/3D/s/^\s*\\zs\(\w\)/# \1/
+" onoremap <silent> k :g/3D/s/^\s*\\zs\(\w\)/# \1/
 " iabbrev </ </<C-X><C-O>
 " inoremap <buffer> > ></<C-x><C-o><C-y><C-o>%<CR><C-o>O
 " :g/pattern/s/^/;
