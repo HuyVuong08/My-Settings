@@ -1112,16 +1112,15 @@ function! IfElseBlockInteract(choice)
 endfunction
 
 function! WhileBlockInteract(choice)
-    " Function to interact block of codes
-    " choice = 'y' for yanking a while block
-    " choice = 'd' for deleting a while block
-    " choice = '' for selecting a while block
-    " choice = 'yi' for yanking a while block
-    " choice = 'di' for deleting a while block
-    " choice = 'vi' for selecting a while block
-    " choice = 'ls' for jumping to start of a while block
-    " choice = 'le' for jumping to end of a while block
-    " choice = 'gci' for commenting a while block
+    " choice = 'y' for yanking a block
+    " choice = 'd' for deleting a block
+    " choice = '' for selecting a block
+    " choice = 'yi' for yanking a block
+    " choice = 'di' for deleting a block
+    " choice = 'vi' for selecting a block
+    " choice = 'ls' for jumping to start of a block
+    " choice = 'le' for jumping to end of a block
+    " choice = 'gci' for commenting a block
     let l:currentPos = getpos('.')
     let l:search_pattern = "\\<while\\>\\s*(\\?[0-9a-zA-Z_ ,:&|\\[\\]\\n.=<>!~+\\-*/%]*)\\?\\s*{\\n\\?"
     let l:start_pattern = "[0-9a-zA-Z_\\](]\\s*}\\?)\\?\\s*{\\?\\n"
