@@ -1507,8 +1507,8 @@ function! ClassBlockInteractES6(choice)
     " choice = 'ce' for jumping to end of a ES6 class block
     " choice = 'gci' for commenting a ES6 class block
     let l:currentPos = getpos('.')
-    let l:search_pattern = "\\<class\\>\\s\\+\\<[0-0a-zA-Z]\\+\\>\\s\\+\\(\\<extends\\>\\s\\+\\<[0-9a-zA-Z]\\+\\>\\s\\+\\)\\?{\\?\\n\\?"
-    let l:start_pattern = "\\<[0-0a-zA-Z]\\+\\>\\s\\+\\(\\<extends\\>\\s\\+\\<[0-9a-zA-Z]\\+\\>\\s\\+\\)\\?{\\?\\n\\?"
+    let l:search_pattern = "\\<class\\>\\s\\+\\<[0-9a-zA-Z]\\+\\>\\s\\+\\(\\<extends\\>\\s\\+\\<[0-9a-zA-Z]\\+\\>\\s\\+\\)\\?{\\?\\n\\?"
+    let l:start_pattern = "\\<[0-9a-zA-Z]\\+\\>\\s\\+\\(\\<extends\\>\\s\\+\\<[0-9a-zA-Z]\\+\\>\\s\\+\\)\\?{\\?\\n\\?"
     let l:NO_skipped = 1
     while l:NO_skipped < 20
         call search(l:search_pattern, 'bc')
