@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use strict";
 
 import { MinPriorityQueue } from "@datastructures-js/priority-queue";
@@ -364,3 +365,10 @@ console.log(plusOne(D));
 var strPrice = "$1,100,134.75";
 const price = parseFloat(strPrice.replace(/[^\d.]/g, ""));
 console.log(price);
+=======
+console.log("This is a test js file in server");
+const test = "This is a test js file in server";
+(function(){
+  console.log("This is a test js file in server");
+})()
+>>>>>>> 075286e0405cbcc9ff557398aa7099badcd28ffc
